@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -e
+
+case "$1" in
+  upgrade|remove)
+    if which update-binfmts >/dev/null; then
+        for target in @BINFMT_TARGETS@; do
+            update-binfmts --package qemu-kvm-extras-static \
+                --remove "qemu-$target" "/usr/bin/qemu-$target-static"
+        done
+    fi
+  ;;
+esac
+
+#DEBHELPER#
+

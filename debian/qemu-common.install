@@ -1,0 +1,5 @@
+debian/qemu-ifdown usr/bin
+debian/source_qemu-kvm.py usr/share/apport/package-hooks/
+kvm/scripts/qemu-ifup usr/bin
+pc-bios/keymaps usr/share/qemu
+pc-bios/optionrom/*.bin usr/share/qemu

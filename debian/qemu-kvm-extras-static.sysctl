@@ -1,0 +1,2 @@
+vm.vdso_enabled = 0
+vm.mmap_min_addr = 4097

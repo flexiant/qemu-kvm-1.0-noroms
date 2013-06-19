@@ -1,0 +1,128 @@
+#!/usr/bin/make -f
+
+include /usr/share/quilt/quilt.make
+
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_HOST_ARCH_CPU   ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_CPU)
+DEB_HOST_ARCH_OS    ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
+DEB_HOST_ARCH       ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+DEB_BUILD_ARCH      ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH)
+
+export DEB_BUILD_HARDENING=1
+
+# Handle DEB_BUILD_OPTIONS=parallel=N
+, := ,
+ifneq (,$(filter parallel=%,$(subst $(,), ,$(DEB_BUILD_OPTIONS))))
+  NUMJOBS := $(patsubst parallel=%,%,$(filter parallel=%,$(subst $(,), ,$(DEB_BUILD_OPTIONS))))
+  MAKEFLAGS += -j$(NUMJOBS)
+endif
+
+ifeq ($(DEB_HOST_ARCH_OS),linux)
+# Note: We differ from Debian here by favoring the pulseaudio driver, since that's default in Ubuntu.
+#       Users override this when calling qemu by exporting the environment variable QEMU_AUDIO_DRV.
+conf_arch += --audio-drv-list="pa,alsa,sdl,oss" --enable-vnc-sasl --enable-docs
+endif
+ifeq ($(DEB_HOST_ARCH_OS),kfreebsd)
+conf_arch += --audio-drv-list=oss,sdl,pa
+endif
+ifeq ($(filter $(DEB_HOST_ARCH),i386 amd64 lpia),)
+conf_arch += --disable-kvm
+endif
+
+debsrc_ver := $(shell dpkg-parsechangelog | sed -n -e 's/^Version: //p' | perl -pe 's/-[^-]+$$//o')
+debian_rev := $(shell dpkg-parsechangelog | sed -n -e 's/^Version: //p' | perl -pe 's/.*-//o')
+
+CFLAGS += -Wall -g -O$(if $(findstring noopt,$(DEB_BUILD_OPTIONS)),0,2)
+
+ifeq ($(DEB_HOST_ARCH_CPU),arm)
+CFLAGS += -fno-var-tracking
+endif
+
+
+config-host.mak: $(QUILT_STAMPFN)
+	dh_testdir
+	./configure \
+	    --target-list="x86_64-softmmu i386-softmmu x86_64-linux-user i386-linux-user" \
+	    --prefix=/usr \
+	    --interp-prefix=/etc/qemu-binfmt/%M \
+	    --disable-blobs \
+	    --disable-strip \
+	    --sysconfdir=/etc \
+        --enable-rbd \
+	    $(conf_arch)
+
+build: build-stamp
+build-stamp: config-host.mak
+	dh_testdir
+	touch $@
+
+clean:
+	dh_testdir
+	rm -f install-stamp build-stamp
+	# Clean up some upstream build cruft
+	rm -f pc-bios/\*.bin pc-bios/\*.dtb pc-bios/openbios-\* roms/seabios/Makefile roms/vgabios/Makefile
+	[ ! -f config-host.mak ] || $(MAKE) distclean
+	$(MAKE) -f debian/rules unpatch
+	rm -f kvm/extboot/*.o kvm/extboot/extboot.img  kvm/extboot/signrom config.mak kvm/user/config.mak kvm/user/test/lib/.*.d kvm/user/test/lib/*/.*.d kvm/bios/acpi-dsdt.aml kvm/bios/acpi-ssdt.aml qemu-monitor.texi
+	dh_clean
+
+install: install-stamp
+install-stamp: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+	# Build & install normally
+	$(MAKE) DESTDIR=$(CURDIR)/debian/qemu-kvm install
+	# move qemu-utils binaries into place
+	mv debian/qemu-kvm/usr/bin/qemu-nbd debian/qemu-utils/usr/bin/
+	mv debian/qemu-kvm/usr/bin/qemu-img debian/qemu-utils/usr/bin/
+	touch $@
+
+binary-indep:
+	dh_testdir
+	dh_testroot
+	$(MAKE) -C pc-bios/optionrom
+	dh_install -i
+	dh_installdocs -X.bzr -i
+	dh_installman -i
+	dh_installchangelogs -i
+	dh_installdebconf -i
+	dh_link -i
+	dh_compress -i
+	dh_fixperms -i
+	dh_installdeb -i
+	dh_gencontrol -i
+	dh_md5sums -i
+	dh_builddeb -i
+
+binary-arch: install
+	dh_testdir
+	dh_testroot
+	dh_installdocs -s debian/changelog.qemu debian/changelog.kvm
+	dh_installinit -s --no-restart-on-upgrade --error-handler=true
+	dh_installman -s
+	dh_installudev -s --priority=45
+	dh_installchangelogs -s
+	dh_install -s
+	dh_strip -s
+	dh_link -s
+	dh_compress -s
+	dh_fixperms -s
+	dh_installdeb -s
+	dh_shlibdeps -s
+	dh_gencontrol -s -Nkvm
+	dh_gencontrol -pkvm -- -v1:84+dfsg-0ubuntu16+$(debsrc_ver)+$(debian_rev)
+	# Prune keymaps from qemu-kvm, as these are now in qemu-common
+	rm -rf debian/qemu-kvm/usr/share/qemu/keymaps
+	# move manpages for qemu-utils to the right package
+	mv debian/qemu-kvm/usr/share/man/man1/qemu-img.1.gz debian/qemu-utils/usr/share/man/man1
+	mv debian/qemu-kvm/usr/share/man/man8/qemu-nbd.8.gz debian/qemu-utils/usr/share/man/man8
+	rmdir debian/qemu-kvm/usr/share/man/man8
+	dh_md5sums -s
+	dh_builddeb -s
+
+binary: binary-indep binary-arch
+
+.PHONY: build clean binary-indep binary-arch binary install

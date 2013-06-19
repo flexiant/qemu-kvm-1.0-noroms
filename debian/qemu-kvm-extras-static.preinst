@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+if [ -e /etc/sysctl.d/qemu-arm-static.sysctl.conf ]; then
+    mv -f /etc/sysctl.d/qemu-arm-static.sysctl.conf \
+        /etc/sysctl.d/30-qemu-kvm-extras-static.conf
+fi
+
+#DEBHELPER#
+

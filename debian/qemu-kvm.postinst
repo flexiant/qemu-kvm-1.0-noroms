@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -e
+
+if [ "$1" = configure ]; then
+    # Clean up old kvm confiles from jaunty-era kvm
+    if [ -n "$2" ] && dpkg --compare-versions "$2" lt 0.12.3-0ubuntu6; then
+	for i in "/lib/udev/rules.d/45-kvm.rules" "/etc/init.d/kvm" "/etc/kvm/kvm-ifup"; do
+		[ -f "$i" ] && rm -f "$i" || true
+	done
+    fi
+fi
+
+#DEBHELPER#
+
+# We've added new udev rules for /dev/kvm, so if kvm module is already loaded,
+# make udev recalculate owner/perms.
+udevadm trigger --subsystem-match=misc --action=change
+
+exit 0
+

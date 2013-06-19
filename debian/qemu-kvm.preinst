@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -e
+
+# Add the kvm group unless it's already there
+if ! getent group kvm >/dev/null; then
+addgroup --quiet --system kvm
+fi
+
+#DEBHELPER#

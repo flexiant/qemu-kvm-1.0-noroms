@@ -1,0 +1,1573 @@
+qemu-kvm (1.0+noroms-0ubuntu14.7) precise-security; urgency=low
+
+  * SECURITY UPDATE: guest denial of service and possible code execution
+    via e1000 large packets
+    - debian/patches/CVE-2012-6075.patch: properly discard oversize packets
+      in hw/e1000.c.
+    - CVE-2012-6075
+
+ -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Tue, 15 Jan 2013 09:27:30 -0500
+
+qemu-kvm (1.0+noroms-0ubuntu14.6) precise-proposed; urgency=low
+
+  * Fix qemu-kvm.upstart: just don't run in a container.  Otherwise we'll
+    still try to load/unload kernel modules.  Also undo the || true after
+    sysfs writes.  Since setting those is a part of configuring qemu-kvm
+    on the host, failing when they fail makes sense.
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Thu, 20 Dec 2012 12:34:52 -0600
+
+qemu-kvm (1.0+noroms-0ubuntu14.5) precise-proposed; urgency=low
+
+  * add udev to qemu-kvm Depends to ensure that postinst succeeds.
+    (LP: #1080912)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Tue, 20 Nov 2012 10:58:05 -0600
+
+qemu-kvm (1.0+noroms-0ubuntu14.4) precise-proposed; urgency=low
+
+  [ Serge Hallyn ]
+  * debian/qemu-kvm.postinst: use udevadm trigger to change /dev/kvm perms as
+    recommended by Steve Langasek (LP: #1057024)
+  * apply debian/patches/nbd-fixes-to-read-only-handling.patch from upstream to
+    make read-write mount after read-only mount work.  (LP: #1077838)
+
+  [ Robert Collins ]
+  * Fix upstart job to succeed if ksm settings can't be altered in the same way
+    other settings are handled. (LP: #1078530)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Thu, 15 Nov 2012 10:42:37 -0600
+
+qemu-kvm (1.0+noroms-0ubuntu14.3) precise-proposed; urgency=low
+
+  * Fix race condition in virtio code on multicore systems. (LP: #997978)
+    - 9001-virtio-add-missing-mb-on-notification.patch
+    - 9002-virtio-add-missing-mb-on-enable-notification.patch
+    - 9003-virtio-order-index-descriptor-reads.patch
+
+ -- Soren Hansen <soren@ubuntu.com>  Mon, 03 Sep 2012 10:15:54 +0200
+
+qemu-kvm (1.0+noroms-0ubuntu14.2) precise-security; urgency=low
+
+  * SECURITY UPDATE: privilege escalation via VT100 sequences
+    - debian/patches/CVE-2012-3515.patch: check bounds in console.c.
+    - CVE-2012-3515
+
+ -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Tue, 25 Sep 2012 10:05:23 -0400
+
+qemu-kvm (1.0+noroms-0ubuntu14.1) precise-security; urgency=low
+
+  * SECURITY UPDATE: file overwrite via incorrect temp file checking
+    - debian/patches/CVE-2012-2652.patch: properly check length and
+      failures in block.c, block_int.h, block/vvfat.c.
+    - CVE-2012-2652
+
+ -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Tue, 31 Jul 2012 10:11:19 -0400
+
+qemu-kvm (1.0+noroms-0ubuntu14) precise-proposed; urgency=low
+
+  * debian/patches/keep-pid-file-locked.patch: keep pidfile locked for the
+    lifetime of the process (LP: #1023159)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Wed, 11 Jul 2012 16:41:05 -0500
+
+qemu-kvm (1.0+noroms-0ubuntu13) precise; urgency=low
+
+  * d/rules,d/control: Enable RADOS block device (RBD) (LP: #904834)
+
+ -- Clint Byrum <clint@ubuntu.com>  Thu, 12 Apr 2012 08:58:11 -0700
+
+qemu-kvm (1.0+noroms-0ubuntu12) precise; urgency=low
+
+  * debian/patches/rbd/: apply 3 patches (recommended by Dreamhost) for
+    snapshot and live migration.
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Mon, 09 Apr 2012 17:12:09 -0500
+
+qemu-kvm (1.0+noroms-0ubuntu11) precise; urgency=low
+
+  * debian/patches/disable-hpet-for-tcg.patch: implicitly set -no-hpet
+    when using tcg (non-accelerated qemu).  (LP: #975240)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Mon, 09 Apr 2012 11:06:36 -0500
+
+qemu-kvm (1.0+noroms-0ubuntu10) precise; urgency=low
+
+  * debian/rules: set sysconfdir to /etc (LP: #960359)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Tue, 20 Mar 2012 22:31:21 -0500
+
+qemu-kvm (1.0+noroms-0ubuntu9) precise; urgency=low
+
+  * debian/patches/multiboot-load-fix.diff: fix bug when loading
+    multiboot images such as grub via -kernel parameter (LP: #957622)
+
+ -- Scott Moser <smoser@ubuntu.com>  Sun, 18 Mar 2012 19:34:28 -0400
+
+qemu-kvm (1.0+noroms-0ubuntu8) precise; urgency=low
+
+  * debian/patches/slirp-*: fix bad exit with -11 when connecting to a port
+    redirect before the service starts listening.  (LP: #932539)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Fri, 16 Mar 2012 16:34:05 -0500
+
+qemu-kvm (1.0+noroms-0ubuntu7) precise; urgency=low
+
+  [ Dave Walker ]
+  * debian/patches/expose_vmx_qemu64cpu.patch: Expose VMX cpuid feature to the
+    default "qemu64" CPU type, supporting Intel compatible VMX nested
+    virtualization.
+
+  [ Serge Hallyn ]
+  * debian/patches/fix-vmware-vga-negative-vals - if x or y < 0, set them to 0
+    (and decrement width/height accordingly)  (LP: #918791)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Wed, 14 Mar 2012 14:52:44 -0500
+
+qemu-kvm (1.0+noroms-0ubuntu6) precise; urgency=low
+
+  [ Stefan Weil ]
+  * debian/patches/block_vd_zero_unused_parts: Zero unused parts when
+    allocating a new block (LP: #919242)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Mon, 20 Feb 2012 13:33:05 -0600
+
+qemu-kvm (1.0+noroms-0ubuntu5) precise; urgency=low
+
+  * define_AT_EMPTY_PATH.patch: Make sure AT_EMPTY_PATH is defined.
+   (LP: #930181)
+  * Be smarter about what bridge to attach a TAP device to (LP: #475327):
+    - qemu-ifup-choosebridge.patch: Don't use the default nic as a
+      bridge, if it isn't a bridge.
+    - debian/qemu-ifdown: use same logic as qemu-ifup to determine
+      the bridge
+    - debian/qemu-kvm.default: add commented TAPBR option
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Wed, 15 Feb 2012 15:47:57 -0600
+
+qemu-kvm (1.0+noroms-0ubuntu4) precise; urgency=low
+
+  * SECURITY UPDATE: fix heap overflow in e1000 driver with crafted legacy
+    mode packets
+    - debian/patches/CVE-2012-0029.patch: check for overflow whenever issuing
+      PCI dma reads
+    - CVE-2012-0029
+
+ -- Jamie Strandboge <jamie@ubuntu.com>  Mon, 23 Jan 2012 09:09:23 -0600
+
+qemu-kvm (1.0+noroms-0ubuntu3) precise; urgency=low
+
+  * qemu-kvm.default and qemu-kvm.upstart: Enable nested kvm for intel cpus
+    by default.
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Thu, 19 Jan 2012 10:44:28 -0600
+
+qemu-kvm (1.0+noroms-0ubuntu2) precise; urgency=low
+
+  * Change Suggests of ipxe to Recommends of (much smaller) kvm-ipxe.
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Tue, 13 Dec 2011 16:13:38 -0600
+
+qemu-kvm (1.0+noroms-0ubuntu1) precise; urgency=low
+
+  * New upstream release
+  * Remaining changes from upstream:
+    - removed all binary roms and tests/pi_10.com
+  * debian/qemu-kvm.links: qemu is now called qemu-system-i386, don't symlink
+    it
+  * remove patches applied upstream:
+    - debian/patches/vpc.patch
+    - debian/patches/e1000-Dont-set-the-Capabilities-List-bit.patch
+    - debian/patches/CVE-2011-4111.patch
+  * replace default-to-tcg.patch with simpler fallback-to-tcg.patch
+  * keep remaining patches:
+    - larger_default_ram_size.patch
+    - CVE-2011-2212-virtqueue-indirect-overflow.patch
+    - qemuifup-fix-paths.patch
+    - dont-try-to-hotplug-cpu.patch
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Tue, 06 Dec 2011 23:40:24 -0600
+
+qemu-kvm (0.15.0+noroms-0ubuntu7) precise; urgency=low
+
+  * debian/qemu-ifdown: don't use full paths for sbin/ifconfig, especially
+    as those paths are wrong.  (LP: #898234)
+  * debian/qemu-kvm.default and debian/qemu-kvm.upstart: optionally load
+    the vhost_net module.
+  * debian/patches/dont-try-to-hotplug-cpu.patch: trying to hotplug a cpu
+    crashes qemu.  So just don't do it!  (LP: #878422)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Wed, 30 Nov 2011 11:37:28 -0600
+
+qemu-kvm (0.15.0+noroms-0ubuntu6) precise; urgency=low
+
+  * Revert unintentional changes from 0.15.0+noroms-0ubuntu4: in particular,
+    move qemu-img and qemu-nbd back to qemu-utils, and bump Breaks/Replaces
+    to account for this.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Mon, 28 Nov 2011 22:58:56 +0000
+
+qemu-kvm (0.15.0+noroms-0ubuntu5) precise; urgency=low
+
+  * SECURITY UPDATE: heap-based overflow with VSC_ATR message handling
+    - debian/patches/CVE-2011-4111.patch: update
+      ccid_card_vscard_handle_message() to not continue on error
+    - CVE-2011-4111
+
+ -- Jamie Strandboge <jamie@ubuntu.com>  Mon, 28 Nov 2011 13:56:49 -0600
+
+qemu-kvm (0.15.0+noroms-0ubuntu4) precise; urgency=low
+
+  * debian/control: add breaks/replaces to qemu-utils to ensure correct
+    upgrades.  (LP: #897254)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Mon, 28 Nov 2011 09:01:34 -0600
+
+qemu-kvm (0.15.0+noroms-0ubuntu3) precise; urgency=low
+
+  * Create new qemu-utils package containing qemu-nbd and qemu-img.
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Tue, 22 Nov 2011 13:38:15 -0600
+
+qemu-kvm (0.15.0+noroms-0ubuntu2) precise; urgency=low
+
+  * debian/patches/default-to-tcg.patch: fall back to unaccelerated qemu if
+    kvm acceleration is not available.  (LP: #892050)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Fri, 18 Nov 2011 09:26:33 -0600
+
+qemu-kvm (0.15.0+noroms-0ubuntu1) precise; urgency=low
+
+  * New upstream release
+  * Remaining changes from upstream:
+    - removed all binary roms and tests/pi_10.com
+  * Removed Detect-and-use-GCC-atomic-builtins-for-locking.patch - non-NPTL
+    implementations were removed with commit
+    02615337ef295443daa03233e492194e289a807e
+  * Drop spice-qxl-locking-fix-for-qemu-kvm.patch - should be unnecessary
+    as of commit 196a778428989217b82de042725dc8eb29c8f8d8
+  * drop patches applied upstream:
+    - CVE-2011-1751.diff
+    - virtio-guard-against-negative-vq-notifies-CVE-2011-2512.diff
+    - CVE-2011-2527.patch
+    - fix-pa-configure.patch
+  * Refreshed the remaining patches:
+    - larger_default_ram_size.patch
+    - CVE-2011-2212-virtqueue-indirect-overflow.patch
+    - qemuifup-fix-paths.patch
+    - vpc.patch
+  * e1000-Dont-set-the-Capabilities-List-bit.patch - switched to the
+    cherrypicked upstream patch (as the source file changed quite a bit,
+    and the hand-ported patch backported to 0.14.1 does not apply).
+  * Drop qemu-kvm-spice (all changes from 0.14.1+noroms-0ubuntu7), it will
+    need its own source package (LP: #878162)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Wed, 19 Oct 2011 08:37:43 -0500
+
+qemu-kvm (0.14.1+noroms-0ubuntu7) precise; urgency=low
+
+  * Create new qemu-kvm-spice package (LP: #723796)
+    - debian/control: add libspice-protocol-dev and libspice-server-dev
+      to build-depends, and define the qemu-kvm-spice package.
+    - debian/rules: add a new spice-build target (based on old -static rules):
+      * add --enable-spice to its configure args
+      * rename its wanted binaries to *-spice
+    - debian/qemu-kvm-spice.links and debian/qemu-kvm-spice.dirs: install
+      kvm-spice and qemu-system-x86_64-spice
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Mon, 17 Oct 2011 16:22:37 +0000
+
+qemu-kvm (0.14.1+noroms-0ubuntu6) oneiric; urgency=low
+
+  * debian/patches/e1000-Dont-set-the-Capabilities-List-bit.patch: Do not set
+    the Capabilities Pointer to NULL for e1000 ethernet adapter, allows Windows'
+    PCI/PCI Express Compliance Test to pass. Patch cherry picked from upstream
+    trunk commit, courtesy of Dann Frazier. (LP: #857746)
+
+ -- Dave Walker (Daviey) <DaveWalker@ubuntu.com>  Mon, 26 Sep 2011 09:36:22 +0100
+
+qemu-kvm (0.14.1+noroms-0ubuntu5) oneiric; urgency=low
+
+  * debian/patches/vpc.patch: detect vpc files which are too big
+    (LP: #814222)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Mon, 12 Sep 2011 11:28:36 -0500
+
+qemu-kvm (0.14.1+noroms-0ubuntu4) oneiric; urgency=low
+
+  * Add a line to the extended package description pointing to ipxe for
+    network installs (LP: #819486)
+  * Change the qemu-common Suggests from kvm-pxe to ipxe, as ipxe is newer
+    and is in main.
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Mon, 12 Sep 2011 10:16:55 -0500
+
+qemu-kvm (0.14.1+noroms-0ubuntu3) oneiric; urgency=low
+
+  * debian/patches/etc-qemuifscripts-fix-paths.patch: don't hardcode a path
+    to brctl in qemu-ifup.  (LP: #833475)
+  * debian/control: move Depends: on bridge-utils from qemu-kvm to
+    qemu-common.  (LP: #835355)
+  * debian/patches/debian/patches/fix-pa-configure.patch: fix FTBFS.  Fix
+    comes from upstream and will be in 0.15 when merged.  (LP: #829492)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Mon, 29 Aug 2011 12:23:12 -0500
+
+qemu-kvm (0.14.1+noroms-0ubuntu2) oneiric; urgency=low
+
+  * debian/{control,rules}: build with PIE.
+
+ -- Kees Cook <kees@ubuntu.com>  Wed, 10 Aug 2011 12:04:15 -0700
+
+qemu-kvm (0.14.1+noroms-0ubuntu1) oneiric; urgency=low
+
+  * New upstream release
+  * Removed patch applied upstream: debian/patches/CVE-2011-1750.diff
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Tue, 26 Jul 2011 23:06:23 -0500
+
+qemu-kvm (0.14.0+noroms-0ubuntu9) oneiric; urgency=low
+
+  * SECURITY UPDATE: fix potential privilege escalation via improper group
+    handling
+    - debian/patches/CVE-2011-2527.patch: call initgroups() to drop
+      supplementary group privileges
+    - CVE-2011-2527
+
+ -- Jamie Strandboge <jamie@ubuntu.com>  Tue, 26 Jul 2011 07:51:28 -0500
+
+qemu-kvm (0.14.0+noroms-0ubuntu8) oneiric; urgency=low
+
+  * SECURITY UPDATE: fix to validate virtqueue in and out requests from the
+    guests
+    - debian/patches/CVE-2011-2212-virtqueue-indirect-overflow.patch: update
+      hw/virtio.c to verify the length of indirect descriptors in
+      virtqueue_pop() and virtqueue_avail_bytes()
+    - CVE-2011-2212
+    - LP: #806167
+  * SECURITY UPDATE: validate virtio_queue_notify() is non-negative
+    - virtio-guard-against-negative-vq-notifies-CVE-2011-2512.diff: update
+      to move comparison out to syborg_virtio_writel(), virtio_ioport_write()
+      and virtio_queue_notify_vq() and don't call common virtio code if
+      virtqueue number is invalid. Patch from Debian.
+    - CVE-2011-2512
+    - LP: #806166
+
+ -- Jamie Strandboge <jamie@ubuntu.com>  Tue, 05 Jul 2011 13:24:52 -0500
+
+qemu-kvm (0.14.0+noroms-0ubuntu7) oneiric; urgency=low
+
+  * SECURITY UPDATE: fix heap buffer overflow from unaligned requests
+    - CVE-2011-1750
+  * SECURITY UPDATE: verify no_hotplug attribute when handling hot-unplug
+    requests
+    - CVE-2011-1751
+
+ -- Jamie Strandboge <jamie@ubuntu.com>  Sun, 29 May 2011 09:22:55 -0500
+
+qemu-kvm (0.14.0+noroms-0ubuntu6) oneiric; urgency=low
+
+  * We need a versioned depend on vgabios to ensure the files we link to
+    exist.  (LP: #783864)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Tue, 24 May 2011 10:09:01 -0500
+
+qemu-kvm (0.14.0+noroms-0ubuntu5) oneiric; urgency=low
+
+  * Add libattr1-dev to build-depends to enable use of 9p virtfs  (LP: #782973)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Mon, 16 May 2011 09:53:15 -0500
+
+qemu-kvm (0.14.0+noroms-0ubuntu4) natty; urgency=low
+
+  *LP: #719174
+   Typo corrected 
+
+ -- Bhaveek Desai <bhaveekdesai.os@gmail.com>  Fri, 18 Mar 2011 21:06:54 +0530
+
+qemu-kvm (0.14.0+noroms-0ubuntu3) natty; urgency=low
+
+  * debian/qemu-common.links: symlink all of the vgabios bin files into
+    the qemu expected paths, LP: #736351
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 16 Mar 2011 21:20:14 -0500
+
+qemu-kvm (0.14.0+noroms-0ubuntu2) natty; urgency=low
+
+  * debian/qemu-kvm.default: per popular request, reduce the ksm sleep
+    milliseconds to 200ms, LP: #578930
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 09 Mar 2011 11:21:40 +0000
+
+qemu-kvm (0.14.0+noroms-0ubuntu1) natty; urgency=low
+
+  * Merge qemu-kvm 0.14.0
+  * debian/rules: get DEB_HOST_ARCH from dpkg-architecture.  Otherwise
+    it is empty, resulting in kvm being not enabled
+  * debian/rules: re-enable parallel builds
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Tue, 08 Mar 2011 10:10:49 -0600
+
+qemu-kvm (0.14.0~rc1+noroms-0ubuntu4) natty; urgency=low
+
+  * Apply spice-qxl-locking-fix-for-qemu-kvm.patch to fix bug with -qxl.
+    (LP: #723871)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Tue, 01 Mar 2011 11:12:44 -0600
+
+qemu-kvm (0.14.0~rc1+noroms-0ubuntu3) natty; urgency=low
+
+  * control: fix description of dummy qemu and kvm packages to mention
+    "qemu-kvm" and not "kvm-qemu".
+  * control: add armhf in the list of architectures along armel.
+  * rules: test whether DEB_HOST_ARCH_CPU is arm instead of testing whether
+    DEB_HOST_ARCH is arm or armel; this fixes support for armhf.
+
+ -- Loïc Minier <loic.minier@linaro.org>  Wed, 16 Feb 2011 09:58:03 +0100
+
+qemu-kvm (0.14.0~rc1+noroms-0ubuntu2) natty; urgency=low
+
+  * debian/rules: place --fno-var-tracking back into CFLAGS for arm, so
+    as to prevent out of memory. (LP: #693341)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Tue, 15 Feb 2011 20:37:56 -0600
+
+qemu-kvm (0.14.0~rc1+noroms-0ubuntu1) natty; urgency=low
+
+  [ Serge Hallyn ]
+  * Merge qemu-kvm 0.14.0-rc1
+  * removed all rom's
+  * removed tests/pi_10.com as it's binary data
+  * removed 697197-fix-vnc-password-semantics.patch in favor of upstream fix
+  * removed caps-lock-key-up-event.patch - upstream commit
+    9a121a2fbf88dd1bc869b1ac2449dc12c27cccfa is supposed to fix it
+    - bdrung to verify
+  * removed 1000-undo-earlier-static.patch
+    - re-add if build fails - but we no longer do static build
+  * removed 2000-vmmouse-adapt-to-mouse-handler-changes.patch, now upstream
+  * removed arm patches - qemu-kvm now only offers x86 and ppc emulation
+    - qemu-user provides armel
+  * kvmtrace_format is now shipped with different tree.
+
+  [ Dustin Kirkland ]
+  * Re-roll tarball, adding ~rc1 to version, so that the official GA release
+    will supercede these rc's
+  * debian/control: bump standards versions, remove redundant depends on
+    adduser, update section to misc
+  * debian/rules: drop qemu-system-ppc64 from the build, as this is in
+    qemu-linaro now, LP: #717690
+  * debian/copyright: embed the BSD license, per lintian
+
+  [ Steve Langasek ]
+  * debian/rules: drop the binfmt-misc handling; we're not building any
+    static user binaries from this source, so this is just noise.
+  * debian/rules: $INSTALL_PROGRAM is never set, so modifying it is
+    pointless.  Delete this as well.
+  * build qemu-kvm package on all archs; this is the authoritative package
+    for x86 system emulators, so we only have to deal with the bios
+    dependencies in one place.
+  * don't run 'make install' in kvm/libkvm directory, this is a no-op anyway.
+ 
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Mon, 14 Feb 2011 07:50:16 -0600
+
+qemu-kvm (0.13.0+noroms-0ubuntu15) natty; urgency=low
+
+  [ Dustin Kirkland ]
+  * debian/binfmts/qemu-alpha, debian/binfmts/qemu-arm,
+    debian/binfmts/qemu-armeb, debian/binfmts/qemu-cris,
+    debian/binfmts/qemu-i386, debian/binfmts/qemu-m68k,
+    debian/binfmts/qemu-microblaze, debian/binfmts/qemu-mips,
+    debian/binfmts/qemu-mipsel, debian/binfmts/qemu-ppc,
+    debian/binfmts/qemu-ppc64, debian/binfmts/qemu-ppc64abi32,
+    debian/binfmts/qemu-sh4, debian/binfmts/qemu-sh4eb,
+    debian/binfmts/qemu-sparc, debian/binfmts/qemu-sparc32plus,
+    debian/binfmts/qemu-sparc64, debian/binfmts/qemu-x86_64,
+    debian/control, debian/qemu-arm-static.postinst, debian/qemu-kvm-
+    extras.dirs, debian/qemu-kvm-extras.links, debian/qemu-kvm-extras-
+    static.dirs, debian/qemu-kvm-extras-static.postinst, debian/qemu-
+    kvm-extras-static.postrm, debian/qemu-kvm-extras-static.preinst,
+    debian/qemu-kvm-extras-static.prerm, debian/qemu-kvm-extras-
+    static.sysctl, debian/qemu-kvm-extras-static.sysctl.amd64,
+    debian/rules, === removed directory debian/binfmts:
+    - massive simplification of the qemu-kvm build, now that qemu-linaro
+      provides all of the system emulation for non-accelerated architectures,
+      ie, those other than [i386, amd64, powerpc]
+    - specify the i386, amd64, ppc64 targets
+
+  [ Steve Langasek ]
+  * Rename qemu-user manpage to qemu-kvm so that qemu-linaro can take over
+    the more generic name.
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 11 Feb 2011 15:07:04 -0600
+
+qemu-kvm (0.13.0+noroms-0ubuntu14) natty; urgency=low
+
+  * Pass -fno-var-tracking on armel to hopefully reduce memory consumption.
+    (LP: #693341)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Tue, 08 Feb 2011 14:41:39 -0600
+
+qemu-kvm (0.13.0+noroms-0ubuntu13) natty; urgency=low
+
+  [ Neil Wilson <neil@aldur.co.uk> ]
+  * SECURITY UPDATE: Setting VNC password to empty string silently
+    disables all authentication (LP: #697197)
+    - debian/patches/697197-fix-vnc-password-semantics.patch: Reverses the
+      change introduced in Qemu by git commit 52c18be9
+    - CVE: 2011-0011
+  
+  [ Dustin Kirkland ]
+  * Updated patch to reflect the move of vnc.c to ui/vnc.c
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 11 Feb 2011 09:53:19 -0600
+
+qemu-kvm (0.13.0+noroms-0ubuntu12) natty; urgency=low
+
+  * Move creation of group kvm to qemu-kvm.preinst from .postinst, so that
+    /dev/kvm can be created owned by group kvm.  I also removed '|| true'
+    from the addgroup line, because if that fails, package install should
+    fail.  (LP: #705509)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Thu, 20 Jan 2011 11:11:03 -0600
+
+qemu-kvm (0.13.0+noroms-0ubuntu11) natty; urgency=low
+
+  * Specify version for the kvm Conflicts.  Otherwise installing 'kvm'
+    fails since it depends on qemu-kvm, then conflicts with itself.
+    (LP: #701288)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Mon, 10 Jan 2011 17:34:28 -0600
+
+qemu-kvm (0.13.0+noroms-0ubuntu10) natty; urgency=low
+
+  [ Serge Hallyn ]
+  * specify in configuration that we want documentation and add the
+    needed build-depends, so we get qemu.1 manpage.  (LP: #675753)
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 06 Dec 2010 19:36:07 -0600
+
+qemu-kvm (0.13.0+noroms-0ubuntu9) natty; urgency=low
+  
+  [ Serge Hallyn ]
+  * debian/qemu-kvm.upstart: don't load the kernel modules if the package
+    has been removed but the upstart jobs still exists. (LP: #292588)
+    (Originally by Felix Geyer <debfx-pkg@fobos.de>)
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 29 Nov 2010 13:47:03 -0600
+
+qemu-kvm (0.13.0+noroms-0ubuntu8) natty; urgency=low
+
+  * Add caps-lock-key-up-event.patch to enable normal up/down events for
+    Caps-Lock and Num-Lock keys by setting SDL_DISABLE_LOCK_KEYS (which
+    requires SDL > 1.2.14). This fixes handling of capslock when capslock is
+    mapped to something else in host system. (LP: #427612)
+
+ -- Benjamin Drung <bdrung@ubuntu.com>  Wed, 24 Nov 2010 21:46:44 +0100
+
+qemu-kvm (0.13.0+noroms-0ubuntu7) natty; urgency=low
+
+  [ Colin Watson ]
+  * Remove "flags: OC" from binfmt files; update-binfmts happens to ignore
+    it, but it's out of spec for the file format.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Mon, 22 Nov 2010 16:34:15 +0100
+
+qemu-kvm (0.13.0+noroms-0ubuntu6) natty; urgency=low
+
+  * 0.13.0+noroms-0ubuntu5 accidentally reverted changes from
+    0.13.0+noroms-0ubuntu4 and 0.13.0+noroms-0ubuntu3; revert this revert.
+  * debian/rules: filter static versions of qemu-linux-user binaries with
+    qemu-[a-z0-9_]+ when renaming them as otherwise we install qemu-malloc.d
+    and qemu-malloc.o.
+  * Add a comment in rules for the changes in 0.13.0+noroms-0ubuntu5.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Sun, 21 Nov 2010 18:24:15 +0100
+
+qemu-kvm (0.13.0+noroms-0ubuntu5) natty; urgency=low
+
+  * Don't allow parallel build of kvm, as it is rumored to be the
+    cause of error compilations, including 'qemu-host.h not found'
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Tue, 16 Nov 2010 17:45:13 -0600
+
+qemu-kvm (0.13.0+noroms-0ubuntu4) natty; urgency=low
+
+  * debian/patches/2000-vmmouse-adapt-to-mouse-handler-changes.patch,
+    debian/patches/series: apply changes from upstream to make mouse
+    work again, LP: #675749
+
+ -- Serge Hallyn <serge.hallyn@canonical.com>  Mon, 15 Nov 2010 21:34:37 -0600
+
+qemu-kvm (0.13.0+noroms-0ubuntu3) natty; urgency=low
+
+  * qemu-debootstrap:
+    - Allow for empty script argument; thanks Cody Somerville and
+      Michael Hudson.
+    - Fix bogus usage of log() instead of warn(); thanks Cody Somerville.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Thu, 11 Nov 2010 16:26:14 +0100
+
+qemu-kvm (0.13.0+noroms-0ubuntu2) natty; urgency=low
+
+  * debian/control: fix broken install/upgrades of kvm, LP: #673559,
+    versioned conflicts/replaces are not necessary
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 10 Nov 2010 10:05:02 -0600
+
+qemu-kvm (0.13.0+noroms-0ubuntu1) natty; urgency=low
+
+  * New upstream release
+  * Remove patches which have been applied upstream:
+    * 05_improve-qemu-img-errors.patch
+    * arm-host-fix-compiler-warning.patch
+    * check-for-invalid-initrd-file.patch
+    * fix-CMOS-info-for-drives-defined-with--device.patch
+    * linux-user-do-not-warn-for-missing-pselect6.patch
+    * scm-rights-fd.patch
+  * Added a patch to revert a commit which caused configure
+    to test compilations with -static.  This caused configure
+    to fail bc of unresolved dependencies in libsasl.
+  * Remove binary roms
+
+ -- Serge Hallyn <serge.hallyn@canonical.com>  Wed, 20 Oct 2010 15:31:32 -0500
+
+qemu-kvm (0.12.5+noroms-0ubuntu7) maverick; urgency=low
+
+  * Resurrect arm-host-fix-compiler-warning patch, applied in
+    0.12.3-0ubuntu2 but dropped in 0.12.4+noroms-0ubuntu1; this is in git
+    HEAD but wasn't in the 0.12.5 release, and we need it to build on armel.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 30 Sep 2010 13:03:19 +0100
+
+qemu-kvm (0.12.5+noroms-0ubuntu6) maverick; urgency=low
+
+  * debian/fix-CMOS-info-for-drives-defined-with--device.patch: make sure
+    the CMOS knows about the correct geometry so Windows XP installs
+    properly. (LP: #586175)
+
+ -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Wed, 15 Sep 2010 19:48:15 -0400
+
+qemu-kvm (0.12.5+noroms-0ubuntu5) maverick; urgency=low
+
+  * Apply patch to fix the lack of error checking when opening
+    an initrd file.  (LP: #619302)
+
+ -- Serge Hallyn <serge.hallyn@canonical.com>  Mon, 30 Aug 2010 12:49:47 -0500
+
+qemu-kvm (0.12.5+noroms-0ubuntu4) maverick; urgency=low
+
+  * debian/patches/05_improve-qemu-img-errors.patch: Reintroduced and 
+    refreshed patch as it seems this wasn't resolved upsteam. (LP: #623830)
+
+ -- Dave Walker (Daviey) <DaveWalker@ubuntu.com>  Wed, 25 Aug 2010 13:04:17 +0100
+
+qemu-kvm (0.12.5+noroms-0ubuntu3) maverick; urgency=low
+
+  * debian/rules, debian/control: enable vnc sasl in the build, LP: #621639
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 24 Aug 2010 09:56:34 -0400
+
+qemu-kvm (0.12.5+noroms-0ubuntu2) maverick; urgency=low
+
+  * qemu-debootstrap: don't use qemu for lpia if not required (LP: #534155)
+
+ -- Emmet Hikory <persia@ubuntu.com>  Tue, 17 Aug 2010 12:54:17 +0200
+
+qemu-kvm (0.12.5+noroms-0ubuntu1) maverick; urgency=low
+
+  * New upstream release
+  * Removed patch which is now upstream:
+    0001-Fix-missing-symbols-in-.rel-.rela.plt-sections.patch
+
+ -- Serge Hallyn <serge.hallyn@canonical.com>  Tue, 10 Aug 2010 08:51:54 -0500
+
+qemu-kvm (0.12.4+noroms-0ubuntu9) maverick; urgency=low
+
+  * qemu-debootstrap: test that the debootstrap command is available, and
+    suggest installing the debootstrap package otherwise.
+  * Add a Recommends on debootstrap.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Mon, 09 Aug 2010 05:40:06 -0400
+
+qemu-kvm (0.12.4+noroms-0ubuntu8) maverick; urgency=low
+
+  * qemu-debootstrap: add support for armhf port; I now realize that this
+    script should query dpkg-architecture instead.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Sat, 07 Aug 2010 15:14:24 -0400
+
+qemu-kvm (0.12.4+noroms-0ubuntu7) maverick; urgency=low
+
+  * debian/patches/linux-user-do-not-warn-for-missing-pselect6.patch:
+    Avoid showing unsupported syscall: 335 for pselect. This was fixed for
+    lucid with the pselect patch, but upstream decided not to apply it as it
+    it can't guaranty the atomicity for all distros. This patch is backported
+    from upstream, as they decided to just remove the warn for it (LP: #610742) 
+
+ -- Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>  Wed, 28 Jul 2010 02:56:04 -0300
+
+qemu-kvm (0.12.4+noroms-0ubuntu6) maverick; urgency=low
+
+  * New patch, arm-ignore-writes-of-perf-reg-cp15-with-crm-12, on ARMv7,
+    ignore writes to cp15 with crm == 12; these are to setup perf
+    counters which we don't have; LP: #570456.
+
+ -- Loïc Minier <loic.minier@linaro.org>  Mon, 26 Jul 2010 15:04:23 +0200
+
+qemu-kvm (0.12.4+noroms-0ubuntu5) maverick; urgency=low
+
+  * Re-add patch Detect-and-use-GCC-atomic-builtins-for-locking from
+    0.12.2-0ubuntu6arm1 (0.12.2-0ubuntu7) since it was not merged upstream and
+    is sitll needed to build qemu-kvm in thumb mode on armel; LP: #605252.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Fri, 16 Jul 2010 23:06:00 +0200
+
+qemu-kvm (0.12.4+noroms-0ubuntu4) maverick; urgency=low
+
+  * merge patch from upstream to fix multiboot.bin (LP: #598649)
+
+ -- Serge Hallyn <serge.hallyn@canonical.com>  Mon, 28 Jun 2010 10:44:44 -0500
+
+qemu-kvm (0.12.4+noroms-0ubuntu3) maverick; urgency=low
+
+  * debian/patches/scm-rights-fd.patch: backport patch from upstream to
+    stash away SCM_RIGHTS fd until a getfd command arrives. This is required
+    for attach of network devices in libvirt 0.8.1 and higher.
+    - e53f27b9d9df73461308618151fa6e6392aebd85
+
+ -- Jamie Strandboge <jamie@ubuntu.com>  Wed, 16 Jun 2010 11:05:40 -0500
+
+qemu-kvm (0.12.4+noroms-0ubuntu2) maverick; urgency=low
+
+  * debian/qemu-kvm.links: LP: #594888, add a symlink,
+    /usr/bin/qemu-system-i386 -> /usr/bin/qemu
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 15 Jun 2010 23:16:36 -0500
+
+qemu-kvm (0.12.4+noroms-0ubuntu1) maverick; urgency=low
+
+  * New upstream release.
+  * add block from kees to debian/rules to parallelize make
+  * Removed patches which have been merged.
+  * Removed the capslock patch because capslock isn't behaving
+    right for me in 0.12.3 with the patch anyway, probably bc the
+    underlying SDL has been fixed.  Original patch was for LP: #427612.
+
+ -- Serge Hallyn <serge.hallyn@canonical.com>  Fri, 11 Jun 2010 11:58:47 -0500
+
+qemu-kvm (0.12.3+noroms-0ubuntu9) lucid; urgency=low
+
+  * Architecture-specific fixes (LP: #568904)
+    - debian/rules: configure with --disable-kvm on powerpc to fix FTBFS
+    - debian/control: Disable arch:any stuff on ia64: no qemu/kvm support anyway
+
+ -- Emmet Hikory <persia@ubuntu.com>  Fri, 23 Apr 2010 18:45:55 +0900
+
+qemu-kvm (0.12.3+noroms-0ubuntu8) lucid; urgency=low
+
+  * debian/qemu-kvm-extras-static.postrm, .postinst: use "invoke-rc.d procps
+    start" instead of "start procps" to honor policy-rc.d and hence be
+    chroot-safe.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Tue, 20 Apr 2010 13:12:08 +0200
+
+qemu-kvm (0.12.3+noroms-0ubuntu7) lucid; urgency=low
+
+  * debian/qemu-kvm-extras.links: link .1.gz man pages instead of .1 man
+    pages; dh_compress usually gets it right when the files are in the same
+    package, but not here with cross-package links.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Tue, 20 Apr 2010 10:15:20 +0200
+
+qemu-kvm (0.12.3+noroms-0ubuntu6) lucid; urgency=low
+
+  * debian/qemu-kvm.upstart: fix logic that was preventing upstart
+    job from starting properly, LP: #559896
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 10 Apr 2010 11:06:47 -0500
+
+qemu-kvm (0.12.3+noroms-0ubuntu5) lucid; urgency=low
+
+  * debian/qemu-kvm.default: allow the kernel to determine the default,
+    comment out the configuration option, but leave it there so as to
+    be discoverable; seems that 2000 sleep-millisecs renders KSM basically
+    useless
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 02 Apr 2010 16:35:05 -0500
+
+qemu-kvm (0.12.3+noroms-0ubuntu4) lucid; urgency=low
+
+  * debian/patches/SDL-wrong-behaviour-of-caps-lock.patch:
+    Qemu does not pass pressed capslock to client, LP: #427612
+
+ -- Benjamin Drung <bdrung@ubuntu.com>  Thu, 01 Apr 2010 00:22:02 +0200
+
+qemu-kvm (0.12.3+noroms-0ubuntu3) lucid; urgency=low
+
+  * debian/qemu-kvm.default, debian/qemu-kvm.upstart:
+    raise the default sleep between kernel same-page merging
+    (KSM) from 20 milliseconds to 2000 milliseconds, LP: #550985
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 29 Mar 2010 11:35:44 -0500
+
+qemu-kvm (0.12.3+noroms-0ubuntu2) lucid; urgency=low
+
+  * debian/control: ensure that qemu-common replaces qemu-kvm, since
+    it has the common keymaps and other functionality, LP: #545741
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 24 Mar 2010 10:13:01 -0700
+
+qemu-kvm (0.12.3+noroms-0ubuntu1) lucid; urgency=low
+
+  * Re-roll the orig tarball, after having manually deleted the included
+    binary-only bios rom blobs who source was not also included in the
+    package, LP: #541524; the following files were removed:
+    - pc-bios/bios.bin
+    - pc-bios/linuxboot.bin
+    - pc-bios/multiboot.bin
+    - pc-bios/openbios-ppc
+    - pc-bios/openbios-sparc
+    - pc-bios/openbios-sparc32
+    - pc-bios/openbios-sparc64
+    - pc-bios/ppc_rom.bin
+    - pc-bios/pxe-e1000.bin
+    - pc-bios/pxe-i82559er.bin
+    - pc-bios/pxe-ne2k_pci.bin
+    - pc-bios/pxe-pcnet.bin
+    - pc-bios/pxe-rtl8139.bin
+    - pc-bios/pxe-virtio.bin
+    - pc-bios/vapic.bin
+    - pc-bios/vgabios.bin
+    - pc-bios/vgabios-cirrus.bin
+    - pc-bios/video.x
+  * debian/control:
+    - qemu-common goes back to depending on vgabios and seabios
+    - suggest mol-drivers-macosx, which is in multiverse, and provides
+      video.x (when that package actually builds)
+    - suggest openbios-sparc, which is in universe, and provides the
+      powerpc/sparc openbios roms (when that package actually builds)
+  * debian/links:
+    - put links in place for the external seabios and vgabios blobs
+  * debian/patches/larger_default_ram_size.patch: increase the default
+    mem size for virtual machines from the mostly unusable 128M to 384M,
+    which most modern distros require
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 22 Mar 2010 18:14:30 -0700
+
+qemu-kvm (0.12.3-0ubuntu17) lucid; urgency=low
+
+  * qemu-debootstrap: test for basename part of $0 to enable build-arm-chroot
+    compat mode.
+  * New patch, arm-higher-initrd-load-addr, set INITRD_LOAD_ADDR to 0x00d00000
+    instead of 0x00800000 as to leave enough room for our piggish vmlinuz +
+    its decompressed counterpart; should fix initramfs and initrd support;
+    thanks Jason Andrews; LP: #524893.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Sat, 20 Mar 2010 10:30:21 +0100
+
+qemu-kvm (0.12.3-0ubuntu16) lucid; urgency=low
+
+  * debian/rules: need to dh_link in binary-indep to create the ifup/ifdown
+    links, LP: #540218
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 17 Mar 2010 14:23:55 -0500
+
+qemu-kvm (0.12.3-0ubuntu15) lucid; urgency=low
+
+  * debian/patches/block_avoid_creating_too_large_iovecs_in_multiwrite_merge.patch:
+    - block: avoid creating too large iovecs in multiwrite_merge,
+      fixes LP: #511620, cherry pick from upstream git
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 12 Mar 2010 13:30:30 -0600
+
+qemu-kvm (0.12.3-0ubuntu14) lucid; urgency=low
+
+  * debian/rules: ensure that the upstart job starts on package install,
+    LP: #537682
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 11 Mar 2010 19:20:54 -0600
+
+qemu-kvm (0.12.3-0ubuntu13) lucid; urgency=low
+
+  * Rename the default debhelper files to qemu-kvm.*, makes the namespace
+    a little more managable as we split this source package up into better
+    logical binary packages
+    - debian/postinst -> debian/qemu-kvm.postinst
+    - debian/doc -> debian/qemu-common.doc
+    - debian/links -> debian/qemu-kvm.links
+    - debian/install -> debian/qemu-kvm.install
+    - debian/upstart -> debian/qemu-kvm.upstart
+  * debian/qemu-common.install, debian/qemu-common.links, debian/control:
+    - new binary package that contains the architecture independent and
+      common files (bios roms, keymaps, documentation, and scripts)
+  * debian/rules:
+    - populate the binary-indep action to handle the qemu-common package
+    - manually prune the keymaps from qemu-kvm, since qemu-common contains
+      these now
+  * debian/kvm-ok, debian/control: move the kvm-ok script over to the
+    cpu-checker package, and recommend this package, LP: #429443
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 08 Mar 2010 17:18:13 -0600
+
+qemu-kvm (0.12.3-0ubuntu12) lucid; urgency=low
+
+  * debian/install: install the two necessary ppc bios files, LP: #60478;
+    note that these should eventually move to a qemu-common package
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 08 Mar 2010 15:08:17 -0600
+
+qemu-kvm (0.12.3-0ubuntu11) lucid; urgency=low
+
+  * debian/control: build depend on libaio-dev, to enable a nice performance
+    improvement when running preallocated raw disks or block device backing
+    disks, LP: #534273
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 08 Mar 2010 12:10:36 -0600
+
+qemu-kvm (0.12.3-0ubuntu10) lucid; urgency=low
+
+  * Drop build-arm-chroot and add new qemu-debootstrap script as an
+    arch-neutral replacement; ship a build-arm-chroot -> qemu-debootstrap
+    symlink; qemu-debootstrap works as build-arm-chroot used to when called as
+    "build-arm-chroot" but will print a deprecation warning.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Sun, 07 Mar 2010 16:39:47 +0100
+
+qemu-kvm (0.12.3-0ubuntu9) lucid; urgency=low
+
+  * debian/postinst: slightly cleaner handling of old conffile cleanup
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 06 Mar 2010 17:21:19 -0600
+
+qemu-kvm (0.12.3-0ubuntu8) lucid; urgency=low
+
+  * debian/postinst: test file's existence before removing, and use a bigger
+    hammer, LP: #533249
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 06 Mar 2010 11:35:17 -0600
+
+qemu-kvm (0.12.3-0ubuntu7) lucid; urgency=low
+
+  * debian/postinst: only prune dirs if empty
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 06 Mar 2010 00:11:07 -0600
+
+qemu-kvm (0.12.3-0ubuntu6) lucid; urgency=low
+
+  [ Dustin Kirkland ]
+  * debian/postinst: clean up jaunty-era conffiles on upgrade, LP: #455411
+  * debian/links, debian/qemu-kvm-extras.links: install non-x86 arch
+    manpages in the qemu-kvm-extras package, LP: #478552
+
+  [ Brian Thomason ]
+  * debian/patches/better_describe_-net_options.patch: improve port
+    forwarding documentation, LP: #474969, LP: #453617
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 05 Mar 2010 18:39:19 -0600
+
+qemu-kvm (0.12.3-0ubuntu5) lucid; urgency=low
+
+  * debian/install, debian/control: use the bios bin's shipped with
+    qemu-kvm, rather than those provided by vgabios and seabios (for now);
+    we're seeing issues building and using the versions of vgabios and
+    seabios in the archive; the ones shipped with qemu-kvm are those
+    "recommended" and known to work by upstream; when we converge on a
+    new package with debian for lucid+1, we should revisit this.
+    LP: #513273
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 04 Mar 2010 16:53:17 -0600
+
+qemu-kvm (0.12.3-0ubuntu4) lucid; urgency=low
+
+  * debian/links: fix broken manpage symlink, LP: #472969
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 01 Mar 2010 18:49:23 -0600
+
+qemu-kvm (0.12.3-0ubuntu3) lucid; urgency=low
+
+  * debian/rules: prefer pa over alsa by default (reverting one of Loic's
+    changes below, and creating a minor diff with Debian--we should
+    perhaps try to convince them to default to pulseaudio?)
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 01 Mar 2010 16:59:39 -0600
+
+qemu-kvm (0.12.3-0ubuntu2) lucid; urgency=low
+
+  * New patch, arm-host-fix-compiler-warning, drops __arm__ specific code
+    which was probably FPA specific (certainly not ARM/VFP) and was dropped
+    upstream in bc4347b883e8175dadef77ed9e02ccaa5e8eba94; helps build on
+    armel.
+  * Configure builds with --disable-strip to get useful -dbgsym packages.
+  * Also configure the static build with --disable-blobs and
+    --audio-drv-list=.
+  * Configure builds with --interp-prefix=/etc/qemu-binfmt/%M as to allow
+    overriding shared libs etc. with files over there; this matches Debian's
+    config.
+  * Match Debian's audio-drv-list to only build ALSA on linux.
+  * Also filter-out config-host.mak when copying files to the static build dir
+    to avoid a race if the build is interrupted before the static configure
+    has run.
+  * After careful examination, drop TARGET_SYSTEM_TCG and TARGET_LINUX_TCG;
+    the upstream configure turns all these on by default plus one recently
+    added architecture (microblaze) which proves that this list can't be kept
+    up-to-date.  Also drop ia64 specific settings -- the ia64 build doesn't
+    pass in Ubuntu ATM anyway, and Debian doesn't special ia64, so it can only
+    help, right?  Do however pass --target-list="" for now as the current
+    upstream configure sets x86_64-softmmu as the default.
+  * Also drop TARGET_STATIC_TCG and pass --disable-system; this will turn off
+    all softmmu targets and do the right thing; while this will increase the
+    size of the binary package, this will also permit development towards
+    other targets such as powerpc, or running x86 binaries from ARM.  Also
+    pass --target-list="".
+  * Drop unused QEMU_EXE and BUILD_CPU vars.
+  * Add more binfmts, copied from the Debian qemu package but modified to
+    point at the qemu-kvm-extras-static package instead of qemu-user-static
+    and to set "credentials yes"; also dropped spurious trailing newlines on
+    some of them.  Copy the logic to set BINFMT_TARGETS from the Debian
+    package as well.
+  * Create qemu-kvm-extras dirs via debian/*.dirs instead of mkdir.
+  * Depend on $(QUILT_STAMPFN) instead of patch to avoid rebuilding everything
+    every time.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Sat, 27 Feb 2010 11:59:10 +0100
+
+qemu-kvm (0.12.3-0ubuntu1) lucid; urgency=low
+
+  * Merge upstream stable release (bug fixes only)
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 26 Feb 2010 16:26:00 -0600
+
+qemu-kvm (0.12.2-0ubuntu8) lucid; urgency=low
+
+  * debian/binfmts/qemu-arm: add "credentials yes" to allow running setuid
+    binaries in their security context with qemu-arm-static as the binary
+    interpreter, for instance sudo; bump binfmt-support dep to >= 1.2.17.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Fri, 19 Feb 2010 15:18:52 +0100
+
+qemu-kvm (0.12.2-0ubuntu7) lucid; urgency=low
+
+  * Replace patch Don-t-bark-for-syscalls-missing-in-linux-too with patch
+    This-patch-adds-support-for-the-pselect-syscall-in-l from the upstream
+    mailing-list from Michael Casadevall and acked by Riku Voipio to add
+    pselect6() syscall; LP: #520480.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Thu, 18 Feb 2010 14:08:33 +0100
+
+qemu-kvm (0.12.2-0ubuntu6arm1) lucid; urgency=low
+
+  * New patch, Detect-and-use-GCC-atomic-builtins-for-locking, detects support
+    for gcc atomic builtins and uses them for locking; helps build on armel
+    where swp isn't available in thumb(2) mode; this patch needs some testing
+    on various platforms, so not submitted upstream yet; LP: #514252.
+  * New patch, Don-t-bark-for-syscalls-missing-in-linux-too, implements stubs
+    for pselect6(), ppoll(), and epoll_wait() on ARM to avoid the console
+    getting spammed by "qemu: Unsupported syscall: 335" when installing
+    packages under qemu-arm; needs some testing on arm, so not submitted
+    upstream yet; LP: #520480.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Thu, 11 Feb 2010 17:53:55 +0100
+
+qemu-kvm (0.12.2-0ubuntu6) lucid; urgency=low
+
+  * debian/upstart: complete the enable/disable KSM support
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 06 Feb 2010 10:23:00 -0800
+
+qemu-kvm (0.12.2-0ubuntu5) lucid; urgency=low
+
+  * debian/default/qemu-kvm, debian/upstart:
+    - provide a mechanism for disabling KSM conveniently
+    - improve the logic in the upstart scripts
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 06 Feb 2010 09:46:25 -0800
+
+qemu-kvm (0.12.2-0ubuntu4) lucid; urgency=low
+
+  * debian/qemu-kvm-extras-static.prerm: also update-binfmt --remove on
+    upgrade as I believe was originally intended by registering the format in
+    postinst/configure.
+  * Readd debian/qemu-arm-static.postinst to also update-binfmt --remove the
+    old format since old binary packages wont do that properly; also do this
+    in debian/qemu-kvm-extras-static.postinst for people who already removed
+    debian/qemu-arm-static.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Sat, 06 Feb 2010 10:19:46 +0100
+
+qemu-kvm (0.12.2-0ubuntu3) lucid; urgency=low
+
+  * debian/init, debian/upstart:
+    - migrate sysvinit script to upstart
+    - enable ksm by default in Ubuntu
+  * debian/control: depend on seabios now that it's in main, LP: #508870
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 05 Feb 2010 23:12:29 -0800
+
+qemu-kvm (0.12.2-0ubuntu2) lucid; urgency=low
+
+  * Rename package qemu-arm-static to qemu-kvm-extras-static for consistency
+    and to avoid hardcoding the arch name in the package.  Add a transitional
+    package.  Move conffile in new package preinst and use the occasion to
+    prefix it with "30-", according to /etc/sysctl.d/README.
+  * Rename arm binfmt to qemu-arm.
+  * Use start procps upstart task to reapply all /etc/sysctl.d in
+    postinst/configure but also in postrm/purge; unfortunately, the settings
+    will remain applied as long as the package is in the removed state; see
+    LP #515706.
+  * Add ${misc:Depends} and tweak descriptions of transitional packages to
+    keep lintian happy.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Mon, 01 Feb 2010 20:48:05 +0100
+
+qemu-kvm (0.12.2-0ubuntu1) lucid; urgency=low
+
+  * Merge upstream release
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 21 Jan 2010 16:22:13 +1300
+
+qemu-kvm (0.12.1.2-0ubuntu2) lucid; urgency=low
+
+  * debian/links: drop the seabios link (temporarily) until it gets
+    promoted to main
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 21 Jan 2010 10:48:03 +1300
+
+qemu-kvm (0.12.1.2-0ubuntu1) lucid; urgency=low
+
+  * Merge from upstream
+    - debian/rules:
+      + drop bios hacks, as we now depend on vgabios
+      + align our configure line more closely with fedora, preferring pa
+        for audio (let's give this another try, might need to revert by
+        Lucid Beta), and accepting the project defaults for audio hw
+    - debian/control: depend on  vgabios, LP: #181876
+    - debian/patches/*: drop patches now included upstream
+      + 02_extboot_build_fixes.patch
+      + 05_improve-qemu-img-errors.patch
+      + 06_set_sdl_title.patch
+      + 07_right_ctrl_grab.patch
+      + 08_fix_qemu-ifup.patch
+      + 09_qemu-fix-qcow2-backing-file-with-virtio.patch
+      + 10_fix_scsi_hotplug.patch
+      + 11_fix_virtio-blk_hot_add_after_remove.patch
+      + 12_whitelist_host_virtio_networking_features.patch
+      + 60_armv4l-typo.patch
+    - debian/patches/*: apply two patches from Loic Minier, both submitted
+      and acked by upstream (should be dropped in a future merge)
+      + 0001-linux-user-adapt-uname-machine-to-emulated-CPU.patch
+      + 0001-Fix-missing-symbols-in-.rela.plt-sections.patch
+    - debian/install, debian/links: install the necessary bios roms;
+      when seabios gets promoted to main, we should depend on it, and use
+      its bios.bin instead of this one
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 20 Jan 2010 17:54:24 +1300
+
+qemu-kvm (0.11.0-0ubuntu6.3) karmic-security; urgency=low
+
+  * SECURITY UPDATE: linux <= 2.6.25 guests (e.g. hardy) with virtio
+    networking are subject to DoS by qemu-kvm application crash;
+    the crash can be remotely triggered by a malicious user flooding any
+    open network port (LP: #458521)
+    - debian/patches/12_whitelist_host_virtio_networking_features.patch:
+      fix accounting of virtio networking features available to make
+      available to the guests
+    - CVE-2009-XXXX
+  * debian/kvm-ok: check for other common reasons why KVM might not be
+    usable, LP: #452323
+  * debian/control: build-depend on libcurl devel, to allow booting from
+    ISOs over http, LP: #453441
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 29 Oct 2009 11:36:18 -0500
+
+qemu-kvm (0.11.0-0ubuntu6) karmic; urgency=low
+
+  * debian/control: Version the conflicts/replaces with qemu and kvm so that
+    the transitional packages are actually installable (LP: #455114)
+
+ -- Thierry Carrez <thierry.carrez@ubuntu.com>  Mon, 19 Oct 2009 11:32:12 +0200
+
+qemu-kvm (0.11.0-0ubuntu5) karmic; urgency=low
+
+  [ Dustin Kirkland ]
+  * debian/patches/10_fix_scsi_hotplug.patch: cherry-pick patch from
+    upstream to fix scsi hotplug regression, LP: #432154
+  * debian/patches/11_fix_virtio-blk_hot_add_after_remove.patch: cherry-pick
+    patch from upstream to fix virtio hotplug add/remove, LP: #419590
+
+  [ James Westby ]
+  * Add transitional kvm and qemu packages, LP: #451508
+    - Force the kvm package version to be higher so that it supercedes that
+      from the kvm source. Thanks to Steve Langasek and Michael Vogt
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 14 Oct 2009 11:35:27 -0500
+
+qemu-kvm (0.11.0-0ubuntu4) karmic; urgency=low
+
+  * qemu-arm-static: build-arm-chroot script
+    - add copyright headers
+    - parse cmdline to determine the chroot path so debootstrap gets options
+      handed over properly
+    - add check if --arch is set to make it easy to re-use it for other arches
+      in the future
+    - code cleanup
+    - drop the success message, debootstrap already notifies us here
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 14 Oct 2009 11:44:28 +0200
+
+qemu-kvm (0.11.0-0ubuntu3) karmic; urgency=low
+
+  * debian/patches/10_qemu-allow-pulseaudio-to-be-the-default.patch:
+    revert this patch, as the effect is actually contrary to what's
+    desired and regressed LP: #304649
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 12 Oct 2009 22:33:13 -0500
+
+qemu-kvm (0.11.0-0ubuntu2) karmic; urgency=low
+
+  * debian/patches/09_qemu-fix-qcow2-backing-file-with-virtio.patch:
+    cherry-pick patch from Fedora, fix virtio/qcow2 issues, LP: #420423
+  * debian/patches/10_qemu-allow-pulseaudio-to-be-the-default.patch:
+    needed to complete the fix for LP: #304649
+  * debian/control: improve description of qemu-kvm-extras, LP: #448655
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 11 Oct 2009 13:16:11 -0500
+
+qemu-kvm (0.11.0-0ubuntu1) karmic; urgency=low
+
+  * Merge upstream GA qemu-kvm-0.11 to replace rc2, LP: #438912
+  * debian/patches/04_fix-no-kvm-segfault.patch: dropped, included
+    upstream
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 29 Sep 2009 14:14:35 -0500
+
+qemu-kvm (0.11.0~rc2-0ubuntu12) karmic; urgency=low
+
+  * Really disable vm.vdso_enabled in debian/qemu-arm-static.sysctl.amd64.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Thu, 24 Sep 2009 07:37:19 +0200
+
+qemu-kvm (0.11.0~rc2-0ubuntu11) karmic; urgency=low
+
+  * Allow debian/qemu-arm-static.sysctl.$(DEB_BUILD_ARCH) to override
+    debian/qemu-arm-static.sysctl and add an amd64 version which doesn't set
+    vm.vdso_enabled since that's not available on x86-64.
+  * Drop useless uses of CURDIR from install target.
+  * Add debian/TODO list.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Thu, 24 Sep 2009 07:24:54 +0200
+
+qemu-kvm (0.11.0~rc2-0ubuntu10) karmic; urgency=low
+
+  * New patch, 60_armv4l-typo, from upstream
+    a302c32ded4d458fead907a98d079e8fb15f7b08; fixes a typo in configure (arm4l
+    instead of armv4l) which breaks the build on armel.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Wed, 23 Sep 2009 15:23:02 +0200
+
+qemu-kvm (0.11.0~rc2-0ubuntu9) karmic; urgency=low
+
+  * Use bamboo.dtb instead of bamboo.dtd in powerpc rules; this seems to be
+    the correct filename and AFAICT there's no support for generating any .dtd
+    file in the upstream rules but only support for .dtb files; should help
+    the powerpc build somewhat.
+  * Disable qemu-kvm build on armel since there is no kernel support for it
+    for now; should help the armel build somewhat.
+    - Use dh_listpackages to check whether we want the qemu-kvm package and
+      set DO_KVM accordingly.
+    - Only $(MAKE) install in kvm/libkvm if DO_KVM is enabled.
+  * On ia64 set TARGET_SYSTEM_TCG = ia64-softmmu and empty TARGET_LINUX_TCG
+    since ia64 doesn't support CPU emulation mode (syscall wrapping) nor code
+    generation for ia64, so can only run ia64 code on ia64 in system emulation
+    mode; should help the ia64 build somewhat.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Wed, 23 Sep 2009 13:40:38 +0200
+
+qemu-kvm (0.11.0~rc2-0ubuntu8) karmic; urgency=low
+
+  * Drop awful binary-static target; binary-arch works fine and binary-static
+    is not guaranteed to be called (in fact it was only called on the arch:
+    all buildd, i.e. i386, even if there are no arch: all packages here).
+    Similarly, merge build-static commands with build-arch commands.
+    Similarly, merge install-static commands with install commands.
+  * Replace configure-static with $(STATIC_BUILDDIR)/config.status which
+    matches config.status; let $(STATIC_BUILDDIR)/config.status depend on
+    configure.
+  * Depending on whether we want to build a qemu-%-static package, as reported
+    by dh_listpackages, set DO_STATIC and MAYBE_STATIC_CONFIG to "yes" and
+    $(STATIC_BUILDDIR)/config.status (or "no" and empty) and use these vars to
+    conditionalize the build.
+  * Drop unexisting targets from .PHONY.
+  * Let build depend on build-indep and build-arch.
+  * Use $(MAKE) -C instead of cd && $(MAKE).
+  * Consistenly use $() for make vars instead of mixing with ${}.
+  * Drop conditional for quilt.make being present, it's always satisfied per
+    build-deps, and move the include to the top of rules.
+  * Remove boilerplate comments from rules.
+  * Don't overwrite CFLAGS from the environment and honour DEB_BUILD_OPTIONS
+    in a more condensed manner.
+  * Use DEB_BUILD_ARCH instead of calling dpkg-architecture repeatedly.
+  * Let the config.status targets depend on patch instead of configure.
+  * Rename STATIC_BUILDDIR to debian/build-static to avoid clashes with a
+    possible qemu-static.
+  * No need for build-{arch,indep} to depend on patch, actually they should
+    only depend on the -stamp file which itself should depend on
+    config.status targets.
+  * Drop build-arch/build-indep split in favour of a single build target; the
+    split was unused and not supported properly anyway; let install depend on
+    build and binary-{indep,arch} depend on install.
+  * Also pass -k debian/changelog.qemu debian/changelog.kvm to
+    dh_installchangelogs in binary-arch.
+  * Drop unused binary-indep commands.
+  * Drop -s from dh_testdir/dh_testroot.
+  * Test for config-host.mak before calling $(MAKE) in clean: and drop the
+    bogus dep on the config.status target.
+  * Call unpatch explicitly after distclean instead of using a dep as we don't
+    want to run upstream rules unpatched.
+  * Rename config.status targets to config-host.mak since it's the actual name
+    of the file spit by configure.
+  * Rework copying of sources for static build to filter-out the debian and
+    potentially the static build dir and hence avoid the || true error
+    handler.
+  * Install old Debian changelogs debian/changelog.{kvm,qemu} with
+    dh_installdocs; drop the dh_installchangelogs hacks, that resurrects the
+    actual upstream changelog.
+  * Drop bogus debian/qemu-arm-static.install for now as it installs to the
+    wrong dir.
+  * Rework qemu-arm-static.{postint,prerm} to not hardcode the update-binfmts
+    pathname, not do useless tests, and to drop boilerplate.
+  * Rework postinst to set -e and to drop boilerplate.
+  * Add install-stamp to run install only once; install should really be
+    reworked to install to debian/tmp, moving the copying to binary packages
+    to binary-%.
+  * Add watch file.
+  * Add debian/README.source pointing at the quilt one.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Wed, 23 Sep 2009 09:18:41 +0200
+
+qemu-kvm (0.11.0~rc2-0ubuntu7) karmic; urgency=low
+
+  * Enable qem-arm-static on amd64 and lpia.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Tue, 22 Sep 2009 14:28:52 +0200
+
+qemu-kvm (0.11.0~rc2-0ubuntu6) karmic; urgency=low
+
+  * debian/qemu-kvm.udev: remove NAME="%k", superfluous and breaks kernel
+    supplied names, LP: #433124
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 19 Sep 2009 11:16:24 -0500
+
+qemu-kvm (0.11.0~rc2-0ubuntu5) karmic; urgency=low
+
+  * debian/patches/06_set_sdl_title.patch: set the sdl title properly
+    when using -name, LP: #423076
+  * debian/patches/07_right_ctrl_grab.patch: support right-ctrl grab
+    for improved accessibility, LP: #237635
+  * debian/08_fix_qemu-ifup.patch: fix positional argument problem in
+    qemu-ifup script, LP: #237635
+  * debian/install, debian/links: install qemu-ifup and qemu-ifdown to
+    /usr/bin, and symlink them to the (somewhat silly) location where
+    qemu expects to find an executable script, update the ifdown script
+    to use the same logic in determining the bridge interface, LP: #430655
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 18 Sep 2009 10:59:44 -0500
+
+qemu-kvm (0.11.0~rc2-0ubuntu4) karmic; urgency=low
+
+  * debian/patches/05_improve-qemu-img-errors.patch: use strerror()
+    for qemu-img error reporting, LP: #418112
+  * fix links
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 10 Sep 2009 22:58:09 -0500
+
+qemu-kvm (0.11.0~rc2-0ubuntu3) karmic; urgency=low
+
+  * debian/links: fix broken /usr/share/kvm symlink to point to
+    /usr/share/qemu, LP: #427127
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 09 Sep 2009 23:30:38 -0500
+
+qemu-kvm (0.11.0~rc2-0ubuntu2) karmic; urgency=low
+
+  [ Dustin Kirkland ]
+  * debian/control: drop bochsbios build-dep; use binary blobs in this
+    package since bochs is not in main, LP: #422268
+  * debian/install: install qemu-if[up|down] scripts into /etc, where qemu-kvm
+    expects them, LP: #376387
+  * debian/init: kvm needs /proc, require start of mountkernfs, LP: #391121
+
+  [ Oliver Grawert ]
+  * qemu-arm-static: drop unneeded cd'ing to $OLDPWD from binary-static (how
+    did that get there first place?) LP: #425947
+
+  [ Dominic Evans ]
+  * debian/qemu-ifdown: add matching ifdown script for bridge configuration,
+    LP: #376387
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 08 Sep 2009 16:12:10 -0500
+
+qemu-kvm (0.11.0~rc2-0ubuntu1) karmic; urgency=low
+
+  * merge upstream release candidate 2; bug fixes only
+  * drop 03_fix_checksum_writing_in_signboot.patch, included upstream
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 08 Sep 2009 09:18:43 -0500
+
+qemu-kvm (0.11.0~rc1-0ubuntu13) karmic; urgency=low
+
+  * debian/qemu-kvm.udev: add udev file which was dropped during the
+    packaging, LP: #422225
+  * debian/patches/04_fix-no-kvm-segfault.patch: fix segfault when
+    KVM is not available, by ensuring that kvm_allowed gets set
+    earlier enough in vl.c; will be sent upstream; LP: #422295
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 31 Aug 2009 18:50:48 -0500
+
+qemu-kvm (0.11.0~rc1-0ubuntu12) karmic; urgency=low
+
+  * debian/init: no need to stop the init script for runlevels 0 and 6
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 25 Aug 2009 13:09:10 -0500
+
+qemu-kvm (0.11.0~rc1-0ubuntu11) karmic; urgency=low
+
+  * debian/qemu-kvm.install: update these install locations too;
+    missed these in the last upload
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 24 Aug 2009 15:54:00 -0500
+
+qemu-kvm (0.11.0~rc1-0ubuntu10) karmic; urgency=low
+
+  * debian/rules: revert one change from last upload; install bios bin
+    files to /usr/share/qemu, rather than /usr/share/qemu-kvm, as this
+    broke qemu, LP: #418033
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 24 Aug 2009 10:11:29 -0500
+
+qemu-kvm (0.11.0~rc1-0ubuntu9) karmic; urgency=low
+
+  * debian/install, debian/links: setup some links to help smooth the
+    migration from kvm -> qemu-kvm, and qemu -> qemu-kvm
+  * debian/control: suggest qemu-kvm-extas, bump standards
+  * debian/manpages, debian/qemu-user.1: copy the manpage from
+    from the qemu package
+  * debian/links: setup links for manpages
+  * debian/kvm.1, debian/rules, debian/links: drop the separate manpage
+    for kvm, use qemu's
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 21 Aug 2009 15:00:32 -0500
+
+qemu-kvm (0.11.0~rc1-0ubuntu8) karmic; urgency=low
+
+  * qemu-arm-static.sysctl: switch off vdso as well, else chroot execution
+    fails
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Sun, 16 Aug 2009 17:13:42 +0200
+
+qemu-kvm (0.11.0~rc1-0ubuntu7) karmic; urgency=low
+
+  * rather use sysctl -p in qemu-arm-static.postinst
+  * qemu needs to access mmap above 4k, set vm.mmap_min_addr to 4097
+    in qemu-arm-static.sysctl instead of the default armel kernel value
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Sun, 16 Aug 2009 15:15:26 +0200
+
+qemu-kvm (0.11.0~rc1-0ubuntu6) karmic; urgency=low
+
+  * make sure we build the -static target in a separate dir to not interfere
+    with the nonstatic targets
+  * make qemu-kvm and qemu-kvm-extras ignore qemu-arm-static in dpkg-deb
+  * add /etc/sysctl.d/qemu-arm-static.sysctl.conf to qemu-arm-static and set
+    mmap_min_addr to 32768 from postinst since armel uses a lower mmap address
+    by default
+  * drop libpcap2-bin dependency from qemu-arm-static (doesnt work properly
+    yet, we use mmap_min_addr instead)
+  * drop ${shlibs:Depends} from qemu-arm-static control entry, no shlibs in
+    static builds
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Sun, 16 Aug 2009 13:25:58 +0200
+
+qemu-kvm (0.11.0~rc1-0ubuntu5) karmic; urgency=low
+
+  * debian/control: add a Suggests on uml-utilities (universe), for
+    availability of /usr/sbin/tunctl
+  * debian/patches/03_fix_virtio_boot.patch: dropped; this was a red
+    herring in solving the problem
+  * debian/patches/03_fix_checksum_writing_in_signboot.patch: fix
+    extboot virtio issue, taken from upstream staging git repo
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 06 Aug 2009 17:03:52 +0100
+
+qemu-kvm (0.11.0~rc1-0ubuntu4) karmic; urgency=low
+
+  * debian/patches/03_fix_virtio_boot.patch: revert upstream commit
+    bf011293f, which breaks booting off of virtio disks; this is only
+    a temporary fix, as we're waiting on upstream to release a real fix
+  * debian/control: bump debhelper dependency to 7, for dh_prep
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 06 Aug 2009 13:54:20 +0100
+
+qemu-kvm (0.11.0~rc1-0ubuntu3) karmic; urgency=low
+
+  * qemu-arm-static: add dependency on libcap2-bin
+  * qemu-arm-static.postinst set cap_sys_rawio so the difference between the
+    mmap_min_addr values between armel and i386 don't get in the way when
+    executing armel binaries on x86
+
+ -- Oliver Grawert <ogra@ubuntu.com>  Wed, 05 Aug 2009 18:10:27 +0200
+
+qemu-kvm (0.11.0~rc1-0ubuntu2) karmic; urgency=low
+
+  [ Oliver Grawert ]
+  * Static qemu arm build, LP: #401782
+  * add qemu-arm-static package with dependency on binfmt-support to
+    debian/control
+  * add binary-static, build-static, configure-static and install-static
+    targets to debian/rules
+  * add qemu-arm-static.postinst and qemu-arm-static.prerm
+  * include build-arm-chroot script for qemu-arm-static
+  * include binfmt configuration file
+
+  [ Dustin Kirkland ]
+  * debian/control: drop non-existent qemu-kvm-common dependency
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 05 Aug 2009 14:42:34 +0100
+
+qemu-kvm (0.11.0~rc1-0ubuntu1) karmic; urgency=low
+
+  [ Initial packaging of qemu-kvm ]
+  * This package is a complex merger of the traditional Debian and Ubuntu
+    qemu and kvm packages.  Upstream is in the process of integrating all
+    kvm-specific code into the qemu project, which is being delivered as a
+    new package called qemu-kvm.  This should provide all of the userspace
+    required to use kvm.  The kvm project, instead, is going to focus on the
+    kvm kernel module.  The qemu-kvm project will deliver a stable, maintained
+    userspace.  This qemu-kvm package replaces both qemu and kvm in Ubuntu.
+  * debian/changelog.kvm, debian/changelog.qemu: keep these two files around,
+    as these provide tremendous history and logging about the packaging
+  * debian/control, debian/10-kvm.fdi, debian/install,
+    debian/org.freedesktop.hal.kvm.policy: drop hal as it's being deprecated
+  * debian/reportbug-hook.sh: dropped; use 'ubuntu-bug qemu-kvm' now
+  * debian/control:
+    - lower the debhelper dependency, should make backports
+    easier, newer builds will use the newer debhelper for udev stuff, older
+    versions just won't
+    - drop autotools-dev build dependency, no longer needed
+    - add armel to build architecture
+    - description updated
+    - drop the qemu package (for now)
+    - drop the Pre-depends on adduser
+  * debian/rules:
+    - drop double call of dh_installdeb
+    - install each of the changelogs
+    - drop zcat of network bins; these have been no-ops for us for a long
+      time, kept around to minimize diff with Debian
+    - move common i386 and x86_64 code to common location
+    - drop pxe rom's, as these are provided by kvm-pxe
+    - establish some links to help with the merger of kvm/qemu
+    - move as much as possible to the debhelper install file
+    - clean up kvm/bios/acpi-ssdt.aml
+  * debian/patches: all patches dropped, syncing with upstream
+  * debian/doc: new file, html documentation to be installed
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 04 Aug 2009 12:36:50 +0100

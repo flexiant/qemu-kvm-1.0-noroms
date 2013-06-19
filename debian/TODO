@@ -1,0 +1,5 @@
+* sysctl.d file should be prefixed with a number
+
+* install target should install to debian/tmp
+
+* binary-arch should almost only use dh_install to install

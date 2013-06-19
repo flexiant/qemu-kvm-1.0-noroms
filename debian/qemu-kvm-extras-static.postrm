@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -e
+
+# apply /etc/sysctl.d settings
+if [ "$1" = purge ]; then
+    invoke-rc.d procps start
+fi
+
+#DEBHELPER#

@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -e
+
+if [ "$1" = configure ] && which update-binfmts >/dev/null; then
+    # qemu-arm-static package did not properly remove the format on upgrades
+    update-binfmts --package qemu-arm-static \
+        --remove arm /usr/bin/qemu-arm-static || true
+
+    for target in @BINFMT_TARGETS@; do
+        update-binfmts --import "qemu-$target"
+    done
+fi
+
+# apply /etc/sysctl.d settings
+if [ "$1" = configure ]; then
+    invoke-rc.d procps start
+fi
+
+#DEBHELPER#
+

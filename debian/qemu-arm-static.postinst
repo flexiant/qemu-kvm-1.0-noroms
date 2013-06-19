@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+# old versions of the package did not properly remove the format on upgrades
+if which update-binfmts >/dev/null; then
+    update-binfmts --package qemu-arm-static \
+        --remove arm /usr/bin/qemu-arm-static || true
+fi
+
+#DEBHELPER#

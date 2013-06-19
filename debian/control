@@ -1,0 +1,116 @@
+Source: qemu-kvm
+Section: misc
+Priority: optional
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Build-Depends: bcc,
+               bzip2,
+               debhelper (>= 7),
+               hardening-wrapper,
+               device-tree-compiler [powerpc],
+               iasl,
+               libaio-dev,
+               libasound2-dev,
+               libattr1-dev,
+               libcurl4-gnutls-dev,
+               libgnutls-dev,
+               libncurses5-dev,
+               libpci-dev,
+               libpulse-dev,
+               librbd-dev,
+               libsasl2-dev,
+               libsdl1.2-dev (>= 1.2.14),
+               libx11-dev,
+               nasm,
+               perl,
+               pkg-config,
+               quilt (>= 0.40),
+               sysv-rc (>= 2.86.ds1-14.1ubuntu2),
+               texi2html,
+               texinfo,
+               uuid-dev,
+               zlib1g-dev
+Standards-Version: 3.9.1
+Homepage: http://www.linux-kvm.org
+
+Package: qemu-kvm
+Architecture: any
+Depends: iproute,
+         python,
+         qemu-common (>= ${source:Version}),
+         qemu-utils (>= ${source:Version}), udev,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Pre-Depends: adduser
+Provides: kvm, qemu
+Conflicts: kvm (<< 1:84+dfsg-0ubuntu16+0.11.0), kvm-data, qemu (<< 0.11.0-0ubuntu5)
+Replaces: kvm (<< 1:84+dfsg-0ubuntu16+0.11.0), kvm-data, qemu
+Breaks: udev (<< 136-1)
+Description: Full virtualization on i386 and amd64 hardware
+ Using KVM, one can run multiple virtual PCs, each running unmodified Linux or
+ Windows images. Each virtual machine has private virtualized hardware: a
+ network card, disk, graphics adapter, etc.
+ .
+ KVM (for Kernel-based Virtual Machine) is a full virtualization solution for
+ Linux hosts on x86 (32 and 64-bit) hardware.
+ .
+ KVM is intended for systems where the processor has hardware support for
+ virtualization, see below for details.  All combinations of 32-bit and 64-bit
+ host and guest systems are supported, except 64-bit guests on 32-bit hosts.
+ .
+ KVM requires your system to support hardware virtualization, provided by AMD's
+ SVM capability or Intel's VT. To find out if your processor has the necessary
+ support:
+ .
+   egrep "flags.*:.*(svm|vmx)" /proc/cpuinfo
+ .
+ If it prints anything, the processor provides hardware virtualization
+ support and is suitable for use with KVM.  Without hardware support, you can
+ use qemu emulation instead.
+ .
+ KVM consists of two loadable kernel modules (kvm.ko and either kvm-amd.ko or
+ kvm-intel.ko) and a userspace component. This package contains the userspace
+ component, and you can get the kernel modules from the standard kernel images.
+ .
+ This package contains support for running virtualized and emulated x86 and
+ x86-64 machines only.  Support for other architectures is provided by the
+ qemu-linaro source package.
+
+Package: qemu-utils
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Breaks: qemu-kvm (<< 0.15.0+noroms-0ubuntu6)
+Replaces: qemu-kvm (<< 0.15.0+noroms-0ubuntu6)
+Description: qemu utilities
+ This package provides some utilities for which full qemu-kvm is not needed,
+ in particular qemu-nbd and qemu-img.
+
+Package: qemu-common
+Architecture: all
+Depends: bridge-utils, seabios, vgabios (>= 0.6c-2ubuntu2), ${misc:Depends}, ${shlibs:Depends}
+Recommends: cpu-checker, kvm-ipxe
+Suggests: mol-drivers-macosx,
+          openbios-sparc,
+          ubuntu-vm-builder,
+          uml-utilities
+Replaces: qemu-kvm (<< 0.12.3+noroms-0ubuntu1)
+Description: qemu common functionality (bios, documentation, etc)
+ This package pulls in the various binary bios rom blobs needed to boot
+ the various emulated architectures, as well as the documentation.
+
+Package: kvm
+Architecture: amd64 armel armhf i386 powerpc sparc
+Depends: qemu-kvm, ${misc:Depends}
+Section: misc
+Description: dummy transitional package from kvm to qemu-kvm
+ This transitional package helps users transition from the kvm package to the
+ qemu-kvm package.  Once this package and its dependencies are installed you
+ can safely remove it.
+
+Package: qemu
+Architecture: amd64 armel armhf i386 powerpc sparc
+Depends: qemu-kvm, ${misc:Depends}
+Section: misc
+Description: dummy transitional package from qemu to qemu-kvm
+ This transitional package helps users transition from the qemu package to the
+ qemu-kvm package.  Once this package and its dependencies are installed you
+ can safely remove it.

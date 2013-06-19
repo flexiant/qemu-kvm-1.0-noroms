@@ -1,0 +1,8 @@
+usr/bin/qemu-ifdown etc/qemu-ifdown
+usr/bin/qemu-ifup etc/qemu-ifup
+usr/share/seabios/bios.bin usr/share/qemu/bios.bin
+usr/share/vgabios/vgabios.bin usr/share/qemu/vgabios.bin
+usr/share/vgabios/vgabios.cirrus.bin usr/share/qemu/vgabios-cirrus.bin
+usr/share/vgabios/vgabios.qxl.bin usr/share/qemu/vgabios-qxl.bin
+usr/share/vgabios/vgabios.stdvga.bin usr/share/qemu/vgabios-stdvga.bin
+usr/share/vgabios/vgabios.vmware.bin usr/share/qemu/vgabios-vmware.bin

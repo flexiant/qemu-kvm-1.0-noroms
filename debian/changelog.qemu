@@ -1,0 +1,1407 @@
+qemu (0.10.5-1ubuntu1) karmic; urgency=low
+
+  * Merge from debian unstable (LP: #378556), remaining changes:
+    - debian/control: 
+      + Recommends on openhackware, openbios-sparc.
+      + lpia build enablement.
+
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Mon, 25 May 2009 15:02:09 -0500
+
+qemu (0.10.5-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun, 24 May 2009 16:15:35 +0200
+
+qemu (0.10.4-1) unstable; urgency=low
+
+  * New upstream version.
+  * debian/NEWS.Debian: new file, describing the cache policy options
+    (closes: bug#526832).
+  * debian/patches/70_versatile_memsize.patch: new patch to set a upper
+    limit on the memory size of the versatile boards (closes: 
+    bug#527264).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Tue, 12 May 2009 18:31:29 +0200
+
+qemu (0.10.3-1ubuntu1) karmic; urgency=low
+
+  * Merge from debian unstable (LP: #371879), remaining changes:
+    - debian/control: Recommends on openhackware, openbios-sparc; 
+      lpia build enablement
+
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Thu, 07 May 2009 11:35:18 -0500
+
+qemu (0.10.3-1) unstable; urgency=low
+
+  * New upstream version.
+  * Tighten dependency on bochsbios.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sat, 02 May 2009 10:14:21 +0200
+
+qemu (0.10.2-2) unstable; urgency=low
+
+  * Add missing comma in build-depends (closes: bug#524207). 
+  * Tighten dependency on vgabios.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Wed, 15 Apr 2009 22:30:43 +0200
+
+qemu (0.10.2-1) unstable; urgency=low
+
+  [ Aurelien Jarno ]
+  * New upstream stable release.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Tue, 07 Apr 2009 07:37:15 +0200
+
+qemu (0.10.1-1) unstable; urgency=low
+
+  [ Aurelien Jarno ]
+  * New upstream stable release:
+    - patches/80_stable-branch.patch: remove.
+  * debian/control: 
+    - Remove depends on proll.
+    - Move depends on device-tree-compiler to build-depends.
+    - Bump Standards-Version to 3.8.1 (no changes).
+  * patches/82_qemu-img_decimal.patch: new patch from upstream to make
+    qemu-img accept sizes with decimal values (closes: bug#501400).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun, 22 Mar 2009 10:13:17 +0100
+
+qemu (0.10.0-1ubuntu1) jaunty; urgency=low
+
+  * Merge from debian unstable (LP: #341237), remaining changes:
+    - debian/control: depend on bochsbios-qemu | bochsbios; recommend
+      proll, openhackware, openbios-sparc; lpia build enablement
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 12 Mar 2009 12:35:38 -0500
+
+qemu (0.10.0-1) unstable; urgency=low
+
+  [ Aurelien Jarno ]
+  * New upstream release:
+    - Fix fr-be keyboard mapping (closes: bug#514462).
+    - Fix stat64 structure on ppc-linux-user (closes: bug#470231).
+    - Add a chroot option (closes: bug#415996).
+    - Add evdev support (closes: bug#513210).
+    - Fix loop on symlinks in user mode (closes: bug#297572).
+    - Bump depends on openbios-sparc.
+    - Depends on openbios-ppc.
+    - Update 12_signal_powerpc_support.patch.
+    - Update 21_net_soopts.patch.
+    - Drop 44_socklen_t_check.patch (merged upstream).
+    - Drop 49_null_check.patch (merged upstream).
+    - Update 64_ppc_asm_constraints.patch.
+    - Drop security/CVE-2008-0928-fedora.patch (merged upstream).
+    - Drop security/CVE-2007-5730.patch (merged upstream).
+  * patches/80_stable-branch.patch: add patches from stable branch:
+    - Fix race condition between signal handler/execution loop (closes:
+      bug#474386, bug#501731).
+  * debian/copyright: update.
+  * Compile and install .dtb files:
+    - debian/control: build-depends on device-tree-compiler.
+    - debian/patches/81_compile_dtb.patch: new patch from upstream.
+    - debian/rules: compile and install bamboo.dtb and mpc8544.dtb.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sat, 07 Mar 2009 06:20:34 +0100
+
+qemu (0.9.1+svn20090104-1) experimental; urgency=low
+
+  [ Aurelien Jarno ]
+  * New upstream snapshot.
+  * Disable security/CVE-2008-0928-fedora.patch, it still breaks qcow 
+    format.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun, 04 Jan 2009 16:31:40 +0100
+
+qemu (0.9.1+svn20081223-1) experimental; urgency=low
+
+  [ Aurelien Jarno ]
+  * New upstream snapshot.
+    - Fix CVE-2008-2382
+  * Update patches/48_signal_terminate.patch.
+  * debian/rules: remove upstream flags from CFLAGS.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Tue, 23 Dec 2008 14:51:25 +0100
+
+qemu (0.9.1+svn20081214-1) experimental; urgency=low
+
+  [ Aurelien Jarno ]
+  * New upstream snapshot.
+    - Fix jmp im on x86_64 when executing 32-bit code. Fix grub
+      installation (Closes: bug#467148).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun, 14 Dec 2008 23:26:04 +0100
+
+qemu (0.9.1+svn20081207-1) experimental; urgency=low
+ 
+  [ Aurelien Jarno ]
+  * New upstream snapshot.
+    - Do not depend on gcc-3.4 anymore (Closes: bug#440425, bug#463066).
+    - Fix broken display introduced by CVE-2007-1320 (Closes: bug#422578).
+  * debian/control: remove build-dependency on gcc-3.4.
+  * debian/rules: remove code for dyngen targets.
+  * Split 90_security.patch into
+    - security/CVE-2007-5730.patch
+    - security/leftover.patch
+  * Replace 91_security.patch by security/CVE-2008-0928-fedora.patch taken
+    from fedora repository and enable it (Closes: #469649).
+
+  [ Riku Voipio ]
+  * 2 patches gone, 19 to go:
+    - 10_signal_jobs.patch: drop, merged upstream
+    - 11_signal_sigaction.patch: drop, merged upstream
+    - series: update
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun, 07 Dec 2008 19:40:09 +0100
+
+qemu (0.9.1+svn20081128-1) experimental; urgency=low
+
+  [ Aurelien Jarno ]
+  * New upstream snapshot.
+    - Include documentation for network downscript option (Closes: 
+      bug#506994). 
+    - Drop 00_bios.patch and pass --disable-blobs instead.
+    - Update 12_signal_powerpc_support.patch.
+  
+  [ Riku Voipio ]
+  * Drop 31_syscalls.patch as it makes no sense using host uselib to 
+    load target code into qemu's host memoryspace.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sat, 29 Nov 2008 09:04:41 +0100
+
+qemu (0.9.1+svn20081112-1ubuntu1) jaunty; urgency=low
+
+  * Merge from debian unstable, remaining changes:
+    - debian/control: add lpia to the Architectures list;
+      move proll, openhackware, and openbios-sparc from Depends to Recommends
+    - debian/patches/91_vmdk_compat6_scsi: add support for scsi disks to
+      vmdk images
+    - debian/patches/95_evdev_keycode_map.patch: ported the
+      gtk-vnc patch that fixes evdev keycode mapping
+
+ -- Soren Hansen <soren@ubuntu.com>  Sun, 23 Nov 2008 21:55:46 +0100
+
+qemu (0.9.1+svn20081112-1) experimental; urgency=low
+
+  [ Aurelien Jarno ]
+  * New upstream snapshot.
+    - does not need a disk image anymore (Closes: bug#260935).
+    - 53_openbios_size.patch: drop (merged upstream).
+    - 90_security: update.
+  * debian/control: depend on openbios-sparc (>= 1.0~alpha2+20081109)
+    (Closes: bug#502411, bug#502414).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun, 09 Nov 2008 14:42:37 +0100
+
+qemu (0.9.1+svn20081101-1) experimental; urgency=low
+
+  [ Aurelien Jarno ]
+  * New upstream snapshot.
+    - fix a heap overflow in Cirrus emulation (CVE-2008-4539).
+    - 50_linuxbios_isa_bios_ram.patch: update.
+    - 90_security.patch: update.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sat, 01 Nov 2008 09:26:45 +0100
+
+qemu (0.9.1+svn20081023-1) experimental; urgency=low
+
+  [ Aurelien Jarno ]
+  * New upstream snapshot.
+    - 12_signal_powerpc_support.patch: update.
+    - 50_linuxbios_isa_bios_ram.patch: update.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Thu, 23 Oct 2008 21:34:26 +0200
+
+qemu (0.9.1+svn20081016-1) experimental; urgency=low
+
+  [ Aurelien Jarno ]
+  * New upstream snapshot.
+  * patches/31_syscalls.patch: remove parts merged upstream.
+  * debian/qemu-make-debian-root:
+    - Fix bug introduced when fixing bug#496394 (Closes: bug#502325).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Mon, 13 Oct 2008 23:11:15 +0200
+
+qemu (0.9.1+svn20081012-1) experimental; urgency=low
+
+  [ Riku Voipio ]
+  * Add a bunch of patches from scratchbox
+    - 44_socklen_t_check work better with badbehavin net apps
+    - 48_signal_terminate make qemu binary terminate on signals as expected
+    - 49_null_checks don't bother some syscalls when null/zero is passed
+
+  [ Aurelien Jarno ]
+  * New upstream snapshot.
+    - alpha is now a TCG target.
+    - comma has been added to sendkey (closes: bug#414342).
+  * patches/31_syscalls.patch: remove parts merged upstream.
+  * patches/39_syscall_fadvise64.patch: remove (merged upstream).
+  * patches/90_security.patch: remove parts merged upstream.
+  * debian/control: build-depends on libbluetooth-dev.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun, 12 Oct 2008 18:46:54 +0200
+
+qemu (0.9.1+svn20080905-1) experimental; urgency=low
+
+  * New upstream snapshot.
+    - SH4 is now a TCG target.
+  * debian/watch: update URL location.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Tue, 02 Sep 2008 01:43:24 +0200
+
+qemu (0.9.1+svn20080826-1) experimental; urgency=low
+
+  * New upstream snapshot.
+  * debian/qemu-make-debian-root:
+    - Use mktemp instead of $$ to create temporary directories (Closes: 
+      bug#496394).
+  * Ship a libqemu-dev package (Closes: bug#451618).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Tue, 26 Aug 2008 09:55:36 +0200
+
+qemu (0.9.1+svn20080822-1) experimental; urgency=low
+
+  * New upstream snapshot.
+    - Focus to monitor to ask password (Closes: bug#473240).
+    - TCG SPARC host support (Closes: bug#450817).
+    - Check KQEMU availability before allocating memory (Closes: bug#414566).
+    - Fix dead keys (Closes: bug#489594).
+    - Fix ES1370 emulation (Closes: bug#494462).
+    - New USB UHCI implemnation (Closes: bug#457651).
+    - Add debian/patches/00_bios.patch.
+    - Remove debian/patches/02_snapshot_use_tmpdir.patch (merged).
+    - Remove debian/patches/04_do_not_print_rtc_freq_if_ok.patch (merged).
+    - Remove patches/05_non-fatal_if_linux_hd_missing.patch (merged).
+    - Update debian/patches/07_i386_exec_name.patch
+    - Update debian/patches/12_signal_powerpc_support.patch 
+    - Remove debian/patches/33_syscall_ppc_clone.patch (merged differently).
+    - Remove debian/patches/41_arm_fpa_sigfpe.patch (merged).
+    - Remove debian/patches/42_arm_tls.patch (merged differently).
+    - Update debian/patches/55_unmux_socketcall.patch.
+    - Remove debian/patches/63_sparc_build.patch (useless).
+    - Update debian/patches/65_kfreebsd.patch.
+    - Update debian/patches/66_tls_ld.patch.
+    - Remove debian/patches/70_manpage.patch (merged).
+    - Remove debian/patches/71_doc.patch  (merged).
+    - Remove debian/patches/80_ui_curses.patch (merged).
+    - Remove debian/patches/81_mips32r2_fpu.patch (merged).
+    - Remove debian/patches/82_mips_abs.patch (merged).
+    - Remove debian/patches/83_usb-serial.patch (merged).
+    - Remove debian/patches/84_rtl8139.patch (merged).
+    - Remove debian/patches/85_vvfat.patch (merged).
+    - Remove debian/patches/86_df.patch (merged).
+    - Remove debian/patches/87_eoi.patch (merged).
+    - Remove debian/patches/88_dma.patch (merged).
+    - Remove debian/patches/89_braille.patch (merged).
+    - Remove debian/patches/92_no_shutdown.patch (merged).
+    - Remove debian/patches/93_tmpfs.patch (merged).
+    - Remove debian/patches/94_security.patch (merged).
+  * debian/README.source: new file.
+  * debian/patches/*: convert to patchlevel 1 (Closes: bug#484963).
+  * debian/control:
+    - Add build-depends on libesd0-dev.
+    - Add build-depends on libpulse-dev.
+    - Add build-depends on libvdeplug2-dev.
+    - Add build-depends on etherboot.
+    - Update list of supported targets (Closes: bug#488339).
+    - Suggests kqemu-source.
+    - Bump Standards-Version to 3.8.0.
+  * debian/links:
+    - Add missing manpage symlinks.
+  * debian/rules:
+    - Enable audio drivers depending on the system.
+    - Enable DYNGEN targets depending on the system.
+    - Install PXE bios from etherboot (Closes: bug#412010).
+    - Don't ignore make clean errors.
+    - Don't build DYNGEN targets on kfreebsd-amd64 (Closes: bug#494353).
+  * debian/patches/22_net_tuntap_stall.patch: remove (outdated).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Fri, 22 Aug 2008 01:00:54 +0200
+
+qemu (0.9.1-7ubuntu1) jaunty; urgency=low
+
+  * Merge from debian unstable, remaining changes:
+    - debian/control: add lpia to the Architectures list;
+      move proll, openhackware, and openbios-sparc from Depends to Recommends
+    - debian/patches/91_vmdk_compat6_scsi: add support for multiple
+      compatiblity levels and scsi disks to vmdk images
+    - debian/patches/95_evdev_keycode_map.patch: ported the
+      gtk-vnc patch that fixes evdev keycode mapping
+    - debian/patches/96_dirent.patch: fix FTBFS error, including the wrong
+      dirent.h, matches qemu SVN
+
+ -- Dustin Kirkland <kirkland@canonical.com>  Thu, 20 Nov 2008 18:10:36 -0600
+
+qemu (0.9.1-5ubuntu3) intrepid; urgency=low
+
+  * debian/patches/95_evdev_keycode_map.patch: ported the
+    gtk-vnc patch that fixes evdev keycode mapping (LP: #258389)
+  * debian/patches/96_dirent.patch: fix FTBFS error, including the wrong
+    dirent.h, matches qemu SVN
+  * debian/patches/series: added 95_evdev_keycode_map.patch and
+    96_dirent.patch
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 24 Sep 2008 20:00:59 -0500
+
+qemu (0.9.1-5ubuntu2) intrepid; urgency=low
+
+  *  Added lpia to the Architectures list (LP: #232062)
+
+ -- Emmet Hikory <persia@ubuntu.com>  Mon, 11 Aug 2008 13:01:16 +0900
+
+qemu (0.9.1-5ubuntu1) intrepid; urgency=low
+
+  * Merge from debian unstable, remaining changes:
+    - debian/control:
+      + Depend on bochsbios-qemu >= 2.3.5-1ubuntu1 or bochsbios >=
+        2.3.6-2ubuntu1 to get the proper BIOS image.
+      + Move proll, openhackware, and openbios-sparc from Depends to Recommends
+      + Add support for generating SCSI vmdk images.
+  * Rename Vcs-* to XS-Debian-Vcs-* 
+
+ -- Nicolas Valcárcel <nvalcarcel@ubuntu.com>  Wed, 23 Jul 2008 02:32:58 -0500
+
+qemu (0.9.1-5) unstable; urgency=high
+
+  [ Guillem Jover ]
+  * Add Homepage field.
+  * Add Vcs-Browser and Vcs-Svn fields.
+  * Remove packaging repository information from debian/copyright.
+  * Add former package co-maintainers to debian/copyright.
+  * Serialize patch and configure steps in debian/rules to support parallel
+    builds, as we are patching configure.
+  * Remove myself from Uploaders.
+
+  [ Aurelien Jarno ]
+  * debian/patches/70_manpage.patch: remove curses documentation, it is already
+    in debian/patches/80_ui_curses.patch (Closes: bug#477369).
+  * debian/patches/94_security.patch: add format= to drive options
+    (CVE-2008-2004).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Mon, 28 Apr 2008 21:54:12 +0200
+
+qemu (0.9.1-4) unstable; urgency=high
+
+  * debian/patches/52_ne2000_return.patch: drop, the patch is wrong.  
+  * Backports from upstream:
+    - Typo in curses_keys.h
+    - Documentation for the -curses option
+    - Fix broken absoluteness check for cabs.d.*.
+    - USB-to-serial device.
+    - rtl8139: fix endianness on big endian targets
+    - restore rw support for vvfat
+    - x86-64: recompute DF after eflags has been modified when emulating 
+      SYSCALL
+    - ignore reads to the EOI register
+    - IDE: Improve DMA transfers by increasing the buffer size
+    - Braille device support
+    - Add -no-shutdown option (Closes: #326406)
+    - Ask to use "mount -o remount" instead of "umount" and "mount" 
+      /dev/shm (Closes: #476539).
+  * debian/qemu.doc-base: fix section. 
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun, 20 Apr 2008 23:29:42 +0200
+
+qemu (0.9.1-3) unstable; urgency=low
+
+  [ Aurelien Jarno ]
+  * debian/patches/42_arm_tls.patch: fix to get qemu-system-arm working
+    again. (Closes: #471722).
+  * debian/patches/56_dhcp.patch: fix DHCP server to correctly support 
+    MS-Windows guests. (Closes: #471452).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Wed, 19 Mar 2008 18:58:29 +0100
+
+qemu (0.9.1-2) unstable; urgency=low
+
+  [ Aurelien Jarno ]
+  * debian/patches/80_ui_curses.patch: pull new patch from upstream CVS
+    (Closes: #442274).
+  * debian/patches/65_kfreebsd.patch: link with -lfreebsd. (Closes: 
+    #465932).
+  * debian/patches/81_mips32r2_fpu.patch: patch pulled from upstream
+    to fix FPU issue on MIPS32R2.
+  * debian/patches/42_arm_tls.patch: reenable, mistakenly disabled in the
+    previous upload. (Closes: #469743).
+  * debian/rules: fix parallel building. (Closes: #469981). 
+  * debian/patches/07_i386_exec_name.patch: install the i386 emulator as
+    qemu-system-i386, and change qemu into a link pointing to the i386
+    version.
+  * debian/README.Debian: add notes about qemu-system-ppc and video.x
+    (Closes: #388735).
+  * debian/patches/70_manpage.patch: describe the -curses option.
+    (Closes: #433658).
+  * debian/patches/71_doc.patch: fix the monitor change option. (Closes: 
+    #467106).
+  * debian/patches/35_syscall_sockaddr.patch: fix sockaddr (Closes: 
+    #469351).
+  * debian/patches/43_arm_cpustate.patch: disable (Closes: #444171).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Mon, 17 Mar 2008 01:29:03 +0100
+
+qemu (0.9.1-1ubuntu1) hardy; urgency=low
+
+  * Merge from debian unstable (LP: #190681), remaining changes:
+    - debian/control:
+      + Depend on bochsbios-qemu >= 2.3.5-1ubuntu1 or bochsbios >=
+        2.3.6-2ubuntu1 to get the proper BIOS image.
+      + Move proll, openhackware, and openbios-sparc from Depends to Recommends.
+      + Add support for generating SCSI vmdk images.
+      + DebianMaintainerField.
+
+ -- Soren Hansen <soren@ubuntu.com>  Wed, 13 Feb 2008 02:13:56 +0100
+
+qemu (0.9.1-1) unstable; urgency=low
+
+  [ Aurelien Jarno ]
+  * New upstream version. (Closes: #459801)
+    - Supports s390 host. (Closes: #441119)
+    - Fix PCI bar allocation. (Closes: #413315)
+    - Fix typo in keys name. (Closes: #426181)
+    - Fix segfault of qemu-i386 (Closes: #446868).
+    - debian/control: bump depends on openbios-sparc to
+      >= 1.0~alpha2+20080106.
+    - debian/patches/02_snapshot_use_tmpdir.patch: Refreshed.
+    - debian/patches/04_do_not_print_rtc_freq_if_ok.patch: Likewise.
+    - debian/patches/05_non-fatal_if_linux_hd_missing.patch: Likewise.
+    - debian/patches/06_exit_segfault.patch: Likewise.
+    - debian/patches/10_signal_jobs.patch: Likewise.
+    - debian/patches/11_signal_sigaction.patch: Likewise.
+    - debian/patches/12_signal_powerpc_support.patch: Likewise.
+    - debian/patches/21_net_soopts.patch: Likewise.
+    - debian/patches/30_syscall_ipc.patch: Likewise.
+    - debian/patches/31_syscalls.patch: Likewise.
+    - debian/patches/32_syscall_sysctl.patch: Likewise.
+    - debian/patches/33_syscall_ppc_clone.patch: Likewise.
+    - debian/patches/35_syscall_sockaddr.patch: Likewise.
+    - debian/patches/41_arm_fpa_sigfpe.patch: Likewise.
+    - debian/patches/42_arm_tls.patch: Likewise.
+    - debian/patches/50_linuxbios_isa_bios_ram.patch: Likewise
+    - debian/patches/51_linuxbios_piix_ram_size.patch: Likewise
+    - debian/patches/61_safe_64bit_int.patch: Removed, merged upstream.
+    - debian/patches/63_sparc_build.patch: Refreshed.
+    - debian/patches/80_ui_curses.patch: Likewise.
+  * debian/patches/90_security.patch: fix 64-bit overflow. (Closes:
+    #425634)
+  * debian/qemu-make-debian-root: add a -s option to create sparse
+    image. (Closes: #322325)
+  * debian/control: bump depends on bochsbios to >= 2.3.5-1. Use
+    BIOS-qemu-latest instead of BIOS-bochs-latest. (Closes: #402289,
+    #442822)
+  * debian/rules: build the non-dyngen part with default gcc.
+  * debian/rules: support DEB_BUILD_OPTIONS="parallel=n".
+  * debian/patches/70_manpage.patch: describe the arguments of the
+    -usbdevice option in the manpage. (Closes: #443801)
+  * debian/control: now using Standards-Version 3.7.3 (no changes needed).
+  * debian/control: build-depends on libgnutls-dev to enable TLS support
+    in VNC.
+  * debian/patches/01_nostrip.patch: don't strip binaries during make
+    install. (Closes: #437866)
+  * debian/patches/53_openbios_size.patch: increase maximum prom size to
+    support latest openbios.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Mon, 28 Jan 2008 21:24:14 +0100
+
+qemu (0.9.0+20070816-1ubuntu3) hardy; urgency=low
+
+  * Updated bios symlink to match new bochsbios-qemu package.
+  * Added versioned dependency on bochsbios-qemu to make sure the
+    image has been renamed.
+
+ -- Soren Hansen <soren@ubuntu.com>  Mon, 10 Dec 2007 12:35:43 +0100
+
+qemu (0.9.0+20070816-1ubuntu2) hardy; urgency=low
+
+  * Use new qemu specific bios from bochsbios. (LP: #123185)
+
+ -- Soren Hansen <soren@ubuntu.com>  Fri, 23 Nov 2007 17:27:03 +0100
+
+qemu (0.9.0+20070816-1ubuntu1) hardy; urgency=low
+
+  * Merge from debian unstable, remaining changes:
+    - debian/patches/91_vmdk_compat6_scsi:
+      + Add support for multiple compatiblity levels and scsi disks to
+        vmdk images.
+    - debian/control:
+      + Move proll and openhackware from Depends to Recommends.
+  * Move openbios-sparc from Depends to Recommends.
+
+ -- Soren Hansen <soren@ubuntu.com>  Mon, 22 Oct 2007 17:07:29 +0200
+
+qemu (0.9.0+20070816-1) unstable; urgency=low
+
+  [ Guillem Jover ]
+  * New upstream snapshot.
+    - Fix hang on ARM during Etch installation. (Closes: #430164)
+    - Fix data corruption with qcow 2. (Closes: #440296)
+    - Fix errors with raw images > 4 GiB. (Closes: #425634)
+    - debian/patches/01_typo_qemu-img.patch: Removed, merged upstream.
+    - debian/patches/03_machines_list_no_error.patch: Likewise.
+    - debian/patches/36_syscall_prctl.patch: Likewise.
+    - debian/patches/37_syscall_mount.patch: Likewise.
+    - debian/patches/38_syscall_semctl.patch: Likewise.
+    - debian/patches/40_sparc_fp_to_int.patch: Likewise.
+    - debian/patches/44_arm_eabi_built_on_64bit_arches.patch: Likewise.
+    - debian/patches/62_linux_boot_nasm.patch: Likewise.
+    - debian/patches/04_do_not_print_rtc_freq_if_ok.patch: Synced.
+    - debian/patches/05_non-fatal_if_linux_hd_missing.patch: Likewise.
+    - debian/patches/31_syscalls.patch: Likewise.
+    - debian/patches/35_syscall_sockaddr.patch: Likewise.
+    - debian/patches/42_arm_tls.patch: Likewise.
+    - debian/patches/43_arm_cpustate.patch: Likewise.
+    - debian/patches/51_linuxbios_piix_ram_size.patch: Likewise.
+    - debian/patches/55_unmux_socketcall.patch: Likewise.
+    - debian/patches/60_ppc_ld.patch: Likewise.
+    - debian/patches/65_kfreebsd.patch: Likewise.
+    - debian/patches/80_ui_curses.patch: Likewise.
+    - debian/patches/90_security.patch: Likewise.
+  * Remove Elrond and Guilherme de S. Pastore from Uploaders, with their
+    permission, and add Aurelien Jarno and Riku Voipio.
+  * Remove Tag field, this is better maintained outside of the package.
+  * Add openbios-sparc64 to qemu_bios_files in debian/rules.
+
+  [ Aurelien Jarno ]
+  * Fix FTBFS on amd64. (Closes: #434296)
+    - Drop debian/patches/34_syscalls_types.patch
+  * debian/control:
+    - Suggest samba. (Closes: #430368)
+  * Add OpenBIOS for sparc. (Closes: #407076)
+    - debian/control: depends on openbios-sparc.
+    - debian/links: provide symlinks in /usr/share/qemu.
+
+ -- Guillem Jover <guillem@debian.org>  Tue, 04 Sep 2007 04:04:47 +0300
+
+qemu (0.9.0-2ubuntu4) gutsy; urgency=low
+
+  * Renamed debian/patches/91_compat6.patch to
+    debian/patches/91_vmdk_compat6_scsi.patch and added support for creating
+    SCSI type vmdk images. 
+
+ -- Soren Hansen <soren@ubuntu.com>  Tue, 25 Sep 2007 11:15:26 +0200
+
+qemu (0.9.0-2ubuntu3) gutsy; urgency=low
+
+  * Fix typo in debian/patches/91_compat6.patch that broke qemu-img convert.
+
+ -- Soren Hansen <soren@ubuntu.com>  Fri, 21 Sep 2007 19:54:32 +0200
+
+qemu (0.9.0-2ubuntu2) gutsy; urgency=low
+
+  * debian/patches/91_compat6.patch:
+    - Add support for VMWare Workstation 6 virtual disks.
+
+ -- Soren Hansen <soren@ubuntu.com>  Fri, 14 Sep 2007 10:44:05 +0200
+
+qemu (0.9.0-2ubuntu1) gutsy; urgency=low
+
+  * Merge from Debian unstable. Remaining Ubuntu changes:
+    - Remove 34_syscalls_types.patch from debian/patches/series: add an
+      unnecessary kernel header breaking compilation of linux-user/syscall.c.
+    - Move proll and openhackware from Depends to Recommends.
+
+ -- Andrea Veri <bluekuja@ubuntu.com>  Mon, 21 May 2007 04:24:55 +0200
+
+qemu (0.9.0-2) unstable; urgency=high
+
+  [ Guillem Jover ]
+  * Fix several security issues. (Closes: #424070)
+    Thanks to Tavis Ormandy <taviso@google.com>.
+    - Cirrus LGD-54XX "bitblt" heap overflow. CVE-2007-1320
+    - NE2000 "mtu" heap overflow.
+    - QEMU "net socket" heap overflow.
+    - QEMU NE2000 "receive" integer signedness error. CVE-2007-1321
+    - Infinite loop in the emulated SB16 device.
+    - Unprivileged "aam" instruction does not correctly handle the
+      undocumented divisor operand. CVE-2007-1322
+    - Unprivileged "icebp" instruction will halt emulation. CVE-2007-1322
+    - debian/patches/90_security.patch: New file.
+  * Enable adlib audio emulation. (Closes: #419170)
+  * Fix structure padding for target_eabi_flock64 when built for a 64 bit
+    architecture. (Closes: #414799)
+    Thanks to Stuart Anderson <anderson@netsweng.com>.
+    - debian/patches/44_arm_eabi_built_on_64bit_arches.patch: New file.
+  * Fix qemu to be able to use LinuxBios. (Closes: #412212)
+    Thanks to Ed Swierk <eswierk@cs.stanford.edu>.
+    - debian/patches/50_linuxbios_isa_bios_ram.patch: New file.
+    - 51_linuxbios_piix_ram_size.patch: Likewise.
+  * Fix segfault when booting a Linux kernel w/o a disk image, by exiting but
+    clarifying the message, as to use '/dev/null'. (Closes: #409817, #411780)
+    Thanks to Robert Millan <rmh@aybabtu.com>.
+    - debian/patches/05_non-fatal_if_linux_hd_missing.patch: Updated.
+  * Fix segfault by using addrlen instead of target_addrlen in
+    do_getpeername()/do_getsockname(). (Closes: #411910)
+    Thanks to Stuart Anderson <anderson@netsweng.com>.
+    - debian/patches/35_syscall_sockaddr.patch: Updated.
+  * Fix semctl() for 32 bit targets on 64 bit hosts. (Closes: #414809)
+    Thanks to Stuart Anderson <anderson@netsweng.com>.
+    - debian/patches/38_syscall_semctl.patch: New file.
+  * Remove Elrond from Uploaders with consent, always welcome to join
+    back anytime.
+
+ -- Guillem Jover <guillem@debian.org>  Wed, 16 May 2007 08:08:31 +0300
+
+qemu (0.9.0-1ubuntu1) gutsy; urgency=low
+
+  * merged from Debian/experimental
+  * Merge from debian unstable, remaining changes:
+     - Remove 34_syscalls_types.patch from debian/patches/series: add an
+       unnecessary kernel header breaking compilation of linux-user/syscall.c.
+     - Move proll and openhackware from Depends to Recommends.
+     - set Maintainer field to MOTU
+
+ -- Michael Vogt <michael.vogt@ubuntu.com>  Wed,  2 May 2007 11:55:16 +0200
+
+qemu (0.9.0-1) experimental; urgency=low
+
+  [ Guillem Jover ]
+  * New upstream release. (Closes: #409989)
+    - Support for relative paths in backing files for disk images.
+      (Closes: #390446)
+    - debian/patches/01_doc_typos.patch: Removed, merged upstream.
+    - debian/patches/38_syscall_arm_statfs64.patch: Likewise.
+    - debian/patches/51_serial_small_divider.patch: Likewise.
+    - debian/patches/67_ppc_ftbfs.patch: Likewise.
+    - debian/patches/21_net_soopts.patch: Synced.
+    - debian/patches/30_syscall_ipc.patch: Likewise.
+    - debian/patches/31_syscalls.patch: Likewise.
+    - debian/patches/35_syscall_sockaddr.patch: Likewise.
+    - debian/patches/39_syscall_fadvise64.patch: Likewise.
+    - debian/patches/42_arm_tls.patch: Likewise.
+    - debian/patches/55_unmux_socketcall.patch: Likewise.
+    - debian/patches/80_ui_curses.patch: Likewise.
+  * Update the copyright information.
+  * The ACPI initialization code has been moved to bochsbios.
+    - debian/patches/acpi-dsdt.hex: Removed.
+    - debian/rules: Do not install acpi-dsdt.hex.
+  * Add more files to the list of roms removed from the tarball needed to
+    be touched so that upstream 'make install' does not fail.
+  * Added armeb and armel to Architecture fields and libgpmg1-dev
+    Build-Depends.
+  * Recommend vde2 instead of the transitional vde package. (Closes: #407251)
+  * Fix typo in qemu-img output. (Closes: #408542)
+    - debian/patches/01_typo_qemu-img.patch: New file.
+    Thanks to Adam Buchbinder <adam.buchbinder@gmail.com>.
+  * Symlink qemu-user(1) to qemu-m68k(1).
+  * Reduce redundancy in qemu-user(1) synopsis.
+  * Fix rounding in sparc floating point to integer conversions.
+    - debian/patches/40_sparc_fp_to_int.patch: New file.
+    Thanks to Aurelien Jarno <aurelien@aurel32.net>.
+
+ -- Guillem Jover <guillem@debian.org>  Thu,  8 Feb 2007 01:01:29 +0200
+
+qemu (0.8.2+dfsg-0ubuntu1) feisty; urgency=low
+
+  * Bump package version number to +dfsg-0ubuntu1 to get rid of binary blobs
+    that were left in the orig tarball with 0.8.2-0ubuntu1.
+  * Merge from debian unstable, remaining changes:
+     - 90_no_linux_compiler_h.patch: remove unnecessary kernel header
+       breaking compilation of linux-usb.c.
+     - Remove 34_syscalls_types.patch from debian/patches/series: add an
+       unnecessary kernel header breaking compilation of linux-user/syscall.c.
+     - Move proll and openhackware from Depends to Recommends.
+
+ -- Jeremie Corbier <jcorbier@ubuntu.com>  Mon, 22 Jan 2007 17:27:33 -0800
+
+qemu (0.8.2-5) unstable; urgency=low
+
+  [ Guillem Jover ]
+  * Added a missing part to the ARM NPTL support patch, initially lost.
+    - debian/patches/42_arm_tls.patch: Updated.
+
+ -- Guillem Jover <guillem@debian.org>  Tue, 16 Jan 2007 11:44:00 +0200
+
+qemu (0.8.2-4ubuntu1) feisty; urgency=low
+
+  * Merge from debian unstable, remaining changes:
+     - 90_no_linux_compiler_h.patch: remove unnecessary kernel header
+       breaking compilation of linux-usb.c.
+     - Remove 34_syscalls_types.patch from debian/patches/series: add an
+       unnecessary kernel header breaking compilation of linux-user/syscall.c.
+     - Move proll and openhackware from Depends to Recommends.
+
+ -- Jeremie Corbier <jcorbier@ubuntu.com>  Fri, 22 Dec 2006 12:06:33 -0800
+
+qemu (0.8.2-4) unstable; urgency=medium
+
+  [ Guillem Jover ]
+  * Disable using iasl for now until it's ported to big-endian systems and
+    include a locally built acpi-dsdt.hex file.
+
+ -- Guillem Jover <guillem@debian.org>  Sun,  3 Dec 2006 21:10:23 +0200
+
+qemu (0.8.2-3) unstable; urgency=low
+
+  [ Guillem Jover ]
+  * Hopefully really fix powerpc FTBFS.
+
+ -- Guillem Jover <guillem@debian.org>  Sun,  5 Nov 2006 17:09:53 +0200
+
+qemu (0.8.2-2) unstable; urgency=low
+
+  [ Guillem Jover ]
+  * Update Tag field to match new debtags vocabulary.
+  * Clean properly. (Closes: #390166)
+    - Remove the acpi generated files and the docs.
+    - Revert the docs regeneration forcing logic.
+    Thanks to Anderson Lizardo <anderson.lizardo@gmail.com>.
+  * On install use DESTDIR instead of specifying all paths. (Closes: #396139)
+    Thanks to Anderson Lizardo <anderson.lizardo@gmail.com>.
+  * Port to GNU/kFreeBSD. (Closes: #327622)
+    - Disable ALSA on non-linux systems.
+    - Add a Build-Depends on libfreebsd-dev on kfreebsd systems.
+    - Add kfreebsd-i386 and kfreebsd-amd64 to the Architecture field.
+    - debian/patches/65_kfreebsd.patch: New file.
+    Thanks Petr Salinger <Petr.Salinger@seznam.cz>.
+  * In qemu-make-debian-root do not explicitely install in aptitude and
+    libsigc++-1.2-5c102, they are pulled now by default. And do not remove
+    aptitude afterwards. (Closes: #392481)
+    Thanks to Ted Percival <ted@midg3t.net>.
+  * Add experimental ncurses ui support. (Closes: #369462)
+    - debian/patches/80_ui_curses.patch: New file.
+    Thanks to Andrzej Zaborowski <balrog@zabor.org>.
+  * Add SO_PEERCRED and SO_SNDTIMEO support, and fix accept syscall when
+    being passed NULL pointers.
+    - debian/patches/21_net_sockopts.patch: Renamed to ...
+    - debian/patches/21_net_soopts.patch: ... here. Modify.
+    Thanks to Pablo Virolainen.
+  * Add a fadvise64 syscall stub.
+    - debian/patches/39_syscall_fadvise64.patch: New file.
+    Thanks to Pablo Virolainen.
+  * Add EABI unmuxed socket syscalls.
+    - debian/patches/55_unmux_socketcall.patch: New file.
+    Thanks to Riku Voipio.
+  * Add TLS sections to the ARM and x86 linker scripts so that qemu user
+    emulators can be linked statically.
+    - debian/patches/66_tls_ld.patch: New file.
+  * Move the documentation of the binary blob removals from the original
+    upstream tarball from README.Debian to debian/copyright.
+  * Reword the emphasis on "FAST!" from the package description.
+  * Fix FTBFS on powerpc by adding the missing fp_status variable to the
+    int32_to_float32 function calls.
+    - debian/patches/67_ppc_ftbfs.patch: New file.
+
+ -- Guillem Jover <guillem@debian.org>  Sun,  5 Nov 2006 08:48:27 +0200
+
+qemu (0.8.2-1) unstable; urgency=low
+
+  [ Guillem Jover ]
+  * New upstream release. (Closes: #379461, #385029, #388810)
+    - Add ACPI BIOS emulation support. (Closes: #372533)
+    - Fix mouse invisible wall when using Windows XP. (Closes: #384666)
+    - debian/patches/01_doc_typos.patch: Sync.
+    - debian/patches/03_machines_list_no_error.patch: Likewise.
+    - debian/patches/04_do_not_print_rtc_freq_if_ok.patch: Likewise.
+    - debian/patches/05_non-fatal_if_linux_hd_missing.patch: Likewise.
+    - debian/patches/06_exit_segfault.patch: Likewise.
+    - debian/patches/12_signal_powerpc_support.patch: Likewise.
+    - debian/patches/21_net_sockopt.patch: Likewise.
+    - debian/patches/22_net_tuntap_stall.patch: Likewise.
+    - debian/patches/30_syscall_ipc.patch: Likewise.
+    - debian/patches/31_syscalls.patch: Likewise.
+    - debian/patches/32_syscall_sysctl.patch: Likewise.
+    - debian/patches/33_syscall_ppc_clone.patch: Likewise.
+    - debian/patches/35_syscall_sockaddr.patch: Likewise.
+    - debian/patches/36_syscall_prctl.patch: Likewise.
+    - debian/patches/37_syscall_mount.patch: Likewise.
+    - debian/patches/41_arm_fpa_sigfpe.patch: Likewise.
+    - debian/patches/42_arm_tls.patch: Likewise.
+    - debian/patches/61_safe_64bit_int.patch: Likewise.
+    - debian/patches/63_sparc_build.patch: Likewise.
+    - debian/patches/50_missing_keycodes.patch: Removed, integrated upstream.
+  * Switch to quilt:
+    - debian/control: Add quilt (>= 0.40) to Build-Depends.
+    - debian/patches/series: New file.
+    - debian/patch.mk: Removed.
+    - debian/rules: Include '/usr/share/quilt/quilt.make' instead of
+      'debian/patch.mk'.
+  * Build the ACPI Source Language files with iasl.
+  * Add a Tag field to the binary package, using data from debtags.
+  * Add 2006 to the debian/copyright years.
+  * Add a Recommends on vde. (Closes: #386780)
+  * Fix spelling error in package description (peripherials -> peripherals).
+    (Closes: #388700)
+    Thanks to Rakesh 'arky' Ambati <rakesh_ambati@yahoo.com>.
+  * Fix ne2000_can_receive return code to 0 when the command is STOP.
+    (Closes: #386209)
+    - debian/patches/52_ne2000_return.patch: New file.
+    Thanks to Samuel Thibault <samuel.thibault@ens-lyon.org>.
+  * Document the binary blob removals from the original upstream tarball in
+    README.Debian. (Closes: #388740)
+
+ -- Guillem Jover <guillem@debian.org>  Mon, 25 Sep 2006 04:16:25 +0300
+
+qemu (0.8.2-0ubuntu1) edgy; urgency=low
+
+  * Merged with Debian unstable
+  * New Upstream release
+  * Dropped debian/patches/12_signal_powerpc_support.patch (broken for qemu
+    0.8.2)
+  * Redid debian/patches/21_net_sockopt.patch
+  * Redid debian/patches/35_syscall_sockaddr.patch
+  * Redid debian/patches/42_arm_tls.patch
+  * Dropped debian/patches/50_missing_keycodes.patch (applied upstream)
+  * Redid debian/patches/61_safe_64bit_int.patch
+  * Dropped debian/patches/63_sparc_build.patch (applied upstream)
+  * Added new patch 65_no-linux_types_h.patch (unnecessary kernel header
+    breaking compilation of linux-user/syscall.c)
+  * Added new patch 66_no-linux_compiler_h.patch (unnecessary kernel header
+    breaking compilation of linux-usb.c)
+
+ -- Rodrigo Parra Novo <rodarvus@ubuntu.com>  Fri,  4 Aug 2006 22:50:15 -0300
+
+qemu (0.8.1-1) unstable; urgency=low
+
+  [ Guillem Jover ]
+  * New upstream release. (Closes: #366955, #366637)
+    - debian/patches/01_doc_typos.patch: Sync.
+    - debian/patches/04_do_not_print_rtc_freq_if_ok.patch: Likewise.
+    - debian/patches/05_non-fatal_if_linux_hd_missing.patch: Likewise.
+    - debian/patches/12_signal_powerpc_support.patch: Likewise.
+    - debian/patches/21_net_sockopt.patch: Likewise.
+    - debian/patches/22_net_tuntap_stall.patch: Likewise.
+    - debian/patches/30_syscall_ipc.patch: Likewise.
+    - debian/patches/31_syscalls.patch: Likewise.
+    - debian/patches/32_syscall_sysctl.patch: Likewise.
+    - debian/patches/33_syscall_ppc_clone.patch: Likewise.
+    - debian/patches/35_syscall_sockaddr.patch: Likewise.
+    - debian/patches/36_syscall_prctl.patch: Likewise.
+    - debian/patches/37_syscall_mount.patch: Likewise.
+    - debian/patches/41_arm_fpa_sigfpe.patch: Likewise.
+    - debian/patches/42_arm_tls.patch: Likewise.
+    - debian/patches/43_arm_cpustate.patch: Likewise.
+    - debian/patches/50_missing_keycodes.patch: Likewise.
+    - debian/patches/51_serial_small_divider.patch: Likewise.
+    - debian/patches/61_safe_64bit_int.patch: Likewise.
+    - debian/patches/63_sparc_build.patch: Likewise.
+    - debian/patches/40_arm_nwfpe_cpsr.patch: Removed, integrated upstream.
+  * Make the patch system apply the patch on the first run.
+    - debian/patches/64_ppc_asm_constraints.patch: Add DPATCHLEVEL.
+  * Document how to use the images created with qemu-make-debian-root in the
+    man page. Thanks to Jacobo <jacobo221@hotmail.com>. (Closes: #343450)
+  * Add support for the -snapshot option to use the TMPDIR evironment
+    variable. (Closes: #353880)
+    - debian/patches/02_snapshot_use_tmpdir.patch: New file.
+  * Do not exit with an error when using '-M ?'. (Closes: #365209)
+    - debian/patches/03_machines_list_no_error.patch: New file.
+  * Added symlink for system-mipsel emulator man page.
+  * Build and clean the pc-bios directory.
+  * Avoid segfaulting by using _exit(2) instead of exit(3) in qemu user
+    emulators. (Closes: #338289)
+    - debian/patches/06_exit_segfault.patch: New file.
+  * Enable ALSA audio support and add libasound2-dev to the Build-Depends.
+  * Now using Standards-Version 3.7.2 (no changes needed).
+
+ -- Guillem Jover <guillem@debian.org>  Sun, 28 May 2006 20:51:10 +0300
+
+qemu (0.8.0-3ubuntu1) dapper; urgency=low
+
+  * moved proll and openhackware from Depends to Recommends. These are
+    needed for sparc emulation, so this may be broken in ubuntu.
+
+ -- Reinhard Tartler <siretart@tauware.de>  Fri, 14 Apr 2006 20:30:04 +0200
+
+qemu (0.8.0-3) unstable; urgency=low
+
+  [ Josh Triplett ]
+  * Fix FTBFS on PowerPC caused by asm constraint problem. (Closes: #361727)
+    - debian/patches/64_ppc_asm_constraints.patch.
+
+  [ Guillem Jover ]
+  * Clamp addrlen from host to target when using AF_UNIX. This fixes
+    socket problems when using EABI.
+    - debian/patches/35_syscall_sockaddr.patch: New file.
+  * Fix floating point comparison on ARM NWFPE, due to glue code missmatch.
+    (Closes: #356287)
+    - debian/patches/40_arm_nwfpe_cpsr.patch: New file.
+    - debian/patches/40_fpu_arm_sigfpe.patch: Rename to ...
+    - debian/patches/41_arm_fpa_sigfpe.patch: ... this. Resync.
+    Thanks to Ulrich Hecht.
+  * Fix POSIX threads creation on ARM hanging when initializing the cpu
+    structure being it cyclic.
+    - debian/patches/43_arm_cpustate.patch: New file.
+  * Add TLS support for ARM. Stolen from Scratchbox.
+    - debian/patches/42_arm_tls.patch: New file.
+  * Fix sysctl endian problem.
+    - debian/patches/32_syscall_sysctl.patch: Update.
+    Thanks to Timo Savola <tsavola@movial.fi>.
+  * Remove now default '--enable-slirp' build option. (Closes: #356284)
+    Thanks to Anderson Lizardo <anderson.lizardo@gmail.com>.
+  * Remove unused sharedir to 'make install'. (Closes: #356418)
+    Thanks to Anderson Lizardo <anderson.lizardo@gmail.com>.
+  * Fix package not cleaning properly. (Closes: #356279)
+    Thanks to Anderson Lizardo <anderson.lizardo@gmail.com> for the initial
+    patch.
+  * Add needed syscalls to make debootstrap work. (Closes: #356291)
+    - debian/patches/36_syscall_prctl.patch: New file.
+    - debian/patches/37_syscall_mount.patch: Likewise.
+    - debian/patches/38_syscall_arm_statfs64.patch: Likewise.
+    Thanks to Anderson Lizardo <anderson.lizardo@gmail.com>.
+  * Remove obsolete Build-Dependency xlibs-dev.
+
+ -- Guillem Jover <guillem@debian.org>  Thu, 13 Apr 2006 11:53:00 +0300
+
+qemu (0.8.0-2) unstable; urgency=low
+
+  [ Guillem Jover ]
+  * Switch away from cdbs to plain debhelper.
+  * Upgrade to debhelper compat level 5.
+  * Allow overriding CC compiler variable. (Closes: #345772)
+  * Do not redefine 64 bit types on 64 bit arches.
+    - debian/patches/61_safe_64bit_int.patch: New file.
+  * Allow linux_boot.bin to be built on any arch by switching to nasm,
+    and Build-Depending on it.
+    - debian/patches/62_linux_boot_nasm.patch: New file.
+  * The serial hw driver uses a small divider that gets zeroed when shifting
+    bits to the right. (Closes: #276276, #348098)
+    - debian/patches/51_serial_small_divider.patch: New file.
+    Thanks to Samuel Thibault <samuel.thibault@ens-lyon.org>.
+  * Escaped hyphens in qemu-user manpage, use italics for filenames and
+    parameters and bold for options.
+  * Partial build failure fix for Sparc. (Bugs: #317145, #336970)
+    Thanks to Jurij Smakov <jurij@wooyd.org>.
+
+ -- Guillem Jover <guillem@debian.org>  Mon, 20 Feb 2006 09:17:46 +0200
+
+qemu (0.8.0-1) unstable; urgency=low
+
+  [ Guillem Jover ]
+  * New upstream release. (Closes: #344339)
+    - Added support for Virtual FAT. (Closes: #313123)
+    - Emulate repeated keystrokes when holding a key. (Closes: #298864)
+    - debian/patches/01_doc_typos.patch: Sync.
+    - debian/patches/04_do_not_print_rtc_freq_if_ok.patch: Likewise.
+    - debian/patches/05_non-fatal_if_linux_hd_missing.patch: Likewise.
+    - debian/patches/12_signal_powerpc_support.patch: Likewise.
+    - debian/patches/21_net_sockopt.patch: Likewise.
+    - debian/patches/22_net_tuntap_stall.patch: Likewise.
+    - debian/patches/30_syscall_ipc.patch: Likewise.
+    - debian/patches/31_syscalls.patch: Likewise.
+    - debian/patches/32_syscall_sysctl.patch: Likewise.
+    - debian/patches/33_syscall_ppc_clone.patch: Likewise.
+    - debian/patches/40_fpu_arm_sigfpe.patch: Likewise.
+    - debian/patches/50_missing_keycodes.patch: Likewise.
+  * Added mips and mipsel to the lintian overrides for the user emulators
+    being shlib-with-non-pic-code.
+  * Added symlinks for mips, mipsel and system-arm emulator manpages.
+
+ -- Guillem Jover <guillem@debian.org>  Fri, 30 Dec 2005 05:44:53 +0200
+
+qemu (0.7.2-2) unstable; urgency=low
+
+  [ Josh Triplett ]
+  * Add support for signal handling on PowerPC. (Closes: #335509)
+    - debian/patches/12_signal_powerpc_support.patch: New file.
+
+  [ Guillem Jover ]
+  * Add Josh Triplett <josh@psas.pdx.edu> to Uploaders and packaging team.
+  * Fix PowerPC build failure by reintroducing the ppc linker script and
+    adding the missing _SDA_BASE_ and _SDA2_BASE_ symbols. (Closes: #336983)
+  * Remove invalid patch making X11 fail at runtime.
+    - debian/patches/20_net_socket.patch: Remove.
+    - debian/patches/32_syscall_sysctl.patch: Sync.
+    Thanks to Daniel Gimpelevich <daniel@gimpelevich.san-francisco.ca.us>.
+  * Avoid the patch system to try until it applies.
+    - debian/patches/05_non-fatal_if_linux_hd_missing.patch: Added patch level.
+    - debian/patches/12_signal_powerpc_support.patch: Likewise.
+
+ -- Guillem Jover <guillem@debian.org>  Wed, 21 Dec 2005 22:11:34 +0200
+
+qemu (0.7.2-1) unstable; urgency=low
+
+  [ Guillem Jover ]
+  * New upstream release. (Closes: #321232, #327168)
+    - debian/patches/12_signal_silent.patch: Integrated upstream, remove.
+    - debian/patches/50_ppc_ldscript.patch: Likewise.
+    - debian/patches/33_syscall_truncate64.patch: Likewise.
+    - debian/patches/01_doc_typos.patch: Resync with upstream.
+    - debian/patches/04_do_not_print_rtc_freq_if_ok.patch: Likewise.
+    - debian/patches/05_non-fatal_if_linux_hd_missing.patch: Likewise.
+    - debian/patches/10_signal_jobs.patch: Likewise.
+    - debian/patches/11_signal_sigaction.patch: Likewise.
+    - debian/patches/20_net_socket.patch: Likewise.
+    - debian/patches/21_net_sockopt.patch: Likewise.
+    - debian/patches/22_net_tuntap_stall.patch: Likewise.
+    - debian/patches/30_syscall_ipc.patch: Likewise.
+    - debian/patches/31_syscalls.patch: Likewise.
+    - debian/patches/32_syscall_sysctl.patch: Likewise.
+    - debian/patches/40_fpu_arm_sigfpe.patch: Likewise.
+  * Repackaged upstream source to deal with binaries w/o sources.
+    - pc-bios/video.x: New file removed.
+  * Create a new qemu-user(1) manpage and link all user emulator manpages
+    to it. (Closes: #335163)
+  * Add missing '-' and '=' keycodes for sendkey command.
+    - debian/patches/50_missing_keycodes.patch: New file. (Closes: #334071)
+    Thanks to Robert Millan <rmh@aybabtu.com>.
+  * Add manpage link for qemu-system-mips.
+  * Make sysctl byte-swap the name values.
+    - debian/patches/32_syscall_sysctl.patch: Merge patch. (Closes: #334458)
+    Thanks to Josh Triplett <josh@psas.pdx.edu>.
+  * Change documentation menu section to "Apps/Emulators". (Closes: #335062)
+    Thanks to Frans Pop <aragorn@tiscali.nl>.
+  * On PowerPC, do not zero registers r7-r31 in do_fork and zero register r3.
+    Fixing segfaults on programs using the clone syscall.
+    - debian/patches/33_syscall_ppc_clone.patch: New file. (Closes: #335159)
+    Thanks to Josh Triplett <josh@psas.pdx.edu>
+    and Paul Brook <paul@codesourcery.com>.
+  * Tighten vgabios and bochsbios versioned Depends.
+  * Add video.x to the list of roms to touch to make qemu Makefile happy.
+  * Add lintian overrides for the user emulators being shlib-with-non-pic-code.
+  * Wrap lines in debian/control fields (knowingly breaking policy).
+
+  [ Guilherme de S. Pastore ]
+  * debian/control:
+    - Updated my e-mail address.
+  * debian/copyright:
+    - Dropped André from team members list, not a single contribution ever.
+
+ -- Guillem Jover <guillem@debian.org>  Mon, 31 Oct 2005 05:01:45 +0200
+
+qemu (0.7.0-4) unstable; urgency=low
+
+  [ Guillem Jover ]
+  * Rebuild source with locally deborked dpkg-source. (Closes: #321019)
+  * Added the location of the Subversion repo used for the packages and
+    fixed the upstream URL in debian/copyright.
+  * Lower case title header in qemu-make-debian-root man page.
+  * Use dd instead of cat to generate the qemu debian root image.
+    (Closes: #315952)
+
+ -- Guillem Jover <guillem@debian.org>  Wed,  3 Aug 2005 05:53:30 +0300
+
+qemu (0.7.0-3) unstable; urgency=low
+
+  [ Guillem Jover ]
+  * Update watch file to version 3, use perlre and new upstream site.
+  * Now using Standards-Version 3.6.2 (no changes needed).
+  * Fix TUN/TAP network interface stalling the connection. (Closes: #290569)
+    Thanks to Vitaly Belostotsky <byly.useless@tochka.ru>.
+  * Link against librt, needed by the new clock_gettime syscall.
+    - debian/patches/31_syscalls.patch: Update. (Closes: #315388)
+    Thanks to Timo Savola <tsavola@movial.fi> for noticing.
+  * Force Build-Dependency on binutils >= 2.16-1 needed by the amd64 and
+    powerpc linker scripts. (Closes: #262655)
+  * Force usage of gcc-3.4. (Closes: #319527)
+  * Add missing Build-Dependency on zlib1g-dev.
+    Thanks to Reinhard Tartler <siretart@tauware.de>.
+  * Include <linux/types.h> in syscall.c to avoid the broken headers in 
+    linux-kernel-headers 2.6.12.
+    - debian/patches/34_syscalls_types.patch: New file.
+    Thanks to Octavian Cerna <tavy@ylabs.com>.
+  * Fix powerpc linker script.
+    - debian/patches/50_ppc_ldscript.patch: New file.
+    Thanks to Octavian Cerna <tavy@ylabs.com>.
+
+ -- Guillem Jover <guillem@debian.org>  Mon,  1 Aug 2005 02:48:09 +0300
+
+qemu (0.7.0-2) unstable; urgency=low
+
+  [ Guillem Jover ]
+  * Add alpha, sparc, arm and s390 to Architectures (and to the
+    libgpmg1-dev Build-Depends).
+
+  * Forward SIGSTOP and SIGCONT sent to QEMU to the emulated application.
+    - debian/patches/10_signal_jobs.patch: New file.
+    Thanks to Ulrich Hecht.
+  * Return EINVAL on emulated sigaction when given invalid signal
+    parameters SIGKILL and SIGSTOP.
+    - debian/patches/11_signal_sigaction.patch: New fle.
+    Thanks to Valtteri Rahkonen.
+  * Do not print messsages for uncaught signal, thus fixing the case
+    were some applications want to kill their siblings.
+    - debian/patches/12_signal_silent.patch: New file.
+    Thanks to Valtteri Rahkonen
+
+  * Fix Unix sockets by handling correctly AF_UNIX socket address
+    structure length.
+    - debian/patches/20_net_socket.patch: New file.
+    Thanks to Timo Savola.
+  * Implement SO_LINGER, SO_RCVTIMEO, SO_SNDTIMEO, SO_PEERNAME and
+    SO_PEERCRED getsockoptions.
+    - debian/patches/21_net_sockopt.patch: New file.
+    Thanks to Valtteri Rahkonen.
+
+  * Implement SysV IPC message and semaphore syscalls.
+    - debian/patches/30_syscall_ipc.patch: New file.
+    Thanks to Valtteri Rahkonen.
+  * Implement acct, umount2, uselib, swapon, syslog, ftruncate64,
+    mincore, madvise, readahead and clock_gettime syscalls.
+    - debian/patches/31_syscalls.patch: New file.
+    Thanks to Ulrich Hecht.
+  * Implement sysctl CTL_KERN/KERN_VERSION
+    - debian/patches/32_syscall_sysctl.patch: New file.
+    Thanks to Timo Savola.
+  * Implement truncate64 syscall.
+    - debian/patches/33_syscall_truncate64.patch: New file.
+    Thanks to Valtteri Rahkonen.
+
+  * Implement ARM floating point exeption emulation.
+    - debian/patches/40_fpu_arm_sigfpe.patch: New file.
+    Thanks to Ulrich Hecht.
+
+ -- Guillem Jover <guillem@debian.org>  Sun, 19 Jun 2005 15:05:37 +0300
+
+qemu (0.7.0-1) experimental; urgency=low
+
+  [ Guillem Jover ]
+  * New upstream release. (Closes: #308459, #308494)
+  * Do not require a disk image when booting a Linux kernel. (Closes: #260935)
+    Thanks to Jonas Smedegaard <dr@jones.dk>.
+
+  [ Guilherme de S. Pastore ]
+  * Rewrote README.Debian for more clarity
+  * Add support for amd64 as a host architecture. (Closes: #262655)
+    - Add build-depend on libgpmg1-dev on amd64.
+  * Fixed qemu-make-debian-root so that it shows the name by which
+    it was called on the usage notice, not "%s". (Closes: #303507)
+    Thanks to Micah Anderson <micah@riseup.net>.
+
+  [ Elrond ]
+  * Clean up more files, so they don't end up in the final .diff.gz
+  * Switch to external proll and openhackware:
+    - Instead of patching qemu's Makefile, trick it by giving it empty
+      files to install and remove them straight after install.
+    - Don't ship the roms in debian/roms any more!
+    - Instead add more symlinks.
+    - Update Depends: apropiately.
+
+ -- Guillem Jover <guillem@debian.org>  Fri, 27 May 2005 02:06:20 +0300
+
+qemu (0.6.1+20050407-1) unstable; urgency=low
+
+  [ Guillem Jover ]
+  * New upstream snapshot.
+    - Fix -user-net. (Closes: #295019)
+    - Fix win2k and winxp image booting. (Closes: #285170, #292707)
+    - Fix installation of outdated documentation. (Closes: #286931)
+    - Provide qemu-img instead of qemu-mkcow. (Closes: #290713)
+    - Remove debian/patches/05_fix_openpic_timer_test.patch, integrated
+      upstream.
+    - Remove debian/patches/02_selectable_sdl_keyboard.patch, superseded
+      by new keyboard implementation. (Closes: #284510, #299432)
+    - Remove debian/patches/01_mkcow_section_and_hyphens.patch.
+    - Conditionalize qemu -g option for some architectures. (Closes: #298988)
+  * Added new copyright year to debian/copyright.
+  * Added initial qemu-make-debian-root man page. (Closes: #286932)
+  * Fixed typos in qemu documentation. (Closes: #301933)
+    Thanks to A Costa <agcosta@gis.net>.
+  * Added Elrond <elrond@samba-tng.org> to Uploaders and packaging team.
+  * Use the default target list:
+    - Do not build qemu-fast anymore as it is deprecated upstream anyway.
+    (Closes: #278602, #281510)
+    - New targets armeb and system-x86_64.
+  * Updated ROM images under debian/roms/:
+    - OpenHackWare 0.4.
+    - Proll 18 with qemu specific patches.
+  * Remove uudecoded files from pc-bios/ on clean.
+  * Fix qemu-make-debian-root to behave correctly even if the needed
+    Recommends are not installed.
+
+  [ Guilherme de S. Pastore ]
+  * Create a doc-base entry for the package (Closes: #290669)
+  * debian/control:
+    - Add debootstrap to the 'Recommends: ' line, as needed by
+      qemu-make-debian-root (Closes: #302848)
+    - Moved sharutils from dependency to recommendation, as it is only
+      needed by qemu-make-debian-root
+  * debian/docs:
+    - Do not include README.distrib in the binary package (Closes: #302853)
+
+  [ Elrond ]
+  * Replace "libgpmg1-dev | not+linux-gnu" by "libgpmg1-dev [i386 powerpc]"
+    in Build-Depends. qemu should not need to build-depend on it anyway, the
+    real problem is described in Bug#267174. When it is solved, we can
+    remove our dependency. Until then please remember to add any arch, which
+    we will build on and that has gpm. This change hopefully calms:
+    <http://qa.debian.org/debcheck.php?dist=unstable&package=qemu>
+  * Add versions to the dependencies on bochsbios and vgabios
+    (Closes: #288997):
+    - vgabios: Use the current version from testing/unstable (0.4c+20041014-1),
+      according to Frans Pop <aragorn@tiscali.nl>, this fixed those
+      "blank screen" problems.
+    - bochsbios: Use the current version from unstable (2.1.1+20041109-3), as
+      Guillem Jover fixed the networking in that version.
+
+ -- Guillem Jover <guillem@debian.org>  Thu,  7 Apr 2005 01:26:01 +0300
+
+qemu (0.6.1-1) unstable; urgency=low
+
+  [ Guillem Jover ]
+  * New upstream release. (Closes: #281626)
+    - Booting from drive b is not supported anymore. (Closes: #275679)
+    - Fix ne2k network interface that was not working in some situations.
+      (Closes: #281862)
+    - Remove debian/patches/06_build_gcc3.4.patch, fixed upstream.
+    - Remove debian/patches/04_lfs.patch, fixed upstream.
+    - Remove debian/patches/02_fix_powerpc_FTBFS.patch, fixed upstream.
+    - Remove debian/patches/00_escape_manpage_hyphens.patch, not needed.
+    - Sync debian/patches/03_use_external_bios.patch.
+  * Include uuencoded source for proll 18, some build fixes and its binary
+    proll.bin on debian/roms/.
+  * Suggests sudo to be used by the qemu-ifup script.
+    Thanks to Elrond <elrond@samba-tng.org>.
+  * Make sudo in qemu-ifup explain what the password is for. (Closes: #281380)
+  * Add an option to select the method to convert keyevent to keycode
+    in the SDL keyboard handling code. Added support for Right Shift in the
+    generic handler. (Closes: #282658)
+    Thanks to Elrond <elrond@samba-tng.org>.
+  * Do not set RTC frequency to 1024 or warn about this if it has already
+    the correct value. (Closes: #281403)
+  * Enabled sparc-softmmu support.
+
+ -- Guillem Jover <guillem@debian.org>  Sat, 27 Nov 2004 23:23:49 +0100
+
+qemu (0.6.0.dfsg.2-1) unstable; urgency=low
+
+  [ Guillem Jover ]
+  * Repackaged upstream source to remove external included files.
+    - pc-bios/ppc-rom.bin: Removed.
+    - pc-bios/OpenHackWare_0.3.tar.bz2: Likewise.
+    - pc-bios/vgabios.bin: Likewise.
+    - pc-bios/vgabios-cirrus.bin: Likewise.
+    - pc-bios/vgabios-cvs-2004-06-17.tgz: Likewise.
+  * Include uuencoded source for OpenHackWare 0.3.1 and its binary
+    ppc-rom.bin on debian/roms/. Add a Build-Depends on sharutils.
+  * Update tundev.c. Pass -tun-dev to qemu without the equal sign.
+    Thanks to Isaac Clerencia <isaac@sindominio.net>.
+  * Fix README.Debian to point to the renamed qemu-make-debian-root.
+  * Add Depends on sharutils needed by qemu-make-debian-root.
+    (Closes: #272130)
+  * Use and depend on vgabios package, which is in sync with bochsbios
+    that checks for rom bios checksums. (Closes: #281202)
+  * Enable LFS globally, thus fixing problems with qemu-mkcow when using
+    an existing large image.
+    (Closes: #279925)
+  * Fix openpic timer write test, catched from a warning about a constant
+    value larger than the type it was casted to.
+  * Fix build failure with gcc 3.4. Patch stolen from Gentoo BTS.
+
+ -- Guillem Jover <guillem@debian.org>  Mon, 15 Nov 2004 10:46:54 +0100
+
+qemu (0.6.0.dfsg.1-1) unstable; urgency=high
+
+  [ Guillem Jover ]
+  * Repackaged upstream source to deal with binaries w/o sources.
+    (Closes: #268780)
+    - pc-bios/bios.bin: Removed binary without source. Now using
+      bochsbios package.
+    - pc-bios/vgabios.bin: Rebuilt from vgabios cvs 2004-06-17 snapshot,
+      source included.
+    - pc-bios/vgabios-cirrus.bin: Likewise.
+    - pc-bios/ppc-rom.bin: Rebuilt on voltaire, source included.
+    - pc-bios/linux_boot.bin: Rebuilt from source.
+  * Move make-debian-root.sh to /usr/sbin/qemu-make-debian-root.
+    (Closes: #268705)
+
+ -- Guillem Jover <guillem@debian.org>  Mon, 13 Sep 2004 01:28:54 +0200
+
+qemu (0.6.0-2) unstable; urgency=high
+
+  [ Guilherme de S. Pastore ]
+  * Fixed dangling symlinks under /usr/share/man/man1. (Closes: #264764)
+
+  [ Guillem Jover ]
+  * Fix FTBFS on powerpc.
+    - debian/patches/02_fix_powerpc_FTBFS.patch: New file.
+
+ -- Guillem Jover <guillem@debian.org>  Wed, 18 Aug 2004 15:50:43 +0200
+
+qemu (0.6.0-1) unstable; urgency=medium
+
+  * New maintainers. (Closes: #258900)
+  * New upstream release. (Closes: #258732)
+    - Installs ppc BIOS ROM file. (Closes: #257492)
+    - Builds with -fno-strict-aliasing. (Closes: #257123)
+
+  [ Guilherme de S. Pastore ]
+  * debian/rules:
+    - Cleaned up.
+    - Ported to use CDBS.
+  * 00_escape_manpage_hyphens.patch:
+    - Correct a little typo and escape hyphens in upstream manpage.
+  * 01_mkcow_section_and_hyphens.patch:
+    - Fix section mismatch and escape hyphens in the qemu-mkcow manpage.
+  * Added simple /etc/qemu-ifup helper script. (Closes: #245281)
+    Thanks to Martin Michlmayr <tbm@cyrius.com>.
+  * Cleaned debian/watch.
+  * UTF-8'ed debian/changelog.
+  * Updated Standards-Version to 3.6.1.1.
+  * Removed outdated and unnecessary debian/qemu-i386.sgml.
+    - Removed build dependency on docbook-to-man.
+  * Removed "x86" part from the description (hey, qemu is not x86-only
+    in any way). Deserves a complete rewrite, shall be done soon.
+
+  [ Guillem Jover ]
+  * Lower-case package short description.
+  * Added missing CPU emulations to the description.
+  * Cleaned and updated debian/copyright.
+  * Removed manually added libx11-6 dependency.
+  * Only Build-Depends on libgpmg1-dev on GNU/Linux systems.
+  * Cosmetic unification to debian/changelog.
+  * debian/rules:
+    - Remove generated files.
+    - Give exec perms to qemu-ifup.
+
+ -- Guillem Jover <guillem@debian.org>  Sun,  8 Aug 2004 17:24:08 +0200
+
+qemu (0.5.5-2) unstable; urgency=low
+
+  * Re-enable SDL disabled while I was bugchasing. (Closes: #255014)
+  * Yes, this is really 0.5.5. (Closes: #254655)
+  * Enable slirp networking. (Closes: #253573)
+  * Add Build-Depends on libgpmg1-dev (found by Bastian Blank, probably breaks
+    Hurd but that's a problem for another day).
+
+ -- Paul Russell <prussell@debian.org>  Thu, 24 Jun 2004 06:26:42 +0200
+
+qemu (0.5.5-1) unstable; urgency=low
+
+  * New upstream release. (Closes: #237556, #237556)
+  * Applied patch to add options to make_debian_root.sh. (Closes: #238787)
+  * Applied patch for other archs: hmmm... (Closes: #251420)
+  * Do umount -d in make_debian_root.sh. (Closes: #251775)
+
+ -- Paul Russell <prussell@debian.org>  Tue,  1 Jun 2004 03:50:05 +0200
+
+qemu (0.5.4-1) unstable; urgency=low
+
+  * New upstream release. (Closes: #246634)
+  * qemu-mkcow included in upstream.
+  * Added tundev program source in doc, to see if people find it useful.
+
+ -- Paul Russell <prussell@debian.org>  Mon,  3 May 2004 08:14:49 +0200
+
+qemu (0.5.3-1) unstable; urgency=low
+
+  * New upstream release. (Closes: #237556)
+  * Use aalib-config --static-libs. (Closes: #243325)
+  * Document Control-Shift to release mouse pointer. (Closes: #238074)
+
+ -- Paul Russell <prussell@debian.org>  Tue, 13 Apr 2004 02:58:49 +0200
+
+qemu (0.5.2-4) unstable; urgency=low
+
+  * Fix PPC install (Michel Daenzer patch). (Closes: #238431)
+  * Simplify deps (might be wrong, but it's neater). (Closes: #238430)
+
+ -- Paul Russell <prussell@debian.org>  Wed, 17 Mar 2004 01:35:47 +0100
+
+qemu (0.5.2-3) unstable; urgency=low
+
+  * Make compile on woody. (Closes: #238163)
+  * Include qemu-doc.html. (Closes: #238076)
+  * Wrote qemu-i386 man page. (Closes: #238077)
+
+ -- Paul Russell <prussell@debian.org>  Mon, 15 Mar 2004 23:56:25 +0100
+
+qemu (0.5.2-2) unstable; urgency=low
+
+  * Fix build problem so bios.bin etc. can be found. (Closes: #237553)
+
+ -- Paul Russell <prussell@debian.org>  Fri, 12 Mar 2004 05:43:00 +0100
+
+qemu (0.5.2-1) unstable; urgency=low
+
+  * Initial Release. (Closes: #187407)
+
+ -- Paul Russell <prussell@debian.org>  Wed,  3 Mar 2004 02:18:54 +0100
+

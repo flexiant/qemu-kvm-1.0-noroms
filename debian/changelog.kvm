@@ -1,0 +1,1126 @@
+kvm (1:84+dfsg-0ubuntu14) karmic; urgency=low
+
+  * debian/source_kvm.py: collect kvm*, and qemu*
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 01 Jun 2009 10:05:27 -0500
+
+kvm (1:84+dfsg-0ubuntu13) karmic; urgency=low
+
+  * debian/source_kvm.py: only collect packages related to kvm for apport,
+    LP: #382077
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 01 Jun 2009 07:17:46 -0500
+
+kvm (1:84+dfsg-0ubuntu12) jaunty-proposed; urgency=low
+
+  * Apply patch series from upstream to fix segfaults when cancelling
+    DMA operations in virtual machines. (LP: #359447)
+
+ -- Soren Hansen <soren@ubuntu.com>  Sun, 03 May 2009 09:39:47 +0200
+
+kvm (1:84+dfsg-0ubuntu11) jaunty; urgency=low
+
+  * debian/patches/add-all-virtio-drives.patch: Fix bugs where the caller
+    does not specify a perfectly defined list of virtio drives starting at
+    index=0 and having no gaps in indices; LP: #360832, #360825
+  * debian/patches/fix-qcow-corruption: Cherry-pick from kvm stable git
+    branch, fixes at least one cause of qcow2 image corruption; no reports
+    yet of this in Ubuntu, but I'm being proactive about this one;
+    LP: #361938
+  * debian/source_kvm.py: dpkg -l was a little too heavy, compress this
+    output considerably
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 17 Apr 2009 09:59:58 -0500
+
+kvm (1:84+dfsg-0ubuntu10) jaunty; urgency=low
+
+  * debian/patches/virtio-net_disable_gso.patch: hardy guest kernels
+    do not have working gso support.  Disable it for everyone until
+    we have a work around, LP: #331128.
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 02 Apr 2009 11:08:34 -0500
+
+kvm (1:84+dfsg-0ubuntu9) jaunty; urgency=low
+
+  * debian/source_kvm.py: add a basic apparmor hook for kvm, retrieving
+    a listing of all packages installed, and the kvm command line used
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 27 Mar 2009 15:56:24 -0500
+
+kvm (1:84+dfsg-0ubuntu8) jaunty; urgency=low
+
+  * debian/patches/dkmsify.patch: handle i686 arch properly, LP: #333632
+  * debian/control: kvm-source needs kernel headers
+  * debian/kvm-source.postinst: check if necessary headers are installed;
+    if not, print a handy error message with instructions, LP: #341159
+  * debian/kvm.init: use proper lsb begin/end message logging for cleaner
+    usplash interaction, LP: #275009
+  * debian/rules, debian/control: Enable pulseaudio audio driver, LP: #304649
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 12 Mar 2009 00:17:04 -0500
+
+kvm (1:84+dfsg-0ubuntu7) jaunty; urgency=low
+
+  * debian/control: revert libvdeplug2-dev build-dependency as this package
+    is in Universe
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 02 Mar 2009 23:11:02 -0600
+
+kvm (1:84+dfsg-0ubuntu6) jaunty; urgency=low
+
+  [ Emmet Hikory <persia@ubuntu.com>  ]
+  * debian/rules, debian/control: Enable build for lpia & ia64
+    (thanks to TJ) LP: #277517
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 02 Mar 2009 15:35:26 -0600
+
+kvm (1:84+dfsg-0ubuntu5) jaunty; urgency=low
+
+  * debian/patches/fix_screen_corruption: patch from upstream SVN (should
+    be dropped in next merge), fixes LP: #336712, #333920
+  * debian/patches: permanently removed all dropped patches
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 02 Mar 2009 09:15:26 -0600
+
+kvm (1:84+dfsg-0ubuntu4) jaunty; urgency=low
+
+  [ TJ <ubuntu@tjworld.net> ]
+  * debian/control: add build-depends on libvdeplug2-dev which will cause
+    qemu's configure script to enable vde support, LP: #253230
+
+  [ Dustin Kirkland ]
+  * debian/kvm-source.postinst: remove dkms module before installing new
+    one, LP: #334177
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 26 Feb 2009 16:07:57 -0600
+
+kvm (1:84+dfsg-0ubuntu3) jaunty; urgency=low
+
+  [ Reviewed Ubuntu patches with KVM/QEMU upstream, Anthony Liguori ]
+  * debian/patches/03_bios_no_ssp.patch: DROPPED, included upstream
+  * debian/patches/06_no_system_linux_kvm_h.patch: DROPPED, no longer
+    necessary, kvm kernel header file is now generally available
+  * debian/patches/from-debian-qemu/22_net_tuntap_stall.patch: DROPPED,
+    no longer necessary; this patch was to work around a bug in
+    2.6.11-rc1; this patch could be causing network packet drop issues;
+    definitely WRONG at this point with modern QEMU
+  * debian/patches/from-debian-qemu/62_linux_boot_nasm.patch: DROPPED,
+    dead code in modern QEMU; completely rewritten to not require an
+    external assembler; now built dynamically in pc.c
+  * debian/patches/SECURITY_CVE-2007-1321+1322+1366+2893.patch: DROPPED
+    * CVE-2007-1321: Fixed upstream
+      - QEMU svn commit: r3019
+    * CVE-2007-1322: Fixed upstream
+      - QEMU svn commit: r5921
+    * CVE-2007-1366: Fixed upstream
+      - QEMU svn commit: r3012
+    * CVE-2007-2893: Not related to QEMU
+    * dma.c: Non-CVE fix, r3917
+    * block.c: Incorrect patch (negative offset IS allowed, switches
+      between block and byte offset)
+    * Remainder of the patch was split into: net-socket.patch
+      (should be sent upstream)
+  * debian/patches/series: updated accordingly
+  * debian/patches/do-not-install-bios.patch: DROPPED
+    added --disable-blobs to configure in debian/rules
+  * debian/patches/reenable_audio_drivers.patch: DROPPED
+    added --audio-drv-list="oss alsa sdl" to debian/rules
+  * debian/patches/anon_inodes_fix.patch: DROPPED, this is already
+    upstream
+  * debian/patches/ppc-build.patch: DROPPED, not necessary
+  * debian/rules: remove references to non-existant linux_boot.bin
+
+  [ Remaining Patches ]
+  * debian/patches/01_use_bios_files_in_usr_share_kvm.patch -p0
+    debian/patches/04_use_etc_kvm_kvm-ifup.patch -p0
+    debian/patches/07_change_qemu_docdir.patch
+    |-----> merged to a single patch, rename_qemu_kvm.patch
+  * debian/patches/CVE-2008-0928.patch: upstream work in progress
+  * debian/patches/evdev_keycode_map.patch: upstream work in progress
+  * debian/patches/02_fix_kernel_Makefile.patch: merged into dkmsify.patch
+  * debian/patches/dkmsify.patch: Ubuntu-specific (should validate if
+    still necessary...)
+  * debian/patches/net-socket.patch: to be sent upstream
+
+  [ Other Changes ]
+  * scripts/qemu-ifup: bridge device determination was broken, required
+    br0 to be present for this script to operate properly, LP: #125302
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 20 Feb 2009 16:11:06 -0600
+
+kvm (1:84+dfsg-0ubuntu2) jaunty; urgency=low
+
+  * debian/patches/reenable_audio_drivers.patch: drop the explicit list
+    of sound card drivers configured; upstream handles this properly now
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 18 Feb 2009 12:00:53 -0600
+
+kvm (1:84+dfsg-0ubuntu1) jaunty; urgency=low
+
+  * New upstream release
+  * debian/patches/CVE-2008-0928.patch: updated to apply cleanly
+  * debian/patches/SECURITY_CVE-2007-1321+1322+1366+2893.patch: updated to
+    apply cleanly
+  * debian/patches/reenable_audio_drivers.patch: add es1370 to the soundcard
+    list
+  * debian/patches/ppc-build.patch: required for the new qemu to build on
+    non-ppc platforms (bug upstream, should be fixed by next release)
+  * debian/rules: the clean target now depends on config.status (variable
+    definition needed by 'make clean'); the source's clean target seems
+    to clean out qemu/$(BUILD_CPU)-softmmu now, commenting out; reordered
+    calling of source's clean targets to ensure that the clean can
+    succeed
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 17 Feb 2009 19:42:43 -0600
+
+kvm (1:83+dfsg-0ubuntu1) jaunty; urgency=low
+
+  * New upstream release, fixes LP: #320320
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 23 Jan 2009 09:01:03 -0500
+
+kvm (1:82+dfsg-0ubuntu1) jaunty; urgency=low
+ 
+  * New upstream release, LP: #316521
+  * debian/patches/04_use_etc_kvm_kvm-ifup.patch: reworked to patch
+    qemu/net.h
+  * debian/patches/CVE-2008-0928.patch: updated
+  * debian/patches/do-not-install-bios.patch: updated, Makefile now supports
+    a variable (perhaps we should set this with configure?)
+  * debian/patches/reenable_audio_drivers.patch: updated
+  * debian/patches/anon_inodes_fix.patch: updated
+  * debian/patches/SECURITY_CVE-2007-1321+1322+1366+2893.patch: updated
+  * debian/rules: clean up a bit better after the build; allows for
+    subsequent binary and source builds and rebuilds
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 20 Jan 2009 21:47:54 -0500
+
+kvm (1:79+dfsg-0ubuntu5) jaunty; urgency=low
+
+  * Bump debhelper version for updated udev rules path, add Breaks to ensure
+    we use the right version of udev.
+
+ -- Scott James Remnant <scott@ubuntu.com>  Mon, 12 Jan 2009 19:44:11 +0000
+
+kvm (1:79+dfsg-0ubuntu4) jaunty; urgency=low
+
+  * Correctly rename kvm-nbd man page to match the binary's name.
+  * Make "debian/rules clean" do a better job at cleaning up after the build.
+
+ -- Soren Hansen <soren@ubuntu.com>  Tue, 25 Nov 2008 10:51:55 +0100
+
+kvm (1:79+dfsg-0ubuntu3) jaunty; urgency=low
+
+  * Rename kvm-nbd man page to match the binary's name.
+
+ -- Soren Hansen <soren@ubuntu.com>  Mon, 24 Nov 2008 00:04:36 +0100
+
+kvm (1:79+dfsg-0ubuntu2) jaunty; urgency=low
+
+  * Fix kernel module build.
+
+ -- Soren Hansen <soren@ubuntu.com>  Tue, 18 Nov 2008 22:04:35 +0100
+
+kvm (1:79+dfsg-0ubuntu1) jaunty; urgency=low
+
+  * New upstream release
+  * Dropped the following patch sets, as they're now upstream:
+    + qemu_vnc_ext_key_event
+    + i2c_bus_load_fix
+  * Updated the following patches to match kvm-79:
+    + SECURITY_CVE-2007-1321+1322+1366+2893
+    + CVE-2008-0928
+    + 22_net_tuntap_stall
+  * Make kvm-source autoinstall (meaning that it'll compile itself not just
+    for the kernel running at install time, but also for kernels that are
+    installed later on).
+
+ -- Soren Hansen <soren@ubuntu.com>  Tue, 18 Nov 2008 21:37:56 +0100
+
+kvm (72+dfsg-2) unstable; urgency=medium
+
+  * Merge changes from NMU, thanks to Thomas Viehmann
+  * Use a sane method for creating the kvm group, thanks to Josh Tripplet
+    (closes: #502299)
+
+ -- Jan LÃ¼bbe <jluebbe@debian.org>  Thu, 16 Oct 2008 18:22:41 +0200
+
+kvm (1:72+dfsg-1ubuntu6) intrepid; urgency=low
+
+  * debian/patches/evdev_keycode_map.patch, debian/patches/series: ported the
+    gtk-vnc patch that fixes evdev keycode mapping (LP: #258389)
+  * debian/control: explicitly depend on libx11-dev
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 24 Sep 2008 17:25:20 -0500
+
+kvm (1:72+dfsg-1ubuntu5) intrepid; urgency=low
+
+  [ Dustin Kirkland ]
+  * Add debian/10-kvm.fdi, debian/org.freedesktop.hal.kvm.policy: hal object
+    descriptor and policy file for kvm/virt-hardware
+  * debian/kvm.install; Put the hal/PolicyKit configuration in the correct
+    place (LP: #273764)
+
+  [ Martin Pitt ]
+  * Simplify Dustin's dh_install handling a bit (don't use debian/rules any
+    more, install straight with dh_install).
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 24 Sep 2008 14:00:16 +0200
+
+kvm (1:72+dfsg-1ubuntu4) intrepid; urgency=low
+
+  * debian/kvm-ok: simple script to determine of the cpu supports kvm
+    acceleration (LP: #188878)
+  * debian/rules: install the kvm-ok binary into /usr/bin/kvm-ok
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 22 Sep 2008 12:09:47 -0500
+
+kvm (1:72+dfsg-1ubuntu3) intrepid; urgency=low
+
+  * debian/control: Trivial update to description, to note that KVM works on
+    both x86 and x86_64 hardware (LP: #225260).
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 22 Sep 2008 10:51:23 -0500
+
+kvm (1:72+dfsg-1ubuntu2) intrepid; urgency=low
+
+  * Switch KVM to use dkms. This makes kernel and userspace match each other
+    and saves us the trouble of possible ABI bumps when updating kvm.
+
+ -- Soren Hansen <soren@ubuntu.com>  Thu, 28 Aug 2008 14:47:26 +0200
+
+kvm (1:72+dfsg-1ubuntu1) intrepid; urgency=low
+
+  * Merge with Debian unstable. Remaining changes:
+    - Add dh_installudev rule.
+    - Add ppc_rom.bin to needed_bios_files for powerpc target.
+    - Build-Depend on "sysv-rc (>= 2.86.ds1-14.1ubuntu2)" to accomodate
+      TearDown.
+    - Suggest ubuntu-vm-builder instead of debootstrap.
+    - Change kvm-data conflict/replaces version to 68+dfsg-1, to properly
+      conflict with the Ubuntu kvm-data package.
+    - Suggest kvm-pxe to enable PXE booting.
+
+ -- Soren Hansen <soren@ubuntu.com>  Thu, 14 Aug 2008 11:00:29 +0200
+
+kvm (72+dfsg-1) unstable; urgency=low
+
+  * New upstream release (closes: #493536)
+  * Cherry-pick a commit from qemu which fixes migration
+  * Cherry-pick a commit from kvm which fixes the external module with 2.6.26
+  * Reenable audio drivers and cards (closes: #491676)
+
+ -- Jan Lübbe <jluebbe@debian.org>  Mon, 11 Aug 2008 19:51:51 +0200
+
+kvm (1:71+dfsg-1ubuntu2) intrepid; urgency=low
+
+  * Readd dh_installudev rule.
+
+ -- Soren Hansen <soren@ubuntu.com>  Mon, 11 Aug 2008 18:34:23 +0200
+
+kvm (1:71+dfsg-1ubuntu1) intrepid; urgency=low
+
+  * Merge with Debian unstable. Remaining changes:
+    - Add ppc_rom.bin to needed_bios_files for powerpc target.
+    - Comment out PXE rom builds (etherboot is not in main at this point).
+    - Build-Depend on "sysv-rc (>= 2.86.ds1-14.1ubuntu2)" to accomodate
+      TearDown.
+    - Suggest ubuntu-vm-builder instead of debootstrap.
+    - Change kvm-data conflict/replaces version to 68+dfsg-1, to properly
+      conflict with the Ubuntu kvm-data package.
+  * Suggest kvm-pxe to enable PXE booting.
+
+ -- Soren Hansen <soren@ubuntu.com>  Wed, 23 Jul 2008 16:23:17 +0200
+
+kvm (71+dfsg-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Jan Lübbe <jluebbe@debian.org>  Sat, 19 Jul 2008 15:52:45 +0200
+
+kvm (70+dfsg-1) unstable; urgency=low
+
+  * New upstream release
+  * Merge changes from Ubuntu in debian/control
+    - Only Build-Depend on device-tree-compiler on PowerPC
+    - Change linux-{image,headers,source}-2.6 to just
+      linux-{image,headers,source}
+    - Don't suggest sudo
+  * Reenable CPU emulation
+  * Update to policy 3.8.0.0
+    - Add debian/README.source
+
+ -- Jan Lübbe <jluebbe@debian.org>  Tue, 17 Jun 2008 18:55:51 +0200
+
+kvm (1:69+dfsg-1ubuntu1) intrepid; urgency=low
+
+  * Merge with Debian unstable. Remaining changes:
+    - Add ppc_rom.bin to needed_bios_files for powerpc target.
+    - Comment out PXE rom builds (etherboot is not in main at this point).
+    - DebianMaintainerField.
+    - Only Build-Depend on device-tree-compiler on PowerPC.
+    - Don't Build-Depend on etherboot.
+    - Build-Depend on "sysv-rc (>= 2.86.ds1-14.1ubuntu2)" to accomodate
+      TearDown.
+    - Don't recommend linux-image-2.6, since we only have 2.6 kernels anyway.
+    - Suggest ubuntu-vm-builder instead of debootstrap.
+    - Don't suggest sudo.
+    - Change kvm-data conflict/replaces version to 68+dfsg-1, to properly
+      conflict with the Ubuntu kvm-data package.
+    - Change suggests of kvm-source from linux-{headers,source}-2.6 to just
+      linux-{headers,source}.
+
+ -- Soren Hansen <soren@ubuntu.com>  Wed, 28 May 2008 08:46:15 +0200
+
+kvm (69+dfsg-1) unstable; urgency=low
+
+  [ Jan Lübbe ]
+  * New upstream releases (closes: #481989)
+    - Fixes CVE-2007-1320 (Cirrus LGD-54XX "bitblt" heap overflow)
+    - Fixes CVE-2008-2004 (format guessing vulnerability, drop the patch)
+    - Update debian patches
+  * Update upstream changelog
+  * Update Vcs-* headers to git.debian.org
+  * Drop kvm-data again, build and ship only those files relevant to the
+    target arch
+
+  [ Soren Hansen ]
+  * 03_bios_no_ssp.patch:
+    - Pass -fno-stack-protector to gcc when building the bios image.
+  * qemu_vnc_ext_key_event.diff:
+    - Implement the Extended KeyEvent extension in kvm's embedded VNC server.
+  * Add kvm init script that loads the appropriate kernel modules.
+  * Update package description
+    - We no longer support cpu emulation, so hardware support is required.
+    - The standard kernel images provide the kernel modules, so compiling
+      them yourself from kvm-source is now optional.
+    - qemu is no longer needed for creating disk images, since we have kvm-img
+      now.
+  * Move kvm-source from "Recommends:" of kvm to "Suggests:", since the
+    modules are in the standard kernel images.
+  * Update CVE-2008-0928.patch to allow any bdrv request if vm is not
+    running. This fixes the savevm monitor command.
+    - This also fixes booting with qcow2 images (closes: #470664)
+
+ -- Jan Lübbe <jluebbe@debian.org>  Mon, 26 May 2008 16:55:21 +0200
+
+kvm (1:68+dfsg-0ubuntu1) intrepid; urgency=low
+
+  * New upstream release + merge with debian. Remaining changes:
+    + SECURITY_CVE-2007-1320+1321+1322+1366+2893.patch
+      - Cirrus LGD-54XX "bitblt" heap overflow.
+      - NE2000 "mtu" heap overflow.
+      - QEMU "net socket" heap overflow.
+      - QEMU NE2000 "receive" integer signedness error.
+      - Infinite loop in the emulated SB16 device.
+      - Unprivileged "aam" instruction does not correctly handle the
+        undocumented divisor operand.
+      - Unprivileged "icebp" instruction will halt emulation.
+    + qemu_vnc_ext_key_event.diff:
+      - Enabled extended key events in embedded VNC server.
+    + DebianMaintainerField.
+    + Add init script to automatically load appropriate kernel modules
+      on boot (TearDown style). Add sysv-rc (>= 2.86.ds1-14.1ubuntu2)
+      dependency in the process.
+    + Install kvm.udev as priority 45.
+    + Add "XS-Debian-" prefix to Debian's VCS headers.
+    + Demote kvm-source to a Suggests of kvm (from Recommends).
+    + Update package description to say that the kvm modules are in the
+      kernel.
+    + Update kernel package names to match Ubuntu naming. 
+
+ -- Soren Hansen <soren@ubuntu.com>  Tue, 06 May 2008 10:01:22 +0200
+
+kvm (66+dfsg-1.1) unstable; urgency=high
+
+  * Non-maintainer upload by the security team
+  * Merge the fixes for the security issues in the embedded qemu
+    version (Closes: #480011) Thanks to Jamie Strandboge
+   - Add CVE-2007-1320+1321+1322+1366+2893.patch from from qemu 0.9.1-1
+     to address the following issues:
+    - Note: CVE-2007-2893 is the same as CVE-2007-1323 referenced in DSA-1284-1.
+    - Note: CVE-2007-5729 and CVE-2007-5730 are the same as CVE-2007-1321
+      referenced in DSA-1284-1.
+    - Cirrus LGD-54XX "bitblt" heap overflow.
+    - NE2000 "mtu" heap overflow.
+    - QEMU "net socket" heap overflow.
+    - QEMU NE2000 "receive" integer signedness error.
+    - Infinite loop in the emulated SB16 device.
+    - Unprivileged "aam" instruction does not correctly handle the
+      undocumented divisor operand.
+    - Unprivileged "icebp" instruction will halt emulation.
+  * Include patch which defaults to existing behaviour (probing based on file
+    contents), so it still requires the mgmt app (e.g. libvirt xml) to
+    pass a new "format=raw" parameter for raw disk images
+    - Fixes possible privilege escalation, which could allow guest users
+      to read arbitrary files on the host by modifying the header to identify
+      a different format (Closes: #481204) Fixes: CVE-2008-2004
+
+ -- Steffen Joeris <white@debian.org>  Tue, 20 May 2008 13:28:14 +0000
+
+kvm (66+dfsg-1) unstable; urgency=low
+
+  * New upstream release
+  * Update upstream changelog
+  * Ship the userspace utilities
+    - Depend on python for the scripts
+
+ -- Jan Lübbe <jluebbe@debian.org>  Thu, 17 Apr 2008 22:23:14 +0200
+
+kvm (65+dfsg-2) unstable; urgency=low
+
+  * Install PXE boot ROMs only if they exists and Build-Depend on
+    etherboot only on i386
+    - This allows building on amd64 (closes: #469125)
+  * Disable qemu CPU emulation and drop Build-Depend on gcc-3.4
+    (closes: #440430)
+  * Don't Recommend qemu (we ship qemu-img as kvm-img)
+  * Move vde2 from Recommends to Suggests
+  * Suggest samba for the -smb option (closes: #474209)
+
+ -- Jan Lübbe <jluebbe@debian.org>  Thu, 10 Apr 2008 22:52:26 +0200
+
+kvm (65+dfsg-1) unstable; urgency=low
+
+  * New upstream release
+  * Update upstream changelog
+  * Put the link to ../packages/default.sh into /usr/share/modass/overrides/
+    as suggested by m-a's HOWTO-DEVEL
+    - This also avoides a Conflicts/Replaces against older kvm packages
+      (closes: #473910)
+
+ -- Jan Lübbe <jluebbe@debian.org>  Tue, 08 Apr 2008 18:49:34 +0200
+
+kvm (64+dfsg-1) unstable; urgency=low
+
+  * New upstream release
+  * Update upstream changelog
+  * Build-Depend on device-tree-compiler and build bamboo.dtb from source
+  * Clean up debian/rules
+  * Drop patch included upstream (02_snapshot_use_tmpdir.patch)
+
+ -- Jan Lübbe <jluebbe@debian.org>  Tue, 01 Apr 2008 17:21:14 +0200
+
+kvm (63+dfsg-2) unstable; urgency=low
+
+  * Depend on libncurses5-dev to allow the curses interface in addition
+    to SDL (closes: #471292)
+  * Use 02_snapshot_use_tmpdir from debian qemu svn r298 (closes: #470757)
+  * Correct my name in debian/control
+
+ -- Jan Lübbe <jluebbe@debian.org>  Wed, 26 Mar 2008 22:18:43 +0100
+
+kvm (63+dfsg-1) unstable; urgency=low
+
+  * New upstream release
+  * Update upstream changelog (from mailing list)
+  * Fix CVE-2008-0928 using the patch in the bugreport (closes: #469666)
+
+ -- Jan Lübbe <jluebbe@debian.org>  Tue, 11 Mar 2008 10:48:29 +0100
+
+kvm (62+dfsg-3) unstable; urgency=low
+
+  * Build a kvm-data package for the files loaded into the VM
+    (closes: #469125)
+
+ -- Jan Luebbe <jluebbe@debian.org>  Fri, 07 Mar 2008 00:15:56 +0100
+
+kvm (62+dfsg-2) unstable; urgency=low
+
+  * Use PXE boot ROMs from the Etherboot package
+
+ -- Jan Luebbe <jluebbe@debian.org>  Sat, 01 Mar 2008 17:33:00 +0100
+
+kvm (62+dfsg-1) unstable; urgency=low
+
+  * New upstream release
+    - even more resolutions for -std-vga (closes: #463629)
+  * Update upstream changelog
+
+ -- Jan Luebbe <jluebbe@debian.org>  Fri, 29 Feb 2008 21:51:02 +0100
+
+kvm (1:62+dfsg-0ubuntu7) hardy; urgency=low
+
+  * Revert sighandler.patch and virtio_hang.patch. Fixes hang in installer and
+    likely other places, too. (LP: #217815)
+
+ -- Soren Hansen <soren@ubuntu.com>  Tue, 22 Apr 2008 19:09:33 +0200
+
+kvm (1:62+dfsg-0ubuntu6) hardy; urgency=low
+
+  * vmport_save_regs.patch:
+    - Only save and restore eax, ebx, ecx, edx, esi, and edi registers in
+      vmport_ioport_read.
+      (LP: #219165)
+
+ -- Soren Hansen <soren@ubuntu.com>  Sat, 19 Apr 2008 01:47:15 +0200
+
+kvm (1:62+dfsg-0ubuntu5) hardy; urgency=low
+
+  * sighandler.patch:
+    - Fix segfault when trying to suspend domain. (LP: #218204)
+
+ -- Soren Hansen <soren@ubuntu.com>  Wed, 16 Apr 2008 15:49:47 +0200
+
+kvm (1:62+dfsg-0ubuntu4) hardy; urgency=low
+
+  * virtio_hang.patch:
+    - Fix a vcpu hang when using virtio-blk in guests.
+
+ -- Soren Hansen <soren@ubuntu.com>  Sun, 13 Apr 2008 23:08:47 +0200
+
+kvm (1:62+dfsg-0ubuntu3) hardy; urgency=low
+
+  [ Jamie Strandboge ]
+  * debian/patches/SECURITY_CVE-2007-1320+1321+1322+1366+2893.patch
+    based on 90_security.patch from qemu 0.9.1-1ubuntu1. Please note that
+    CVE-2007-2893 is also known as CVE-2007-1323, and CVE-2007-5729 and
+    CVE-2007-5730 are known as CVE-2007-1321 in Debian. This patch addresses
+    the following:
+    - Cirrus LGD-54XX "bitblt" heap overflow.
+    - NE2000 "mtu" heap overflow.
+    - QEMU "net socket" heap overflow.
+    - QEMU NE2000 "receive" integer signedness error.
+    - Infinite loop in the emulated SB16 device.
+    - Unprivileged "aam" instruction does not correctly handle the
+      undocumented divisor operand.
+    - Unprivileged "icebp" instruction will halt emulation.
+  * debian/patches/SECURITY_CVE-2008-0928.patch: perform range checks on
+    block device read and write requests
+  * References
+    CVE-2007-1320
+    CVE-2007-1321
+    CVE-2007-1322
+    CVE-2007-1323
+    CVE-2007-1366
+    CVE-2007-2893
+    CVE-2007-5729
+    CVE-2007-5730
+    CVE-2008-0928
+
+  [ Soren Hansen ]
+  * debian/patches/extboot-geometry.patch:
+    - Apply extboot patch from Anthony Liguori that fixes CHS information
+      being calculated incorrectly, which seems to upset grub from time to time.
+
+ -- Soren Hansen <soren@ubuntu.com>  Thu, 10 Apr 2008 16:35:09 +0000
+
+kvm (1:62+dfsg-0ubuntu2) hardy; urgency=low
+
+  * Re-disable unaccelerated execution (thus re-removing gcc-3.4 build-
+    dependency).
+
+ -- Soren Hansen <soren@ubuntu.com>  Wed, 05 Mar 2008 08:48:44 +0100
+
+kvm (1:62+dfsg-0ubuntu1) hardy; urgency=low
+
+  * New upstream release
+
+ -- Soren Hansen <soren@ubuntu.com>  Tue, 26 Feb 2008 13:10:57 -0500
+
+kvm (61+dfsg-1) unstable; urgency=low
+
+  * The "Live from FOSDEM" release
+  * New upstream release
+  * Update upstream changelog
+  * Drop dependency on vgabios
+  * Switch to git for packaging, update Vcs-* in debian/control
+
+ -- Jan Luebbe <jluebbe@debian.org>  Sat, 23 Feb 2008 17:22:29 +0100
+
+kvm (60+dfsg-1) unstable; urgency=low
+
+  * New upstream release
+  * Update upstream changelog
+  * Drop restore-IO_MEM_ROM-mark.patch (included upstream)
+  * Build and use the vgabios shipped with kvm (closes: #462434)
+  * Use install_linux_boot.patch from Ubuntu to fix the -kernel option
+    (closes: #412022)
+
+ -- Jan Luebbe <jluebbe@debian.org>  Fri, 25 Jan 2008 16:12:41 +0100
+
+kvm (1:60+dfsg-0ubuntu2) hardy; urgency=low
+
+  * Make installs succeed regardless of the init script's exit code. (LP:
+    #183663)
+  * Disable non-accelerated execution.
+  * Fixed up the clean target in debian/rules to properly clean up after
+    ourselves.
+  * Dropped build-dependency on gcc-3.4.
+
+ -- Soren Hansen <soren@ubuntu.com>  Wed, 20 Feb 2008 17:41:11 +0100
+
+kvm (1:60+dfsg-0ubuntu1) hardy; urgency=low
+
+  * New upstream release.
+
+ -- Soren Hansen <soren@ubuntu.com>  Wed, 23 Jan 2008 10:38:11 +0100
+
+kvm (1:59+dfsg-0ubuntu6) hardy; urgency=low
+
+  * Removed 08_default_tdf.patch. No longer needed.
+  * Modify init script to not exit with an error when stopping if the module
+    isn't loaded (LP: #183663).
+  * Use the correct names for the modules in init script.
+
+ -- Soren Hansen <soren@ubuntu.com>  Fri, 18 Jan 2008 19:12:26 +0100
+
+kvm (1:59+dfsg-0ubuntu5) hardy; urgency=low
+
+  * Added *updated* patch to support extended key events in qemu's vnc
+    implementation.
+
+ -- Soren Hansen <soren@ubuntu.com>  Sun, 13 Jan 2008 21:13:33 +0100
+
+kvm (1:59+dfsg-0ubuntu4) hardy; urgency=low
+
+  * Added patch to support extended key events in qemu's vnc implementation.
+  * s/log_error_msg/log_failure_msg/ in init script.
+  * Don't bother calling kvm.init stop/start on upgrade.
+
+ -- Soren Hansen <soren@ubuntu.com>  Sun, 13 Jan 2008 20:46:59 +0100
+
+kvm (1:59+dfsg-0ubuntu3) hardy; urgency=low
+
+  * Add init script to load kvm modules. (LP: #104297)
+  * Install linux_boot.bin to enable -kernel option. (LP: #111884)
+
+ -- Soren Hansen <soren@ubuntu.com>  Tue, 08 Jan 2008 16:26:05 +0100
+
+kvm (1:59+dfsg-0ubuntu2) hardy; urgency=low
+
+  * Cherry pick 6b8bb99a9cde386d72b4b7c22b92f4bdec333dab from git to
+    probably fix LP: 180105, and certainly fix an issue on Intel hardware
+    due to incompatible changes to the kernel API.
+
+ -- Soren Hansen <soren@ubuntu.com>  Fri, 04 Jan 2008 03:20:57 +0100
+
+kvm (1:59+dfsg-0ubuntu1) hardy; urgency=low
+
+  * New upstream release
+  * Build with alsa support (cherry pick from 57+dfsg-2)
+
+ -- Soren Hansen <soren@ubuntu.com>  Thu, 03 Jan 2008 10:39:25 +0100
+
+kvm (58+dfsg-2) unstable; urgency=low
+
+  * Use patch from kvm-devel list to fix booting with some linux kernels
+    (closes: #458481)
+
+ -- Jan Luebbe <jluebbe@debian.org>  Mon, 21 Jan 2008 11:20:17 +0100
+
+kvm (58+dfsg-1) unstable; urgency=low
+
+  * The "Live from 24c3 in Berlin" release
+  * New upstream release (closes: #452392)
+  * Update upstream changelog
+  * Update to policy version 3.7.3 (no changes needed)
+
+ -- Jan Luebbe <jluebbe@debian.org>  Sat, 29 Dec 2007 00:00:44 +0100
+
+kvm (57+dfsg-2) unstable; urgency=low
+
+  * Build with alsa support (closes: #457536)
+
+ -- Jan Luebbe <jluebbe@debian.org>  Sun, 23 Dec 2007 20:15:30 +0100
+
+kvm (57+dfsg-1) unstable; urgency=low
+
+  * New upstream release (closes: #457061)
+    - qemu has been updated to the current cvs version
+  * Update upstream changelog
+
+ -- Jan Luebbe <jluebbe@debian.org>  Thu, 20 Dec 2007 17:14:05 +0100
+
+kvm (1:57+dfsg-0ubuntu1) hardy; urgency=low
+
+  * New upstream release.
+
+ -- Soren Hansen <soren@ubuntu.com>  Tue, 18 Dec 2007 18:15:54 +0100
+
+kvm (56+dfsg-1) unstable; urgency=low
+
+  * New upstream release
+  * Update upstream changelog
+
+ -- Jan Luebbe <jluebbe@debian.org>  Wed, 19 Dec 2007 20:27:19 +0100
+
+kvm (1:56+dfsg-0ubuntu1) hardy; urgency=low
+
+  * New upstream version.
+  * Merge changes from 55+dfsg-2.
+
+ -- Soren Hansen <soren@ubuntu.com>  Tue, 18 Dec 2007 09:36:20 +0100
+
+kvm (55+dfsg-2) unstable; urgency=low
+
+  * Depend on libgnutls for VNC TLS support
+  * Build BIOS from kvm sources (kvm and qemu patchs are different, thanks to
+    Carlo Marcelo Arenas Belon for spotting this)
+  * Fix debian/rules clean
+
+ -- Jan Luebbe <jluebbe@debian.org>  Sat, 08 Dec 2007 19:45:45 +0100
+
+kvm (1:55+dfsg-1ubuntu1) hardy; urgency=low
+
+  * Merge with Debian. Remaining changes:
+    - debian/control:
+      - Demote kvm-source to Suggests
+      - Mention kvm-source is unnecessary
+      - Modify Maintainer value to match the DebianMaintainerField
+        specification.
+      - Depend on recent bochsbios-qemu.
+      - Moved Vcs-* to XS-Original-Vcs-*.
+      - Don't recommend linux-image-2.6 since Ubuntu is Linux 2.6 only anyway.
+      - Rename suggestions of linux-{headers,source} to Ubuntu's naming scheme.
+      - Add pkg-config to Build-Depends (fixes warning during build)
+    - Add 08_default_tdf.patch to make -tdf the default.
+
+ -- Soren Hansen <soren@ubuntu.com>  Mon, 10 Dec 2007 13:43:03 +0100
+
+kvm (55+dfsg-1) unstable; urgency=low
+
+  * New upstream release
+  * Include cpu information also for bugs against kvm-source
+  * Update upstream changelog
+  * Remove bios.bin from upstream tarball (closes: #452963) and depend on the
+    current version of bochsbios
+
+ -- Jan Luebbe <jluebbe@debian.org>  Fri, 07 Dec 2007 19:22:57 +0100
+
+kvm (54+dfsg-1) unstable; urgency=low
+
+  * New upstream release
+  * Revive get-orig-source to remove other BIOS files (see #452963).
+    Thanks Soren Hansen.
+  * Include upstream changelog from the wiki.
+  * Update README.Debian and mention the kvm modules distributed with
+    the Linux kernel (closes: #440790)
+
+ -- Jan Luebbe <jluebbe@debian.org>  Thu, 29 Nov 2007 14:40:23 +0000
+
+kvm (1:54+dfsg-0ubuntu1) hardy; urgency=low
+
+  * New upstream release.
+
+ -- Soren Hansen <soren@ubuntu.com>  Tue, 04 Dec 2007 09:06:33 +0100
+
+kvm (53-1) unstable; urgency=low
+
+  * New upstream release
+  * Upstream has removed the elpin BIOS files, stop repacking the tarball.
+
+ -- Jan Luebbe <jluebbe@debian.org>  Wed, 21 Nov 2007 16:53:51 +0100
+
+kvm (1:53+dfsg-0ubuntu1) hardy; urgency=low
+
+  * New upstream release
+  * Properly clean out all the blobs from the tarball in get-orig-source.
+  * Depend on bochsbios-qemu and vgabios to get the needed blobs from there
+    instead.
+
+ -- Soren Hansen <soren@ubuntu.com>  Mon, 26 Nov 2007 12:09:12 +0100
+
+kvm (52+dfsg-1) unstable; urgency=low
+
+  * New upstream release
+  * Switch to Vcs-Svn and Vcs-Browser in debian/control
+
+ -- Jan Luebbe <jluebbe@debian.org>  Thu, 15 Nov 2007 18:47:41 +0100
+
+kvm (1:52+dfsg-0ubuntu1) hardy; urgency=low
+
+  * New upstream release.
+  * 08_default_tdf.patch
+    - Make -tdf the default and add a -no-tdf option.
+
+ -- Soren Hansen <soren@ubuntu.com>  Thu, 15 Nov 2007 02:21:55 +0100
+
+kvm (1:48+dfsg-1ubuntu1) hardy; urgency=low
+
+  * Merge from Debian unstable (LP: #161790, LP: #149785). 
+  * Remaining Ubuntu changes:
+    + Add epoch
+    + debian/preinst:
+      - Remove code to delete never-in-Ubuntu conf file
+    + debian/control:
+      - Demote kvm-source to Suggests
+      - Mention kvm-source is unnecessary
+      - Add epoch to Conflicts
+    + debian/patches/from-debian-qemu/63_use_dev_bus_usb_not_proc_bus_usb.patch
+      - USB path /proc/bus/usb => /dev/bus/usb
+    + debian/rules:
+      - Call dh_installudev
+  * New changes:
+    + debian/control:
+      - Remove Debian's VCS fields: that's not where the Ubuntu packages are
+        maintained.
+
+ -- Christopher James Halse Rogers <raof@ubuntu.com>  Sat, 10 Nov 2007 17:42:58 +1100
+
+kvm (48+dfsg-1) unstable; urgency=low
+
+  * Adopt package with Baruch Even's permission
+  * New upstream release
+
+ -- Jan Luebbe <jluebbe@debian.org>  Thu, 25 Oct 2007 11:15:54 +0200
+
+kvm (46+dfsg-0.1) unstable; urgency=low
+
+  * Non-maintainer upload (low threshold nmu)
+  * New upstream release
+  * Adapt sf-get-orig-source from gnome-pkg-tools
+  * Repackage tarball to remove elpin VGA bios (closes: #440472)
+  * Add debian/watch file
+
+ -- Jan Luebbe <jluebbe@debian.org>  Sun, 14 Oct 2007 12:02:54 +0200
+
+kvm (36-0.1) unstable; urgency=low
+
+  * Non-maintainer upload (with permission)
+  * New upstream release (closes: #438412)
+  * Update patches
+  * Install documentation from qemu to /usr/share/doc/kvm to avoid conflicts
+    and refer to it from kvm(1) (closes: #434729)
+  * Rename conflicting manpages
+  * Add texi2html as a Build-Dependency
+  * Make module-assistant a Dependency of kvm-source because it is needed by
+    it's debian/rules
+  * debian/conffiles is not necessary for /etc
+
+ -- Jan Luebbe <jluebbe@debian.org>  Mon, 27 Aug 2007 18:45:36 +0200
+
+kvm (1:28-4ubuntu3) hardy; urgency=low
+
+  * debian/patches/from-debian-qemu/63_use_dev_bus_usb_not_proc_bus_usb.patch:
+    + Fixes broken USB device access since /proc/bus/usb/devices was replaced by
+      /dev/bus/usb/devices. (LP #156085)
+
+ -- TJ <ubuntu@tjworld.net>  Mon, 29 Oct 2007 13:00:00 +0000
+
+kvm (1:28-4ubuntu2) gutsy; urgency=low
+
+  * debian/rules:
+    + Call dh_installudev again (LP #127704).  We have a slightly different 
+      udev policy to Debian.
+  * debian/preinst:
+    + Remove code to delete old kvm.rules file.  The file it references was 
+      never in the Ubuntu packages, and we use dh_installudev now.
+  * debian/control:
+    + Demote the Recommends on kvm-source to Suggests.  kvm works with the 
+      kernel modules we ship, so the kvm-source package doesn't add much.
+
+ -- Christopher James Halse Rogers <raof@ubuntu.com>  Sat, 29 Sep 2007 18:53:27 +1000
+
+kvm (1:28-4ubuntu1) gutsy; urgency=low
+
+  * Merge from Debian Unstable (LP: #119254, #122113).
+  * Remaining Ubuntu Changes:
+    + Add epoch
+    + debian/control
+      - Mention that the kvm-source package is unnecessary.
+  * Add epoch to the Conflicts
+
+ -- Christopher James Halse Rogers (RAOF) <chalserogers@gmail.com>  Mon, 25 Jun 2007 22:49:27 +1000
+
+kvm (28-4) unstable; urgency=low
+
+  * Divert kernel modules when installing the kvm-source modules
+    (Closes: #429851)
+  * kvm-ifup, even if bridge command failed continue to work, this will allow
+    users who have no bridge setup and intend to setup some other method to
+    get it to work without messing with the package files. (Closes: #407459)
+
+ -- Baruch Even <baruch@debian.org>  Thu, 21 Jun 2007 12:37:54 +0100
+
+kvm (28-3) unstable; urgency=low
+
+  * Fix infinite loop in kvm-ifup script
+
+ -- Baruch Even <baruch@debian.org>  Mon, 18 Jun 2007 20:51:50 +0100
+
+kvm (28-2) unstable; urgency=low
+
+  * We moved a file from kvm-source to kvm, to be able to properly upgrade we
+    specify a conflict against older versions (Closes: #417652)
+  * Fix kvm-ifup script to work in more conditions (Closes: #417151)
+  * Remove old /etc/udev/kvm.rules since it's not needed (Closes: #414331)
+
+ -- Baruch Even <baruch@debian.org>  Sun, 17 Jun 2007 21:13:07 +0100
+
+kvm (28-1) unstable; urgency=low
+
+  * New upstream release (Closes: #422197)
+    - Should fix oops (Closes: #418928)
+  * kqemu is no longer in non-free (Closes: #419152)
+
+ -- Baruch Even <baruch@debian.org>  Sun, 17 Jun 2007 10:32:40 +0100
+
+kvm (18-1) unstable; urgency=low
+
+  * New upstream release (Closes: #416926)
+  * Move the module-assistant script to the kvm package from kvm-source so all
+    users will benefit from the integration (Closes: #416122)
+  * Remove patch to add qemu-ifup and kvm initscript, they are now part of kvm directly.
+
+ -- Baruch Even <baruch@debian.org>  Sat, 31 Mar 2007 21:00:34 +0300
+
+kvm (1:16-1ubuntu2) feisty; urgency=low
+
+  * Revert to kvm-16 to match released kernel.
+  * Add epoch.
+
+ -- Ben Collins <bcollins@ubuntu.com>  Sun, 15 Apr 2007 17:52:01 -0400
+
+kvm (16-1ubuntu1) feisty; urgency=low
+
+  * New upstream.
+
+ -- Ben Collins <bcollins@ubuntu.com>  Wed, 14 Mar 2007 00:33:11 -0400
+
+kvm (15-1ubuntu1) feisty; urgency=low
+
+  * New upstream.
+
+ -- Ben Collins <bcollins@ubuntu.com>  Thu,  1 Mar 2007 22:15:02 -0500
+
+kvm (14-1) unstable; urgency=medium
+
+  [ Leonard Norrgård ]
+  * New upstream version.  KVM is now based on qemu-0.9.0.
+  * Suggest etherboot and actually suggest hal (was only mentioning it).
+  * Update copyright info.
+  * Add a couple of patches from Debian qemu: 22_net_tuntap_stall.patch,
+    04_do_not_print_rtc_freq_if_ok.patch, 62_linux_boot_nasm.patch (62_*
+    currently only to avoid a buildd FTBS problem).
+  * Reorder the first two paragraphs in the description for kvm so the
+    general description is first, the more technical second.
+  * Moved adduser to Pre-Depends, as we rely on it for installation.
+  * For a detailed changelog, please see:
+    svn log -v -r 2227:2383 svn://svn.debian.org/svn/collab-maint/ext-maint/kvm/trunk
+
+  [ Baruch Even ]
+  * Update the uploader name of Leonard so that lintian won't think it's an
+    NMU.
+  * Add XS-Vcs-Browser field
+
+ -- Baruch Even <baruch@debian.org>  Sat, 24 Feb 2007 17:43:42 +0200
+
+kvm (13-1) UNRELEASED; urgency=low
+
+  * New upstream version.
+
+ -- Leonard Norrgård <vinsci@refactor.fi>  Sat, 10 Feb 2007 07:40:59 +0200
+
+kvm (12-1) unstable; urgency=high
+
+  * New upstream version. Most important upstream changes:
+    - Attempting to reboot Linux guest no longer reboots host on AMD,
+      actual guest reboot still not possible.
+    - The option -no-acpi is no longer required to install Windows
+      (the option is still recommended as the Windows ACPI HAL will
+      eat a lot of cpu time).
+
+ -- Leonard Norrgard <vinsci@refactor.fi>  Sun, 23 Jan 2007 18:54:17 +0200
+
+kvm (11-2) unstable; urgency=low
+
+  [ Baruch Even ]
+  * Make the quilt include part conditional so we don't have to have it when
+    building the kernel module. (Closes: #407447, #407482)
+  * Do not recommend linux-image-2.6 in kvm-source, and move linux-headers-2.6
+    from depends to suggests where it belongs. The package can build from
+    vanilla kernels as well as Debian kernels. (Closes: #407729)
+
+  [ Leonard Norrgard ]
+  * Enhance manual page a bit.
+
+ -- Baruch Even <baruch@debian.org>  Sun, 21 Jan 2007 09:05:38 +0200
+
+kvm (11-1) unstable; urgency=high
+
+  * New upstream version. Closes #406800, #406275, #404075.
+  * This version fixes many stability issues in earlier versions of KVM.
+  * Automatically create group kvm on installation of package kvm
+  * Added udev support to automatically set group kvm on /dev/kvm
+  * Added reportbug script (/usr/share/bug/kvm) so some info that
+    might be relevant gets included automatically.
+  * Tell module-assistant about the kvm-source package, so it shows up
+    in the module selection menu.
+  * Add information on building the modules using module-assistant.
+  * Add /etc/kvm/kvm-ifup script (conffile) to bring up the network for
+    the VM in a simpler way, see the manual page for kvm for description.
+    This used to be /etc/qemu-ifup, as installed by the qemu package.
+  * Depend on iproute, bridge-utils, used by kvm-ifup and the upcoming
+    /etc/init.d script.
+  * Remove non-x86 bios images - KVM is only meaningful for x86 guests.
+  * Keep KVM bios files in /usr/share/kvm, rather than sharing them with
+    other packages as the KVM bios is different (also avoids unexpected
+    bios updates).
+  * Don't depend on qemu, as we now keep our own bios.
+  * Recommend kvm-source, qemu (mostly for qemu-img), vde2 and linux-image-2.6.
+  * Suggest sudo and debootstrap.
+  * For kvm-source, depend on linux-headers-2.6 | linux-source-2.6,
+    recommend linux-image-2.6 and suggest module-assistant and
+    kernel-package.
+  * Use quilt to handle patches.
+  * More detailed package description for kvm, added Homepage:.
+
+ -- Leonard Norrgard <vinsci@refactor.fi>  Sun, 14 Jan 2007 07:11:03 +0200
+
+kvm (7-1) unstable; urgency=low
+
+  * New upstream version
+  * Install the Intel and AMD modules (Closes: 402820)
+
+ -- Baruch Even <baruch@debian.org>  Wed, 13 Dec 2006 09:19:44 +0200
+
+kvm (5-2) unstable; urgency=low
+
+  * Yet another attempt to fix building on amd64.
+
+ -- Baruch Even <baruch@debian.org>  Wed,  6 Dec 2006 08:35:04 +0200
+
+kvm (5-1) unstable; urgency=low
+
+  * New upstream version
+  * Really fix building on amd64 (Closes: #400549)
+
+ -- Baruch Even <baruch@debian.org>  Wed,  6 Dec 2006 07:12:30 +0200
+
+kvm (4-2) unstable; urgency=low
+
+  * Allow build on amd64 arch, it really should mean Intel x86 64bit arches,
+    kvm still doesn't support AMD SVM instructions and requires the Intel
+    CPUs. (Closes: #400549)
+
+ -- Baruch Even <baruch@debian.org>  Tue, 28 Nov 2006 22:16:08 +0200
+
+kvm (4-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Baruch Even <baruch@debian.org>  Tue, 21 Nov 2006 22:23:26 +0200
+
+kvm (3-2) unstable; urgency=low
+
+  * Use KERNEL_DIR variable when building the module to enable building a
+    module for a kernel that is not being run right now. (Closes: #399603)
+  * Add manpage that refers the user to qemu(1) where he can find all the
+    information he needs. 
+
+ -- Baruch Even <baruch@debian.org>  Tue, 21 Nov 2006 09:22:57 +0200
+
+kvm (3-1) unstable; urgency=low
+
+  * New upstream version. 
+  * Use upstream versioning of natural numbers.
+  * First upload to Debian (Closes: #398458)
+
+ -- Baruch Even <baruch@debian.org>  Wed, 15 Nov 2006 23:58:12 +0200
+
+kvm (0.0.2-1) unstable; urgency=low
+
+  * Initial release
+
+ -- Baruch Even <baruch@debian.org>  Tue, 14 Nov 2006 20:49:57 +0200
