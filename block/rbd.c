@@ -49,6 +49,36 @@
 #undef LIBRBD_SUPPORTS_DISCARD
 #endif
 
+/*
+ * Treat newer librbd functions as weak symbols so we can detect
+ * whether they're supported at runtime, and disable their use
+ * if they aren't available.
+ */
+#pragma weak rbd_aio_discard
+#pragma weak rbd_aio_flush
+#pragma weak rbd_flush
+
+/* 
+ * If at compile time we don't have the right definitions, include them here
+ */
+#ifndef LIBRBD_SUPPORTS_DISCARD
+int rbd_aio_discard(rbd_image_t image, uint64_t off, uint64_t len, rbd_completion_t c);
+#endif
+
+#ifndef LIBRBD_SUPPORTS_AIO_FLUSH
+int rbd_aio_flush(rbd_image_t image, rbd_completion_t c);
+#endif
+
+/*
+ * Discard is not well tested on qemu-1.0 so disable it unless
+ * QEMU_USE_RBD_DISCARD is enabled at compile time
+ */
+#ifdef QEMU_USE_RBD_DISCARD
+static const int disable_qemu_rbd_discard = 0;
+#else
+static const int disable_qemu_rbd_discard = 1;
+#endif
+
 #define OBJ_MAX_SIZE (1UL << OBJ_DEFAULT_OBJ_ORDER)
 
 #define RBD_MAX_CONF_NAME_SIZE 128
@@ -650,21 +680,21 @@ static int rbd_aio_discard_wrapper(rbd_image_t image,
                                    uint64_t len,
                                    rbd_completion_t comp)
 {
-#ifdef LIBRBD_SUPPORTS_DISCARD
-    return rbd_aio_discard(image, off, len, comp);
-#else
-    return -ENOTSUP;
-#endif
+    if (rbd_aio_discard) {
+        return rbd_aio_discard(image, off, len, comp);
+    } else {
+        return -ENOTSUP;
+    }
 }
 
 static int rbd_aio_flush_wrapper(rbd_image_t image,
                                  rbd_completion_t comp)
 {
-#ifdef LIBRBD_SUPPORTS_AIO_FLUSH
-    return rbd_aio_flush(image, comp);
-#else
-    return -ENOTSUP;
-#endif
+    if (rbd_aio_flush) {
+        return rbd_aio_flush(image, comp);
+    } else {
+        return -ENOTSUP;
+    }
 }
 
 static BlockDriverAIOCB *rbd_start_aio(BlockDriverState *bs,
@@ -773,15 +803,12 @@ static BlockDriverAIOCB *qemu_rbd_aio_writev(BlockDriverState *bs,
                          RBD_AIO_WRITE);
 }
 
-#ifdef LIBRBD_SUPPORTS_AIO_FLUSH
 static BlockDriverAIOCB *qemu_rbd_aio_flush(BlockDriverState *bs,
                                             BlockDriverCompletionFunc *cb,
                                             void *opaque)
 {
     return rbd_start_aio(bs, 0, NULL, 0, cb, opaque, RBD_AIO_FLUSH);
 }
-
-#else
 
 static int qemu_rbd_co_flush(BlockDriverState *bs)
 {
@@ -793,7 +820,6 @@ static int qemu_rbd_co_flush(BlockDriverState *bs)
     return 0;
 #endif
 }
-#endif
 
 static int qemu_rbd_getinfo(BlockDriverState *bs, BlockDriverInfo *bdi)
 {
@@ -931,7 +957,6 @@ static int qemu_rbd_snap_list(BlockDriverState *bs,
     return snap_count;
 }
 
-#ifdef LIBRBD_SUPPORTS_DISCARD
 static BlockDriverAIOCB* qemu_rbd_aio_discard(BlockDriverState *bs,
                                               int64_t sector_num,
                                               int nb_sectors,
@@ -941,7 +966,6 @@ static BlockDriverAIOCB* qemu_rbd_aio_discard(BlockDriverState *bs,
     return rbd_start_aio(bs, sector_num, NULL, nb_sectors, cb, opaque,
                          RBD_AIO_DISCARD);
 }
-#endif
 
 static QEMUOptionParameter qemu_rbd_create_options[] = {
     {
@@ -972,15 +996,12 @@ static BlockDriver bdrv_rbd = {
     .bdrv_aio_readv         = qemu_rbd_aio_readv,
     .bdrv_aio_writev        = qemu_rbd_aio_writev,
 
-#ifdef LIBRBD_SUPPORTS_AIO_FLUSH
+    /* select which is used at runtime */
     .bdrv_aio_flush         = qemu_rbd_aio_flush,
-#else
     .bdrv_co_flush_to_disk  = qemu_rbd_co_flush,
-#endif
 
-#ifdef LIBRBD_SUPPORTS_DISCARD
+    /* select if used at runtime */
     .bdrv_aio_discard       = qemu_rbd_aio_discard,
-#endif
 
     .bdrv_snapshot_create   = qemu_rbd_snap_create,
     .bdrv_snapshot_delete   = qemu_rbd_snap_remove,
@@ -990,6 +1011,15 @@ static BlockDriver bdrv_rbd = {
 
 static void bdrv_rbd_init(void)
 {
+    if (!rbd_flush || rbd_aio_flush) {
+        bdrv_rbd.bdrv_co_flush_to_disk = NULL;
+    }
+    if (!rbd_aio_flush) {
+        bdrv_rbd.bdrv_aio_flush = NULL;
+    }
+    if (disable_qemu_rbd_discard || !rbd_aio_discard) {
+        bdrv_rbd.bdrv_aio_discard = NULL;
+    }
     bdrv_register(&bdrv_rbd);
 }
 
