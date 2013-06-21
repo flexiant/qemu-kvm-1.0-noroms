@@ -48,6 +48,11 @@ config-host.mak: $(QUILT_STAMPFN)
 	    --interp-prefix=/etc/qemu-binfmt/%M \
 	    --disable-blobs \
 	    --disable-strip \
+	    --disable-spice \
+	    --disable-xen \
+	    --disable-bluez \
+	    --disable-brlapi \
+	    --disable-vnc-jpeg \
 	    --sysconfdir=/etc \
         --enable-rbd \
 	    $(conf_arch)
